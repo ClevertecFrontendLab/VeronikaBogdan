@@ -1,0 +1,28 @@
+@import '@constants/colors';
+
+.trigger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto 0;
+    width: 20px;
+    height: 66px;
+    border: 0;
+    position: absolute;
+    top: 50%;
+    bottom: 50%;
+    cursor: pointer;
+    background: no-repeat url('@public/sidemenu-switcher.svg');
+
+    svg {
+        fill: $character-light-secondary-45;
+        transition: fill 0.3s;
+    }
+
+    &:hover {
+        svg {
+            fill: $blue-light-6;
+        }
+    }
+}

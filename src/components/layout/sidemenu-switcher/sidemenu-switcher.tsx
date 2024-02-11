@@ -8,7 +8,11 @@ export const SidemenuSwitcher: React.FC<SidemenuSwitcherProps> = ({
     collapsed,
     onClick,
 }: SidemenuSwitcherProps) => (
-    <button data-test-id='sider-switch' className='trigger' onClick={onClick}>
+    <button
+        data-test-id={window.innerWidth <= 360 ? 'sider-switch-mobile' : 'sider-switch'}
+        className='trigger'
+        onClick={onClick}
+    >
         {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
     </button>
 );

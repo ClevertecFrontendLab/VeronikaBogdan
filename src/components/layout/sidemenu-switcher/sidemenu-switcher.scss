@@ -13,7 +13,7 @@
     top: 50%;
     bottom: 50%;
     cursor: pointer;
-    background: no-repeat url('@public/sidemenu-switcher.svg');
+    background: no-repeat url('/sidemenu-switcher.svg');
 
     svg {
         fill: $character-light-secondary-45;
@@ -24,5 +24,13 @@
         svg {
             fill: $blue-light-6;
         }
+    }
+
+    @media (max-width: 360px) {
+        width: 32px;
+        height: 48px;
+        background: no-repeat url('/sidemenu-switcher-mobile.svg');
+        margin: 0;
+        top: 24px;
     }
 }

@@ -9,8 +9,7 @@
 .ant-layout-has-sider {
     display: flex;
     margin: 0 auto;
-    width: calc(100vw - 50px);
     max-width: 1440px;
     height: 100%;
-    background-image: url('@public/background-main-page-light.png');
+    background: no-repeat url('/background-main-page-light.png');
 }

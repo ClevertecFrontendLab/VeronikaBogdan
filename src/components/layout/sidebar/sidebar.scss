@@ -1,13 +1,17 @@
 @import '@constants/colors';
 
-.ant-layout-sider {
+aside.ant-layout-sider {
     &-light {
         box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
         z-index: 1;
+
+        @media (max-width: 360px) {
+            position: absolute;
+            height: 100%;
+        }
     }
 
-    &-children {
-        height: 100%;
+    div.ant-layout-sider-children {
         display: flex;
         flex-direction: column;
         justify-content: space-between;

@@ -90,10 +90,10 @@ button.ant-btn {
             border: 1px solid $character-light-border;
             border-radius: 50%;
             box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.04);
-        }
 
-        span:not(:first-child) {
-            display: none;
+            &-setting + span {
+                display: none;
+            }
         }
     }
 }

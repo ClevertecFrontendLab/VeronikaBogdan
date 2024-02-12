@@ -1,6 +1,6 @@
 @import '@constants/colors';
 
-.trigger {
+@mixin trigger {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -33,5 +33,18 @@
         background: no-repeat url('/sidemenu-switcher-mobile.svg');
         margin: 0;
         top: 24px;
+        left: 105px;
+    }
+}
+
+.trigger {
+    @include trigger;
+}
+
+.trigger-collapsed {
+    @include trigger;
+
+    @media (max-width: 360px) {
+        left: 0;
     }
 }

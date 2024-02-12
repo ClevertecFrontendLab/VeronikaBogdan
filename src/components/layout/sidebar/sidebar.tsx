@@ -1,5 +1,5 @@
-import { CalendarTwoTone, HeartFilled, TrophyFilled } from '@ant-design/icons';
 import { Button, Layout, Menu } from 'antd';
+import { CalendarTwoTone, HeartFilled, TrophyFilled } from '@ant-design/icons';
 import { NavLink } from 'react-router-dom';
 
 import collapsedLogo from '/logo-collapsed.svg';

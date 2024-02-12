@@ -1,6 +1,7 @@
 import { Layout } from 'antd';
 import React, { useState } from 'react';
 
+import { Header } from '@components/layout/header';
 import { Sidebar } from '@components/layout/sidebar';
 import { SidemenuSwitcher } from '@components/layout/sidemenu-switcher';
 
@@ -17,6 +18,7 @@ export const MainPage: React.FC = () => {
 
             <Layout className='page-container'>
                 <SidemenuSwitcher collapsed={collapsed} onClick={() => setCollapsed(!collapsed)} />
+                <Header />
                 <Content>content</Content>
                 <Footer>footer</Footer>
             </Layout>

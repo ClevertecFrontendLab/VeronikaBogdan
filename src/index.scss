@@ -6,7 +6,7 @@
     box-sizing: border-box;
 }
 
-body {
+div#root {
     height: 100%;
     font: {
         family: 'Inter', sans-serif;
@@ -24,8 +24,4 @@ body {
     background-color: $neutral-gray-1;
     color: $character-light-title-85;
     position: relative;
-}
-
-#root {
-    height: 100vh;
 }

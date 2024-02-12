@@ -3,6 +3,7 @@
 .ant-layout-sider {
     &-light {
         box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
+        z-index: 1;
     }
 
     &-children {
@@ -47,7 +48,7 @@
     }
 }
 
-ul[class*='ant-menu'] {
+ul.ant-menu {
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -58,7 +59,7 @@ ul[class*='ant-menu'] {
         gap: 0;
         margin-top: 13px;
 
-        li[class*='ant-menu-item'] {
+        li.ant-menu-item {
             padding: 0;
             margin-top: 3px;
         }
@@ -88,7 +89,7 @@ ul[class*='ant-menu'] {
     }
 }
 
-button[class*='exit'] {
+button.exit {
     display: flex;
     align-items: center;
     gap: 25px;
@@ -106,7 +107,7 @@ button[class*='exit'] {
     }
 }
 
-button[class*='exit-collapsed'] {
+button.exit-collapsed {
     padding: 12px 32px 12px 16px;
     box-shadow: inset 0 1px 0 0 $character-light-dividers;
 

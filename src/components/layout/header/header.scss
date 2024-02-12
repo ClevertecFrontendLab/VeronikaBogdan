@@ -1,0 +1,42 @@
+@import '@constants/colors';
+
+.ant-page-header {
+    div &.has-breadcrumb {
+        padding-top: 14px;
+        background-color: $primary-light-1;
+        letter-spacing: 0.6px;
+    }
+
+    div &-heading {
+        &-left {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        &-title {
+            max-width: 1032px;
+            font: {
+                size: 38px;
+                weight: 700;
+            }
+            line-height: 130%;
+            white-space: wrap;
+        }
+    }
+}
+
+button.ant-btn {
+    height: auto;
+    padding: 0;
+    letter-spacing: 1px;
+
+    &:hover {
+        background-color: $character-light-table-header;
+    }
+
+    &:active {
+        background-color: $character-light-background;
+    }
+}

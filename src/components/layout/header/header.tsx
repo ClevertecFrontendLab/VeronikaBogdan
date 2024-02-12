@@ -13,12 +13,14 @@ const routes = [
 
 export const Header: React.FC = () => (
     <PageHeader
-        className='site-page-header'
         title='Приветствуем тебя в CleverFit — приложении, которое поможет тебе добиться своей мечты!'
         breadcrumb={{ routes }}
         subTitle={
-            <Button type='text'>
-                <SettingOutlined />
+            <Button
+                type='text'
+                shape={window.innerWidth <= 360 ? 'circle' : 'default'}
+                icon={<SettingOutlined />}
+            >
                 Настройки
             </Button>
         }

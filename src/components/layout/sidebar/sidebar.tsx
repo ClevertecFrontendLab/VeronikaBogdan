@@ -1,5 +1,5 @@
 import { CalendarTwoTone, HeartFilled, TrophyFilled } from '@ant-design/icons';
-import { Layout, Menu } from 'antd';
+import { Button, Layout, Menu } from 'antd';
 import { NavLink } from 'react-router-dom';
 
 import collapsedLogo from '/logo-collapsed.svg';
@@ -39,6 +39,7 @@ const menuItems = [
 
 export const Sidebar: React.FC<SidebarProps> = ({ collapsed }: SidebarProps) => (
     <Sider
+        theme='light'
         trigger={null}
         collapsible
         collapsed={collapsed}
@@ -49,11 +50,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed }: SidebarProps) => 
             <NavLink to='/' className={collapsed ? 'logo-collapsed' : 'logo'}>
                 <img src={collapsed ? collapsedLogo : defaultLogo} alt='Cleverfit logo' />
             </NavLink>
-            <Menu theme='light' mode='inline' defaultSelectedKeys={['1']} items={menuItems} />
+            <Menu theme='light' items={menuItems} />
         </div>
-        <div className={collapsed ? 'exit-collapsed' : 'exit'}>
+        <Button type='text' className={collapsed ? 'exit-collapsed' : 'exit'}>
             <img src={exit} alt='exit icon' />
-            <p>Выход</p>
-        </div>
+            Выход
+        </Button>
     </Sider>
 );

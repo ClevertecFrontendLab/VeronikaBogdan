@@ -1,0 +1,1 @@
+export { FooterPart } from './footer';

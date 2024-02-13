@@ -6,8 +6,6 @@ import { Header } from '@components/layout/header';
 import { Sidebar } from '@components/layout/sidebar';
 import { SidemenuSwitcher } from '@components/layout/sidemenu-switcher';
 
-const { Footer } = Layout;
-
 import './main-page.scss';
 
 export const MainPage: React.FC = () => {
@@ -20,7 +18,6 @@ export const MainPage: React.FC = () => {
                 <SidemenuSwitcher collapsed={collapsed} onClick={() => setCollapsed(!collapsed)} />
                 <Header />
                 <ContentPart />
-                <Footer>footer</Footer>
             </Layout>
         </Layout>
     );

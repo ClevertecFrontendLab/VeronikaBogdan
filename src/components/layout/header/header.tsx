@@ -13,7 +13,12 @@ const routes = [
 
 export const Header: React.FC = () => (
     <PageHeader
-        title='Приветствуем тебя в CleverFit — приложении, которое поможет тебе добиться своей мечты!'
+        title={
+            <>
+                <span>Приветствуем тебя в CleverFit — приложении, </span>
+                <span>которое поможет тебе добиться своей мечты!</span>
+            </>
+        }
         breadcrumb={{ routes }}
         subTitle={
             <Button

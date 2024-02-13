@@ -1,0 +1,1 @@
+export { ContentPart } from './content';

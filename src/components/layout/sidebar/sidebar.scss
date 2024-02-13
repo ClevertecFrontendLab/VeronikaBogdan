@@ -6,7 +6,7 @@ aside.ant-layout-sider {
         z-index: 1;
 
         @media (max-width: 360px) {
-            position: absolute;
+            position: fixed;
             height: 100%;
         }
     }

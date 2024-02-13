@@ -32,6 +32,9 @@
             }
             line-height: 130%;
             white-space: wrap;
+            letter-spacing: 0.4px;
+            display: flex;
+            flex-direction: column;
 
             @media (max-width: 834px) {
                 font: {
@@ -48,7 +51,7 @@
         }
 
         &-sub-title {
-            @media (max-width: 834px) {
+            @media (max-width: 360px) {
                 margin-right: 0;
             }
         }

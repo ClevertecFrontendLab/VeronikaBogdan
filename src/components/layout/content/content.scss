@@ -31,7 +31,7 @@ div.ant-card {
             }
         }
 
-        &.motivation p {
+        &.motivation {
             font: {
                 size: 20px;
                 weight: 500;
@@ -56,5 +56,23 @@ div.ant-card {
         @media (max-width: 360px) {
             padding: 16px;
         }
+    }
+}
+
+div.ant-row {
+    flex-wrap: nowrap;
+    gap: 10px;
+    max-width: 752px;
+    margin-top: 16px;
+    margin-right: 24px;
+
+    @media (max-width: 730px) {
+        flex-wrap: wrap;
+        max-width: 752px;
+    }
+
+    @media (max-width: 360px) {
+        gap: 2px;
+        margin-right: 16px;
     }
 }

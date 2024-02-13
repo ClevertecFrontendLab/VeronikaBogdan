@@ -1,0 +1,46 @@
+@import '@constants/colors';
+@import '@components/layout/sidebar/sidebar';
+
+div.ant {
+    &-col {
+        width: 100%;
+        text-align: center;
+
+        .anticon {
+            @include anticon($primary-light-6);
+
+            @media (max-width: 360px) {
+                display: inline;
+            }
+        }
+
+        .ant-card-body {
+            padding: 15px 67px;
+            letter-spacing: 0.8px;
+            color: $primary-light-6;
+
+            @media (max-width: 834px) {
+                padding: 18px 38px;
+            }
+
+            @media (max-width: 360px) {
+                padding: 18px 38px;
+            }
+        }
+    }
+
+    &-card-head-title {
+        padding: 12px 0;
+        letter-spacing: 0.8px;
+        line-height: 130%;
+        white-space: wrap;
+
+        @media (max-width: 834px) {
+            text-align: left;
+        }
+
+        @media (max-width: 360px) {
+            text-align: center;
+        }
+    }
+}

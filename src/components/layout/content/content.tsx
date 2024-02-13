@@ -1,4 +1,7 @@
-import { Card, Layout } from 'antd';
+import { Card, Layout, Row } from 'antd';
+import { CalendarTwoTone, IdcardOutlined, HeartFilled } from '@ant-design/icons';
+
+import { CardAction } from './card';
 
 import './content.scss';
 
@@ -23,10 +26,13 @@ export const ContentPart: React.FC = () => (
             </p>
         </Card>
         <Card className='card motivation'>
-            <p>
-                CleverFit — это не просто приложение, а твой личный помощник в мире фитнеса. Не
-                откладывай на завтра — начни тренироваться уже сегодня!
-            </p>
+            CleverFit — это не просто приложение, а твой личный помощник в мире фитнеса. Не
+            откладывай на завтра — начни тренироваться уже сегодня!
         </Card>
+        <Row>
+            <CardAction title='Расписать тренировки' icon={<HeartFilled />} label='Тренировки' />
+            <CardAction title='Назначить календарь' icon={<CalendarTwoTone />} label='Календарь' />
+            <CardAction title='Заполнить профиль' icon={<IdcardOutlined />} label='Профиль' />
+        </Row>
     </Content>
 );

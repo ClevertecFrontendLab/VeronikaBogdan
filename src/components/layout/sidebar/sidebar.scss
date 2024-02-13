@@ -1,5 +1,17 @@
 @import '@constants/colors';
 
+@mixin anticon($color) {
+    svg {
+        path {
+            fill: $color;
+        }
+    }
+
+    @media (max-width: 360px) {
+        display: none;
+    }
+}
+
 aside.ant-layout-sider {
     &-light {
         box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
@@ -73,15 +85,7 @@ ul.ant-menu {
 .ant-menu {
     &-item-icon,
     .anticon {
-        svg {
-            path {
-                fill: $primary-light-9;
-            }
-        }
-
-        @media (max-width: 360px) {
-            display: none;
-        }
+        @include anticon($primary-light-9);
     }
 
     &-vertical-collapsed &-item {

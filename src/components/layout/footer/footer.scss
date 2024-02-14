@@ -23,6 +23,7 @@ footer.ant-layout-footer {
     div.ant-card.download {
         max-width: 240px;
         width: 100%;
+        margin-right: 2px;
 
         div.ant-card-head-title div {
             display: flex;
@@ -44,17 +45,22 @@ footer.ant-layout-footer {
 
         div.ant-card-body {
             display: flex;
-            padding: 13px 0;
+            padding: 8px 0;
 
             button {
                 flex: 1;
                 letter-spacing: 0.3px;
+                padding-left: 10px;
 
                 @media (max-width: 834px) {
                     &.ant-btn-text .anticon {
                         display: inline;
                     }
                 }
+            }
+
+            @media (max-width: 360px) {
+                padding: 10px 0;
             }
         }
 

@@ -12,11 +12,12 @@ section.ant-layout {
         }
 
         @media (max-width: 834px) {
-            background-position: -250px;
+            background-position: -200px;
+            background-attachment: fixed;
         }
 
         @media (max-width: 360px) {
-            background-position: -650px;
+            background-position: -390px;
         }
     }
 }

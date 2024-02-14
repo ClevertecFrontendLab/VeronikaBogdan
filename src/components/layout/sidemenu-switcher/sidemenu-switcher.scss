@@ -12,7 +12,9 @@
     position: fixed;
     top: 50%;
     cursor: pointer;
-    background: no-repeat url('/sidemenu-switcher.svg');
+    background-color: $character-light-primary-inverse;
+    clip-path: polygon(0 0, 100% 12%, 100% 88%, 0 100%);
+    filter: drop-shadow(10px 5px 0 rgba(0, 0, 0, 0.15));
     z-index: 10;
 
     svg {

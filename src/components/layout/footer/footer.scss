@@ -6,6 +6,7 @@ footer.ant-layout-footer {
     align-items: flex-end;
     padding: 0 24px 42px 0;
     background: transparent;
+    height: 322px;
 
     button.ant-btn-link {
         padding: 5px 15px;
@@ -62,6 +63,10 @@ footer.ant-layout-footer {
         }
     }
 
+    @media (max-width: 834px) {
+        height: 364px;
+    }
+
     @media (max-width: 600px) {
         flex-wrap: wrap;
         flex-direction: column-reverse;
@@ -72,5 +77,6 @@ footer.ant-layout-footer {
         align-items: center;
         gap: 24px;
         padding: 2px 16px 42px 0;
+        height: auto;
     }
 }

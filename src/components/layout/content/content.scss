@@ -16,8 +16,7 @@ div.ant-card {
 
     &.card {
         max-width: 752px;
-        margin-top: 24px;
-        margin-right: 24px;
+        margin: 25px 24px 0 -2px;
 
         &.opportunities p {
             font: {
@@ -66,11 +65,10 @@ div.ant-row {
     flex-wrap: nowrap;
     gap: 10px;
     max-width: 752px;
-    margin: 16px 24px 24px 0;
+    margin: 13px 24px 24px 0;
 
     @media (max-width: 730px) {
         flex-wrap: wrap;
-        max-width: 752px;
     }
 
     @media (max-width: 360px) {

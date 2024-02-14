@@ -1,0 +1,77 @@
+@import '@constants/colors';
+
+main.ant-layout-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 24px;
+
+    @media (max-width: 360px) {
+        margin-left: 16px;
+    }
+}
+
+div.ant-card {
+    box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.04);
+
+    &.card {
+        max-width: 752px;
+        margin: 25px 24px 0 -2px;
+
+        &.opportunities p {
+            font: {
+                size: 16px;
+                weight: 400;
+            }
+            line-height: 130%;
+            letter-spacing: 0.5px;
+            color: $primary-light-9;
+            margin-bottom: 0;
+
+            @media (max-width: 360px) {
+                padding-top: 5px;
+            }
+        }
+
+        &.motivation {
+            font: {
+                size: 20px;
+                weight: 500;
+            }
+            line-height: 130%;
+            letter-spacing: 1px;
+            color: $character-light-title-85;
+            margin-bottom: 0;
+
+            @media (max-width: 834px) {
+                padding-right: 2px;
+                letter-spacing: 0.6px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            margin-right: 16px;
+        }
+    }
+
+    &-body {
+        @media (max-width: 360px) {
+            padding: 16px;
+        }
+    }
+}
+
+div.ant-row {
+    flex-wrap: nowrap;
+    gap: 10px;
+    max-width: 752px;
+    margin: 13px 24px 24px 0;
+
+    @media (max-width: 730px) {
+        flex-wrap: wrap;
+    }
+
+    @media (max-width: 360px) {
+        margin-right: 16px;
+    }
+}

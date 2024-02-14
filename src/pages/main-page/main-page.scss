@@ -1,0 +1,15 @@
+section.ant-layout {
+    margin: 0 auto;
+    max-width: 1440px;
+    position: relative;
+    background: transparent;
+
+    &-has-sider {
+        background: {
+            image: url('/background-main-page-light.png');
+            size: cover;
+            repeat: no-repeat;
+            position: center;
+        }
+    }
+}

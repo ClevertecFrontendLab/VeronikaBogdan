@@ -1,0 +1,88 @@
+@import '@constants/colors';
+
+footer.ant-layout-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 0 24px 42px 0;
+    background: transparent;
+    height: 322px;
+
+    button.ant-btn-link {
+        padding: 5px 15px;
+        font-size: 16px;
+        color: $primary-light-6;
+        letter-spacing: 0.7px;
+
+        @media (max-width: 360px) {
+            padding-top: 9px;
+            width: 100%;
+        }
+    }
+
+    div.ant-card.download {
+        max-width: 240px;
+        width: 100%;
+        margin-right: 2px;
+
+        div.ant-card-head-title div {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            letter-spacing: 0.3px;
+
+            p {
+                margin-bottom: 0;
+                font-weight: 400;
+                color: $primary-light-6;
+            }
+
+            p:not(:first-child) {
+                font-size: 14px;
+                color: $character-light-secondary-45;
+            }
+        }
+
+        div.ant-card-body {
+            display: flex;
+            padding: 8px 0;
+
+            button {
+                flex: 1;
+                letter-spacing: 0.3px;
+                padding-left: 10px;
+
+                @media (max-width: 834px) {
+                    &.ant-btn-text .anticon {
+                        display: inline;
+                    }
+                }
+            }
+
+            @media (max-width: 360px) {
+                padding: 10px 0;
+            }
+        }
+
+        @media (max-width: 360px) {
+            max-width: 100%;
+        }
+    }
+
+    @media (max-width: 834px) {
+        height: 364px;
+    }
+
+    @media (max-width: 600px) {
+        flex-wrap: wrap;
+        flex-direction: column-reverse;
+    }
+
+    @media (max-width: 360px) {
+        flex-direction: column-reverse;
+        align-items: center;
+        gap: 24px;
+        padding: 2px 16px 42px 0;
+        height: auto;
+    }
+}

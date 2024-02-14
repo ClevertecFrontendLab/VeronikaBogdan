@@ -1,0 +1,125 @@
+@import '@constants/colors';
+
+@mixin anticon($color) {
+    svg {
+        path {
+            fill: $color;
+        }
+    }
+
+    @media (max-width: 360px) {
+        display: none;
+    }
+}
+
+aside.ant-layout-sider {
+    &-light {
+        box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
+        z-index: 1;
+
+        @media (max-width: 360px) {
+            position: fixed;
+            height: 100%;
+        }
+    }
+
+    div.ant-layout-sider-children {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    @media (max-width: 360px) {
+        &-collapsed {
+            display: none;
+        }
+    }
+}
+
+.logo {
+    display: block;
+    margin-top: 30px;
+
+    img {
+        padding: 18px 46px 17px 29px;
+
+        @media (max-width: 360px) {
+            padding: 18px 17px 16px;
+            width: 106px;
+            height: 50px;
+        }
+    }
+
+    &-collapsed {
+        display: block;
+        margin-top: 30px;
+
+        img {
+            padding: 22px 18px 18px 19px;
+        }
+    }
+
+    @media (max-width: 360px) {
+        margin-top: 0;
+    }
+}
+
+ul.ant-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border: 0;
+    margin-top: 43px;
+
+    @media (max-width: 360px) {
+        gap: 0;
+        margin-top: 13px;
+
+        li.ant-menu-item {
+            padding: 0;
+            margin-top: 3px;
+        }
+    }
+}
+
+.ant-menu {
+    &-item-icon,
+    .anticon {
+        @include anticon($primary-light-9);
+    }
+
+    &-vertical-collapsed &-item {
+        padding: 13px 24px;
+    }
+
+    &-vertical-collapsed &-title-content {
+        display: none;
+    }
+}
+
+button.exit {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    height: 40px;
+    padding: 12px 16px;
+    box-shadow: inset 0 1px 0 0 $character-light-dividers;
+
+    @media (max-width: 360px) {
+        gap: 0;
+        padding: 11px 31px;
+
+        img {
+            display: none;
+        }
+    }
+}
+
+button.exit-collapsed {
+    padding-left: 0;
+    box-shadow: inset 0 1px 0 0 $character-light-dividers;
+
+    span {
+        display: none;
+    }
+}

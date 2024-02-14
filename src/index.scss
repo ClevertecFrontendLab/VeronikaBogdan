@@ -1,0 +1,27 @@
+@import '@constants/colors';
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+div#root {
+    height: 100%;
+    font: {
+        family: 'Inter', sans-serif;
+        size: 14px;
+        weight: 400;
+        synthesis: none;
+    }
+    line-height: 130%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+    justify-content: center;
+    min-width: 320px;
+    background-color: $neutral-gray-1;
+    color: $character-light-title-85;
+    position: relative;
+}

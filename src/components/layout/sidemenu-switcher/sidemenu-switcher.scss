@@ -1,0 +1,50 @@
+@import '@constants/colors';
+
+@mixin trigger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 66px;
+    border: 0;
+    position: fixed;
+    top: 480px;
+    cursor: pointer;
+    background-color: $character-light-primary-inverse;
+    clip-path: polygon(0 0, 100% 12%, 100% 88%, 0 100%);
+    filter: drop-shadow(10px 5px 0 rgba(0, 0, 0, 0.15));
+    z-index: 10;
+
+    svg {
+        fill: $character-light-secondary-45;
+        transition: fill 0.3s;
+    }
+
+    &:hover {
+        svg {
+            fill: $blue-light-6;
+        }
+    }
+
+    @media (max-width: 360px) {
+        width: 32px;
+        height: 48px;
+        background: no-repeat url('/sidemenu-switcher-mobile.svg');
+        margin: 0;
+        top: 24px;
+        left: 105px;
+    }
+}
+
+.trigger {
+    @include trigger;
+}
+
+.trigger-collapsed {
+    @include trigger;
+
+    @media (max-width: 360px) {
+        left: 0;
+    }
+}

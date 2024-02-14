@@ -5,12 +5,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: auto 0;
     width: 20px;
     height: 66px;
     border: 0;
     position: fixed;
-    top: 50%;
+    top: 480px;
     cursor: pointer;
     background-color: $character-light-primary-inverse;
     clip-path: polygon(0 0, 100% 12%, 100% 88%, 0 100%);

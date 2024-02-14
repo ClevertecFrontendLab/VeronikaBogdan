@@ -1,6 +1,7 @@
 section.ant-layout {
     margin: 0 auto;
     max-width: 1440px;
+    // height: 100%;
     position: relative;
     background: transparent;
 
@@ -12,7 +13,7 @@ section.ant-layout {
         }
 
         @media (max-width: 834px) {
-            background-position: -200px;
+            background-position: -130px;
             background-attachment: fixed;
         }
 

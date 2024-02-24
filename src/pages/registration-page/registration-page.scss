@@ -1,0 +1,36 @@
+@import '@constants/colors';
+
+main.ant-layout-content {
+    ul.ant-menu {
+        flex-direction: row;
+        gap: 0;
+        margin-top: 16px;
+
+        li.ant-menu-item {
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            text-align: center;
+            padding-left: 16px !important;
+            margin: 0;
+
+            &::after {
+                border-right: 0;
+                border-bottom: 3px solid $primary-light-6;
+                width: 100%;
+            }
+
+            &-selected {
+                color: $primary-light-6;
+                background-color: $character-light-primary-inverse;
+            }
+        }
+    }
+
+    div.ant-form-item {
+        margin: 32px 0;
+
+        &-row {
+            margin: 0;
+        }
+    }
+}

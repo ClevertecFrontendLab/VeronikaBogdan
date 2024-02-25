@@ -1,4 +1,5 @@
-import { Form, Input, Menu } from 'antd';
+import { Button, Form, Input, Menu, Space } from 'antd';
+import { GooglePlusOutlined } from '@ant-design/icons';
 
 import { AuthLayout } from '@components/auth-layout';
 
@@ -24,17 +25,6 @@ export const RegistrationPage: React.FC = () => {
         console.log('Received values of form: ', values);
     };
 
-    // const formItemLayout = {
-    //     labelCol: {
-    //         xs: { span: 24 },
-    //         sm: { span: 8 },
-    //     },
-    //     wrapperCol: {
-    //         xs: { span: 24 },
-    //         sm: { span: 16 },
-    //     },
-    // };
-
     return (
         <AuthLayout>
             <Menu mode='inline' items={menuItems} defaultSelectedKeys={['2']} />
@@ -45,36 +35,46 @@ export const RegistrationPage: React.FC = () => {
                     rules={[
                         {
                             type: 'email',
-                            message: 'The input is not valid E-mail!',
-                        },
-                        {
                             required: true,
-                            message: 'Please input your E-mail!',
+                            message: '',
                         },
                     ]}
                 >
-                    <Input addonBefore='e-mail' placeholder='e-mail' />
+                    <Input addonBefore='e-mail' data-test-id='registration-email' />
                 </Item>
                 <Item
                     name='password'
+                    extra='Пароль не менее 8 символов, с заглавной буквой и цифрой'
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your password!',
+                            message: '',
+                        },
+                        {
+                            pattern: /[A-Z]+/g,
+                            message: 'Пароль не менее 8 символов, с заглавной буквой и цифрой',
+                        },
+                        {
+                            pattern: /[0-9]+/g,
+                            message: 'Пароль не менее 8 символов, с заглавной буквой и цифрой',
+                        },
+                        {
+                            type: 'string',
+                            min: 8,
+                            message: 'Пароль не менее 8 символов, с заглавной буквой и цифрой',
                         },
                     ]}
-                    hasFeedback
                 >
-                    <Input.Password placeholder='Пароль' />
+                    <Input.Password placeholder='Пароль' data-test-id='registration-password' />
                 </Item>
                 <Item
                     name='confirm'
                     dependencies={['password']}
-                    hasFeedback
+                    className='confirm-password'
                     rules={[
                         {
                             required: true,
-                            message: 'Please confirm your password!',
+                            message: '',
                         },
                         ({ getFieldValue }) => ({
                             validator(_, value) {
@@ -86,7 +86,22 @@ export const RegistrationPage: React.FC = () => {
                         }),
                     ]}
                 >
-                    <Input.Password placeholder='Повторите пароль' />
+                    <Input.Password
+                        placeholder='Повторите пароль'
+                        data-test-id='registration-confirm-password'
+                    />
+                </Item>
+                <Item className='enter-buttons'>
+                    <Space direction='vertical'>
+                        <Button
+                            type='primary'
+                            htmlType='submit'
+                            data-test-id='registration-submit-button'
+                        >
+                            Войти
+                        </Button>
+                        <Button icon={<GooglePlusOutlined />}>Регистрация через Google</Button>
+                    </Space>
                 </Item>
             </Form>
         </AuthLayout>

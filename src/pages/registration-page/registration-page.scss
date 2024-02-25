@@ -12,6 +12,7 @@ main.ant-layout-content {
             text-align: center;
             padding-left: 16px !important;
             margin: 0;
+            border-bottom: 1px solid $character-light-dividers;
 
             &::after {
                 border-right: 0;
@@ -26,11 +27,104 @@ main.ant-layout-content {
         }
     }
 
-    div.ant-form-item {
+    .ant-form-item {
         margin: 32px 0;
 
         &-row {
             margin: 0;
         }
+
+        &-has-error [id*='_extra'] {
+            display: none;
+        }
+
+        &-control-input {
+            position: relative;
+            letter-spacing: 1.3px;
+        }
+
+        &-extra {
+            position: absolute;
+            top: 41px;
+        }
+
+        &-extra,
+        &-explain-error {
+            font-size: 12px;
+            text-align: left;
+            letter-spacing: 0.4px;
+        }
+
+        &-explain-error:not(:first-child) {
+            display: none;
+        }
+
+        .ant-input {
+            padding: 8px 0;
+            border-color: $character-light-border;
+            box-shadow: none;
+
+            &-status-error:not(&-disabled):not(&-borderless) {
+                border-left-color: $character-light-border;
+
+                &:focus {
+                    box-shadow: none;
+                }
+            }
+
+            &-password {
+                padding: 0 11px;
+            }
+        }
+
+        .ant-input-affix-wrapper {
+            &-focused {
+                box-shadow: 0 0 0 2px rgba(47, 84, 235, 0.2);
+                border: 1px solid $primary-light-5;
+            }
+
+            &:not(&-disabled):hover {
+                border-color: $primary-light-5;
+            }
+
+            &-status-error {
+                &:not(&-disabled):hover {
+                    border-color: $character-light-error;
+                }
+
+                &:not(&-disabled).ant-input-affix-wrapper-focused {
+                    box-shadow: 0 0 0 2px rgba(255, 38, 5, 0.06);
+                }
+
+                svg path {
+                    fill: $character-light-secondary-45;
+                }
+            }
+
+            .anticon-eye-invisible svg path {
+                fill: $character-light-secondary-45;
+            }
+        }
+    }
+
+    .confirm-password {
+        margin-top: 45px;
+        margin-bottom: 63px;
+    }
+
+    .ant-space {
+        width: 100%;
+        gap: 12px !important;
+
+        .ant-btn {
+            width: 100%;
+            padding: 7px 0;
+            letter-spacing: 0.5px;
+            font-size: 16px;
+        }
+    }
+
+    .enter-buttons {
+        margin-bottom: 0;
     }
 }

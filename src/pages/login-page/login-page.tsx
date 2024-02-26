@@ -4,7 +4,6 @@ import React from 'react';
 
 import { AuthLayout, AuthMenu } from '@components/auth-layout';
 
-import './login-page.scss';
 import '../registration-page/registration-page.scss';
 
 const { Item } = Form;

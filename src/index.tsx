@@ -1,8 +1,7 @@
-import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { HistoryRouter } from 'redux-first-history/rr6';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { history, store } from '@redux/configure-store';
 
@@ -20,7 +19,7 @@ root.render(
         <Provider store={store}>
             <HistoryRouter history={history}>
                 <Routes>
-                    <Route path='/' element={history.push('/auth')} />
+                    <Route path='/' element={<Navigate to='/auth' />} />
                     <Route path='/main' element={<MainPage />} />
                     {/* <Route element={<AuthLayout />}> */}
                     {/* <Route path='/auth' element={<RegistrationPage />} /> */}

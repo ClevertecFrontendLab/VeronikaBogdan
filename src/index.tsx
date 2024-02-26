@@ -20,13 +20,9 @@ root.render(
             <HistoryRouter history={history}>
                 <Routes>
                     <Route path='/' element={<Navigate to='/auth' />} />
-                    <Route path='/main' element={<MainPage />} />
-                    {/* <Route element={<AuthLayout />}> */}
-                    {/* <Route path='/auth' element={<RegistrationPage />} /> */}
-                    {/* <Route index element={<RegistrationPage />} /> */}
                     <Route path='/auth' element={<LoginPage />} />
                     <Route path='/auth/registration' element={<RegistrationPage />} />
-                    {/* </Route> */}
+                    <Route path='/main' element={<MainPage />} />
                 </Routes>
             </HistoryRouter>
         </Provider>

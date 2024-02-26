@@ -37,5 +37,16 @@ section.ant-layout.auth-layout {
             height: 76px;
             margin: 4px 29px 33px;
         }
+
+        @media (min-width: 320px) and (max-width: 500px) {
+            max-width: 328px;
+            padding: 32px 16px;
+
+            img {
+                max-width: 203px;
+                height: 50px;
+                margin: 4px 45px 17px;
+            }
+        }
     }
 }

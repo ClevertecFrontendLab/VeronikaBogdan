@@ -4,6 +4,10 @@ main.ant-layout-content {
     .ant-form-item {
         margin: 32px 0;
 
+        @media (min-width: 320px) and (max-width: 500px) {
+            margin: 28px 0;
+        }
+
         &-row {
             margin: 0;
         }
@@ -72,8 +76,11 @@ main.ant-layout-content {
     }
 
     .confirm-password {
-        margin-top: 45px;
-        margin-bottom: 63px;
+        margin: 45px 0 63px;
+
+        @media (min-width: 320px) and (max-width: 500px) {
+            margin: 35px 0 63px;
+        }
     }
 
     .check-area .ant-form-item-control-input-content {
@@ -81,6 +88,10 @@ main.ant-layout-content {
         justify-content: space-between;
         margin: 15px 0 0;
         letter-spacing: 0.5px;
+
+        @media (min-width: 320px) and (max-width: 500px) {
+            margin: 25px 0 0;
+        }
 
         .ant-checkbox-checked .ant-checkbox-inner {
             background-color: $primary-light-6;
@@ -105,10 +116,19 @@ main.ant-layout-content {
         width: 100%;
         gap: 12px !important;
 
+        @media (min-width: 320px) and (max-width: 500px) {
+            margin-top: 0;
+            gap: 15px !important;
+        }
+
         .ant-btn {
             padding: 7px 0;
             letter-spacing: 0.5px;
             font-size: 16px;
+
+            @media (min-width: 320px) and (max-width: 500px) {
+                font-size: 14px;
+            }
 
             &-primary {
                 background-color: $primary-light-6;
@@ -135,6 +155,12 @@ main.ant-layout-content {
             svg path {
                 fill: $character-light-title-85;
             }
+
+            @media (min-width: 320px) and (max-width: 500px) {
+                .anticon-google-plus {
+                    display: none;
+                }
+            }
         }
     }
 
@@ -144,5 +170,9 @@ main.ant-layout-content {
 
     .login-page {
         margin-bottom: 105px;
+
+        @media (min-width: 320px) and (max-width: 500px) {
+            margin-bottom: 90px;
+        }
     }
 }

@@ -1,32 +1,6 @@
 @import '@constants/colors';
 
 main.ant-layout-content {
-    ul.ant-menu {
-        flex-direction: row;
-        gap: 0;
-        margin-top: 16px;
-
-        li.ant-menu-item {
-            font-size: 16px;
-            letter-spacing: 0.5px;
-            text-align: center;
-            padding-left: 16px !important;
-            margin: 0;
-            border-bottom: 1px solid $character-light-dividers;
-
-            &::after {
-                border-right: 0;
-                border-bottom: 3px solid $primary-light-6;
-                width: 100%;
-            }
-
-            &-selected {
-                color: $primary-light-6;
-                background-color: $character-light-primary-inverse;
-            }
-        }
-    }
-
     .ant-form-item {
         margin: 32px 0;
 
@@ -34,21 +8,11 @@ main.ant-layout-content {
             margin: 0;
         }
 
-        &-has-error [id*='_extra'] {
-            display: none;
-        }
-
         &-control-input {
-            position: relative;
             letter-spacing: 1.3px;
         }
 
-        &-extra {
-            position: absolute;
-            top: 41px;
-        }
-
-        &-extra,
+        &-explain,
         &-explain-error {
             font-size: 12px;
             text-align: left;
@@ -112,19 +76,73 @@ main.ant-layout-content {
         margin-bottom: 63px;
     }
 
+    .check-area .ant-form-item-control-input-content {
+        display: flex;
+        justify-content: space-between;
+        margin: 15px 0 0;
+        letter-spacing: 0.5px;
+
+        .ant-checkbox-checked .ant-checkbox-inner {
+            background-color: $primary-light-6;
+            border-color: $primary-light-6;
+        }
+
+        .form-forgot {
+            color: $primary-light-6;
+            background-color: $neutral-gray-1;
+
+            &:hover {
+                color: $primary-light-5;
+            }
+
+            &:active {
+                color: $primary-light-7;
+            }
+        }
+    }
+
     .ant-space {
         width: 100%;
         gap: 12px !important;
 
         .ant-btn {
-            width: 100%;
             padding: 7px 0;
             letter-spacing: 0.5px;
             font-size: 16px;
+
+            &-primary {
+                background-color: $primary-light-6;
+
+                &:disabled {
+                    background-color: inherit;
+                }
+
+                &:hover {
+                    background-color: $primary-light-5;
+                }
+
+                &:active {
+                    background-color: $primary-light-7;
+                }
+            }
+
+            &:hover {
+                svg path {
+                    fill: $blue-light-5;
+                }
+            }
+
+            svg path {
+                fill: $character-light-title-85;
+            }
         }
     }
 
     .enter-buttons {
         margin-bottom: 0;
+    }
+
+    .login-page {
+        margin-bottom: 105px;
     }
 }

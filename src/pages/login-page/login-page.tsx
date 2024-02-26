@@ -1,22 +1,26 @@
-import { Button, Form, Input, Space } from 'antd';
+import { Button, Checkbox, Form, Input, Space } from 'antd';
 import { GooglePlusOutlined } from '@ant-design/icons';
+import React from 'react';
 
 import { AuthLayout, AuthMenu } from '@components/auth-layout';
 
-import './registration-page.scss';
+import './login-page.scss';
+import '../registration-page/registration-page.scss';
 
 const { Item } = Form;
 
-export const RegistrationPage: React.FC = () => {
+export const LoginPage: React.FC = () => {
     const [form] = Form.useForm();
+    const { status } = Item.useStatus();
 
     const onFinish = (values: any) => {
         console.log('Received values of form: ', values);
     };
 
+    console.log('status', status);
     return (
         <AuthLayout>
-            <AuthMenu itemKey='registration' />
+            <AuthMenu itemKey={'entrance'} />
             <Form form={form} name='register' onFinish={onFinish} scrollToFirstError>
                 <Item
                     name='email'
@@ -28,11 +32,10 @@ export const RegistrationPage: React.FC = () => {
                         },
                     ]}
                 >
-                    <Input addonBefore='e-mail' data-test-id='registration-email' />
+                    <Input addonBefore='e-mail' data-test-id='login-email' />
                 </Item>
                 <Item
                     name='password'
-                    help='Пароль не менее 8 символов, с заглавной буквой и цифрой'
                     rules={[
                         {
                             required: true,
@@ -53,44 +56,29 @@ export const RegistrationPage: React.FC = () => {
                         },
                     ]}
                 >
-                    <Input.Password placeholder='Пароль' data-test-id='registration-password' />
+                    <Input.Password placeholder='Пароль' data-test-id='login-password' />
                 </Item>
-                <Item
-                    name='confirm'
-                    dependencies={['password']}
-                    className='confirm-password'
-                    rules={[
-                        {
-                            required: true,
-                            message: '',
-                        },
-                        ({ getFieldValue }) => ({
-                            validator(_, value) {
-                                if (!value || getFieldValue('password') === value) {
-                                    return Promise.resolve();
-                                }
-                                return Promise.reject(new Error('Пароли не совпадают'));
-                            },
-                        }),
-                    ]}
-                >
-                    <Input.Password
-                        placeholder='Повторите пароль'
-                        data-test-id='registration-confirm-password'
-                    />
+                <Item className='check-area'>
+                    <Item name='remember' valuePropName='checked' noStyle>
+                        <Checkbox>Запомнить меня</Checkbox>
+                    </Item>
+
+                    <Button type='link' className='form-forgot'>
+                        Забыли пароль?
+                    </Button>
                 </Item>
-                <Item className='enter-buttons'>
+                <Item className='enter-buttons login-page'>
                     <Space direction='vertical'>
                         <Button
                             block
                             type='primary'
                             htmlType='submit'
-                            data-test-id='registration-submit-button'
+                            data-test-id='login-submit-button'
                         >
                             Войти
                         </Button>
                         <Button block icon={<GooglePlusOutlined />}>
-                            Регистрация через Google
+                            Войти через Google
                         </Button>
                     </Space>
                 </Item>

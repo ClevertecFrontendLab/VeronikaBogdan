@@ -12,7 +12,7 @@ interface Props extends React.PropsWithChildren {
 }
 
 export const AuthLayout: React.FC<Props> = ({ children }) => (
-    <Layout>
+    <Layout className='auth-layout'>
         <div className='blur'>
             <Content>
                 <img src={defaultLogo} alt='logo' />

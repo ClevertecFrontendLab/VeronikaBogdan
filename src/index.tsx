@@ -5,29 +5,31 @@ import { HistoryRouter } from 'redux-first-history/rr6';
 import { Route, Routes } from 'react-router-dom';
 
 import { history, store } from '@redux/configure-store';
-import { MainPage, RegistrationPage } from './pages';
+
+import { LoginPage, MainPage, RegistrationPage } from './pages';
 
 import 'antd/dist/antd.css';
 import 'normalize.css';
 import './index.scss';
-import { AuthLayout } from '@components/auth-layout';
 
 const domNode = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(domNode);
 
 root.render(
-    <React.StrictMode>
+    <>
         <Provider store={store}>
             <HistoryRouter history={history}>
                 <Routes>
+                    <Route path='/' element={history.push('/auth')} />
                     <Route path='/main' element={<MainPage />} />
                     {/* <Route element={<AuthLayout />}> */}
                     {/* <Route path='/auth' element={<RegistrationPage />} /> */}
                     {/* <Route index element={<RegistrationPage />} /> */}
+                    <Route path='/auth' element={<LoginPage />} />
                     <Route path='/auth/registration' element={<RegistrationPage />} />
                     {/* </Route> */}
                 </Routes>
             </HistoryRouter>
         </Provider>
-    </React.StrictMode>,
+    </>,
 );

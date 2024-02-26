@@ -1,0 +1,42 @@
+@import '@constants/colors';
+
+div.ant-result {
+    padding: 0;
+
+    &-title {
+        font-weight: 500;
+        letter-spacing: 1px;
+    }
+
+    &-subtitle {
+        margin: -7px auto 17px;
+        max-width: 330px;
+        text-align: center;
+        line-height: 1.4;
+    }
+
+    .ant-btn {
+        padding: 7px 0;
+        letter-spacing: 0.5px;
+
+        @media (min-width: 320px) and (max-width: 500px) {
+            font-size: 14px;
+        }
+
+        &-primary {
+            background-color: $primary-light-6;
+
+            &:disabled {
+                background-color: inherit;
+            }
+
+            &:hover {
+                background-color: $primary-light-5;
+            }
+
+            &:active {
+                background-color: $primary-light-7;
+            }
+        }
+    }
+}

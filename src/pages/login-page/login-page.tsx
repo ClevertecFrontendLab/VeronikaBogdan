@@ -41,16 +41,7 @@ export const LoginPage: React.FC = () => {
                             message: '',
                         },
                         {
-                            pattern: /[A-Z]+/g,
-                            message: 'Пароль не менее 8 символов, с заглавной буквой и цифрой',
-                        },
-                        {
-                            pattern: /[0-9]+/g,
-                            message: 'Пароль не менее 8 символов, с заглавной буквой и цифрой',
-                        },
-                        {
-                            type: 'string',
-                            min: 8,
+                            pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
                             message: 'Пароль не менее 8 символов, с заглавной буквой и цифрой',
                         },
                     ]}
@@ -58,11 +49,16 @@ export const LoginPage: React.FC = () => {
                     <Input.Password placeholder='Пароль' data-test-id='login-password' />
                 </Item>
                 <Item className='check-area'>
-                    <Item name='remember' valuePropName='checked' noStyle>
+                    <Item
+                        name='remember'
+                        valuePropName='checked'
+                        noStyle
+                        data-test-id='login-remember'
+                    >
                         <Checkbox>Запомнить меня</Checkbox>
                     </Item>
 
-                    <Button type='link' className='form-forgot'>
+                    <Button type='link' className='form-forgot' data-test-id='login-forgot-button'>
                         Забыли пароль?
                     </Button>
                 </Item>

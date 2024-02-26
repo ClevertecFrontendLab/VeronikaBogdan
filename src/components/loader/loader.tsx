@@ -16,7 +16,7 @@ export const Loader: React.FC = () => {
     };
 
     return (
-        <div className='loader-wrapper'>
+        <div className='loader-wrapper' data-test-id='loader'>
             <Lottie options={defaultOptions} height={150} width={150} />
         </div>
     );

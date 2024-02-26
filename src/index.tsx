@@ -5,7 +5,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { history, store } from '@redux/configure-store';
 
-import { LoginPage, MainPage, RegistrationPage } from './pages';
+import { LoginPage, MainPage, RegistrationPage, ResultPage } from './pages';
 
 import 'antd/dist/antd.css';
 import 'normalize.css';
@@ -22,6 +22,7 @@ root.render(
                     <Route path='/' element={<Navigate to='/auth' />} />
                     <Route path='/auth' element={<LoginPage />} />
                     <Route path='/auth/registration' element={<RegistrationPage />} />
+                    <Route path='/result/:status' element={<ResultPage />} />
                     <Route path='/main' element={<MainPage />} />
                 </Routes>
             </HistoryRouter>

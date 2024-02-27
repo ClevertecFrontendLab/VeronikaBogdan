@@ -2,14 +2,14 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { instance } from '@redux/api';
 
-import { LoginState, LoginUserData } from './types';
+import { LoginFormUserData, LoginState } from './types';
 
 export const postLogin = createAsyncThunk(
     'accessToken/postLogin',
-    async (loginUserData: LoginUserData) => {
-        const response = await instance.post('/auth/login', loginUserData);
+    async ({ email, password, remember }: LoginFormUserData) => {
+        const response = await instance.post('/auth/login', { email: email, password: password });
 
-        localStorage.setItem('accessToken', response.data.accessToken);
+        if (remember) localStorage.setItem('accessToken', response.data.accessToken);
 
         return response.data;
     },
@@ -27,6 +27,12 @@ const loginSlice = createSlice({
     reducers: {
         setError: (state, { payload }) => {
             state.isError = payload;
+        },
+        setAccessToken: (state, { payload }) => {
+            state.accessToken = payload;
+        },
+        removeAccessToken: (state) => {
+            state.accessToken = '';
         },
     },
     extraReducers: (builder) => {
@@ -47,6 +53,6 @@ const loginSlice = createSlice({
     },
 });
 
-export const { setError } = loginSlice.actions;
+export const { setError, setAccessToken, removeAccessToken } = loginSlice.actions;
 
 export default loginSlice.reducer;

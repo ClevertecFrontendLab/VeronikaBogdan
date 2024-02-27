@@ -3,6 +3,12 @@ export interface LoginUserData {
     password: string;
 }
 
+export interface LoginFormUserData {
+    email: string;
+    password: string;
+    remember: boolean | undefined;
+}
+
 export interface LoginState {
     accessToken: string;
     isLoading: boolean;

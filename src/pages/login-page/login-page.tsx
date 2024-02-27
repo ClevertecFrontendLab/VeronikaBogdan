@@ -7,7 +7,7 @@ import { AuthLayout, AuthMenu } from '@components/auth-layout';
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
 
 import { postLogin } from '@redux/login-slice';
-import { LoginUserData } from '@redux/login-slice/types';
+import { LoginFormUserData } from '@redux/login-slice/types';
 import { history } from '@redux/configure-store';
 
 import '../registration-page/registration-page.scss';
@@ -15,38 +15,18 @@ import '../registration-page/registration-page.scss';
 const { Item } = Form;
 
 export const LoginPage: React.FC = () => {
-    const { accessToken, isLoading, isError } = useAppSelector((state) => state.login);
+    const { accessToken, isError } = useAppSelector((state) => state.login);
     const dispatch = useAppDispatch();
     const [form] = Form.useForm();
 
     // const { status } = Item.useStatus();
 
-    const onFinish = (values: LoginUserData) => {
-        console.log('Received values of form: ', values);
-
-        dispatch(
-            postLogin({
-                email: values.email,
-                password: values.password,
-            }),
-        );
+    const onFinish = (values: LoginFormUserData) => {
+        dispatch(postLogin(values));
     };
 
-    // console.log('status', status);
-
-    if (localStorage.getItem('accessToken')) history.push('/main');
+    if (accessToken) history.push('/main');
     if (isError) history.push('/result/error-login');
-
-    console.log(
-        'token',
-        accessToken,
-        '\nload:',
-        isLoading,
-        '\nerror',
-        isError,
-        '\n localstorage',
-        localStorage.getItem('accessToken'),
-    );
 
     return (
         <AuthLayout>
@@ -80,13 +60,8 @@ export const LoginPage: React.FC = () => {
                     <Input.Password placeholder='Пароль' data-test-id='login-password' />
                 </Item>
                 <Item className='check-area'>
-                    <Item
-                        name='remember'
-                        valuePropName='checked'
-                        noStyle
-                        data-test-id='login-remember'
-                    >
-                        <Checkbox>Запомнить меня</Checkbox>
+                    <Item name='remember' valuePropName='checked' noStyle>
+                        <Checkbox data-test-id='login-remember'>Запомнить меня</Checkbox>
                     </Item>
                     <Button type='link' className='form-forgot' data-test-id='login-forgot-button'>
                         Забыли пароль?

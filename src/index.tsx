@@ -19,7 +19,16 @@ root.render(
         <Provider store={store}>
             <HistoryRouter history={history}>
                 <Routes>
-                    <Route path='/' element={<Navigate to='/auth' />} />
+                    <Route
+                        path='/'
+                        element={
+                            localStorage.getItem('accessToken') ? (
+                                <Navigate to='/main' />
+                            ) : (
+                                <Navigate to='/auth' />
+                            )
+                        }
+                    />
                     <Route path='/auth' element={<LoginPage />} />
                     <Route path='/auth/registration' element={<RegistrationPage />} />
                     <Route path='/result/:status' element={<ResultPage />} />

@@ -1,6 +1,8 @@
 import { Layout } from 'antd';
-import React, { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+
+import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
+import { setAccessToken } from '@redux/login-slice/login-slice';
 
 import { ContentPart } from '@components/layout/content';
 import { Header } from '@components/layout/header';
@@ -11,8 +13,12 @@ import './main-page.scss';
 
 export const MainPage: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
+    const { accessToken } = useAppSelector((state) => state.login);
+    const dispatch = useAppDispatch();
 
-    if (!localStorage.getItem('accessToken')) return <Navigate to='/auth' />;
+    useEffect(() => {
+        dispatch(setAccessToken(accessToken));
+    }, []);
 
     return (
         <Layout>

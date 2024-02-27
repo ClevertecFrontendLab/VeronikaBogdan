@@ -4,7 +4,7 @@ import React from 'react';
 import { AuthLayout } from '@components/auth-layout';
 
 import { history } from '@redux/configure-store';
-import { setError } from '@redux/auth-slice/login-slice';
+import { setError } from '@redux/login-slice/login-slice';
 
 import './result-page.scss';
 import { useAppDispatch } from '@hooks/typed-react-redux-hooks';

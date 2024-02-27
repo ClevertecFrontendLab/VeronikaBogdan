@@ -1,25 +1,14 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
+import { instance } from '@redux/api';
+
 import { LoginState, LoginUserData } from './types';
-
-export const instance = axios.create({
-    baseURL: import.meta.env.VITE_HOST,
-});
-
-// instance.interceptors.response.use(
-//     (res) => {
-//         window.localStorage.setItem('accessToken', res.data.accessToken);
-//         return res;
-//     },
-//     (error) => {
-//         return Promise.reject(error);
-//     },
-// );
 
 export const postLogin = createAsyncThunk(
     'accessToken/postLogin',
     async (loginUserData: LoginUserData) => {
         const response = await instance.post('/auth/login', loginUserData);
+
         localStorage.setItem('accessToken', response.data.accessToken);
 
         return response.data;

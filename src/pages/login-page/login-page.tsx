@@ -6,8 +6,8 @@ import { AuthLayout, AuthMenu } from '@components/auth-layout';
 
 import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
 
-import { postLogin } from '@redux/auth-slice/login-slice';
-import { LoginUserData } from '@redux/auth-slice/types';
+import { postLogin } from '@redux/login-slice';
+import { LoginUserData } from '@redux/login-slice/types';
 import { history } from '@redux/configure-store';
 
 import '../registration-page/registration-page.scss';
@@ -29,7 +29,6 @@ export const LoginPage: React.FC = () => {
                 email: values.email,
                 password: values.password,
             }),
-            // winterTest123
         );
     };
 
@@ -46,7 +45,6 @@ export const LoginPage: React.FC = () => {
         '\nerror',
         isError,
         '\n localstorage',
-        localStorage.getItem('accessToken') ? '/main' : '/error',
         localStorage.getItem('accessToken'),
     );
 
@@ -90,7 +88,6 @@ export const LoginPage: React.FC = () => {
                     >
                         <Checkbox>Запомнить меня</Checkbox>
                     </Item>
-
                     <Button type='link' className='form-forgot' data-test-id='login-forgot-button'>
                         Забыли пароль?
                     </Button>

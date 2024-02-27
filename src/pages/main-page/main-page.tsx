@@ -1,5 +1,6 @@
 import { Layout } from 'antd';
 import React, { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 
 import { ContentPart } from '@components/layout/content';
 import { Header } from '@components/layout/header';
@@ -7,7 +8,6 @@ import { Sidebar } from '@components/layout/sidebar';
 import { SidemenuSwitcher } from '@components/layout/sidemenu-switcher';
 
 import './main-page.scss';
-import { Navigate } from 'react-router-dom';
 
 export const MainPage: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);

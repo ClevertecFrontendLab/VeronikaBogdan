@@ -17,7 +17,10 @@ interface Props extends React.PropsWithChildren {
 
 export const AuthLayout: React.FC<Props> = ({ children }) => {
     const path = history.location.pathname;
-    const { isLoading } = useAppSelector((state) => state.login);
+    const { isLoading: isLoadingLogin } = useAppSelector((state) => state.login);
+    const { isLoading: isLoadingRegistration } = useAppSelector((state) => state.registration);
+
+    const isLoading = isLoadingLogin || isLoadingRegistration;
 
     return (
         <Layout className='auth-layout'>

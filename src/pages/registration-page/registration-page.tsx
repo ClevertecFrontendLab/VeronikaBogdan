@@ -1,6 +1,12 @@
 import { Button, Form, Input, Space } from 'antd';
 import { GooglePlusOutlined } from '@ant-design/icons';
 
+import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
+
+import { history } from '@redux/configure-store';
+import { postRegistration, setRegistrationUserData } from '@redux/registration-slice';
+import { RegistrationUserData } from '@redux/registration-slice/types';
+
 import { AuthLayout, AuthMenu } from '@components/auth-layout';
 
 import './registration-page.scss';
@@ -8,11 +14,21 @@ import './registration-page.scss';
 const { Item } = Form;
 
 export const RegistrationPage: React.FC = () => {
+    const { status } = useAppSelector((state) => state.registration);
+    const dispatch = useAppDispatch();
     const [form] = Form.useForm();
 
-    const onFinish = (values: any) => {
+    const onFinish = (values: RegistrationUserData) => {
         console.log('Received values of form: ', values);
+        dispatch(setRegistrationUserData(values));
+        dispatch(postRegistration(values));
     };
+
+    console.log('status', status);
+
+    if (status === 201) history.push('/result/success');
+    else if (status === 409) history.push('/result/error-user-exist');
+    else if (status) history.push('/result/error');
 
     return (
         <AuthLayout>

@@ -1,3 +1,12 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+export interface RegistrationUserData {
+    email: string;
+    password: string;
+    confirm: string;
+}
 
-import { instance } from '@redux/api';
+export interface RegistrationState {
+    isLoading: boolean;
+    isError: boolean;
+    status: number;
+    data: RegistrationState | null;
+}

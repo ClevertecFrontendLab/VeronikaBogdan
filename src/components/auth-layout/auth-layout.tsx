@@ -1,5 +1,6 @@
 import { Layout } from 'antd';
 import React from 'react';
+import { useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { history } from '@redux/configure-store';
 
 import { Loader } from '@components/loader';
@@ -16,10 +17,11 @@ interface Props extends React.PropsWithChildren {
 
 export const AuthLayout: React.FC<Props> = ({ children }) => {
     const path = history.location.pathname;
+    const { isLoading } = useAppSelector((state) => state.login);
 
     return (
         <Layout className='auth-layout'>
-            {/* <Loader /> */}
+            {isLoading && <Loader />}
             <div className='blur'>
                 <Content>
                     {(path === '/auth' || path === '/auth/registration') && (

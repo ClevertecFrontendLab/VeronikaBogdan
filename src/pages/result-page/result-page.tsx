@@ -3,12 +3,17 @@ import React from 'react';
 
 import { AuthLayout } from '@components/auth-layout';
 
-import './result-page.scss';
 import { history } from '@redux/configure-store';
+import { setError } from '@redux/auth-slice/login-slice';
+
+import './result-page.scss';
+import { useAppDispatch } from '@hooks/typed-react-redux-hooks';
 
 export const ResultPage: React.FC = () => {
+    const dispatch = useAppDispatch();
+
     const path = history.location.pathname;
-    console.log(path);
+
     return (
         <AuthLayout>
             {path === '/result/success' && (
@@ -19,23 +24,6 @@ export const ResultPage: React.FC = () => {
                     extra={
                         <Button block type='primary' data-test-id='registration-enter-button'>
                             Войти
-                        </Button>
-                    }
-                />
-            )}
-            {path === '/result/warning' && (
-                <Result
-                    status='warning'
-                    title='Вход не выполнен'
-                    subTitle='Что-то пошло не так. Попробуйте еще раз.'
-                    extra={
-                        <Button
-                            block
-                            type='primary'
-                            data-test-id='registration-enter-button'
-                            onClick={history.back}
-                        >
-                            Повторить
                         </Button>
                     }
                 />
@@ -70,6 +58,26 @@ export const ResultPage: React.FC = () => {
                             onClick={history.back}
                         >
                             Назад к регистрации
+                        </Button>
+                    }
+                />
+            )}
+            {path === '/result/error-login' && (
+                <Result
+                    status='warning'
+                    title='Вход не выполнен'
+                    subTitle='Что-то пошло не так. Попробуйте еще раз.'
+                    extra={
+                        <Button
+                            block
+                            type='primary'
+                            data-test-id='login-retry-button'
+                            onClick={() => {
+                                dispatch(setError(false));
+                                history.back();
+                            }}
+                        >
+                            Повторить
                         </Button>
                     }
                 />

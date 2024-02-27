@@ -4,19 +4,52 @@ import React from 'react';
 
 import { AuthLayout, AuthMenu } from '@components/auth-layout';
 
+import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
+
+import { postLogin } from '@redux/auth-slice/login-slice';
+import { LoginUserData } from '@redux/auth-slice/types';
+import { history } from '@redux/configure-store';
+
 import '../registration-page/registration-page.scss';
 
 const { Item } = Form;
 
 export const LoginPage: React.FC = () => {
+    const { accessToken, isLoading, isError } = useAppSelector((state) => state.login);
+    const dispatch = useAppDispatch();
     const [form] = Form.useForm();
-    const { status } = Item.useStatus();
 
-    const onFinish = (values: any) => {
+    // const { status } = Item.useStatus();
+
+    const onFinish = (values: LoginUserData) => {
         console.log('Received values of form: ', values);
+
+        dispatch(
+            postLogin({
+                email: values.email,
+                password: values.password,
+            }),
+            // winterTest123
+        );
     };
 
-    console.log('status', status);
+    // console.log('status', status);
+
+    if (localStorage.getItem('accessToken')) history.push('/main');
+    if (isError) history.push('/result/error-login');
+
+    console.log(
+        'token',
+        accessToken,
+        '\nload:',
+        isLoading,
+        '\nerror',
+        isError,
+        '\n localstorage',
+        localStorage.getItem('accessToken') ? '/main' : '/error',
+        localStorage.getItem('accessToken'),
+    );
+
     return (
         <AuthLayout>
             <AuthMenu itemKey={'entrance'} />

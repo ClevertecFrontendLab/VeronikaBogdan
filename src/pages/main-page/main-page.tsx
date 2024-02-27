@@ -7,9 +7,12 @@ import { Sidebar } from '@components/layout/sidebar';
 import { SidemenuSwitcher } from '@components/layout/sidemenu-switcher';
 
 import './main-page.scss';
+import { Navigate } from 'react-router-dom';
 
 export const MainPage: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
+
+    if (!localStorage.getItem('accessToken')) return <Navigate to='/auth' />;
 
     return (
         <Layout>

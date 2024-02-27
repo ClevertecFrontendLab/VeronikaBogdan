@@ -1,6 +1,6 @@
 import { Button, Layout, Menu } from 'antd';
 import { CalendarTwoTone, HeartFilled, TrophyFilled } from '@ant-design/icons';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Navigate } from 'react-router-dom';
 
 import collapsedLogo from '/logo-collapsed.svg';
 import defaultLogo from '/logo-default.svg';
@@ -9,6 +9,7 @@ import profile from '/profile.svg';
 
 import '@constants/colors.scss';
 import './sidebar.scss';
+import { history } from '@redux/configure-store';
 
 const { Sider } = Layout;
 
@@ -52,7 +53,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed }: SidebarProps) => 
             </NavLink>
             <Menu theme='light' items={menuItems} />
         </div>
-        <Button type='text' className={collapsed ? 'exit-collapsed' : 'exit'}>
+        <Button
+            type='text'
+            className={collapsed ? 'exit-collapsed' : 'exit'}
+            onClick={() => {
+                localStorage.removeItem('accessToken');
+                history.push('/');
+            }}
+        >
             <img src={exit} alt='exit icon' />
             Выход
         </Button>

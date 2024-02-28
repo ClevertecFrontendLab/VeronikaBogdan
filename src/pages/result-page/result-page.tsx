@@ -11,6 +11,7 @@ import { postRegistration } from '@redux/registration-slice';
 
 import './result-page.scss';
 import { push } from 'redux-first-history';
+import { setEmail, setStatusCode } from '@redux/password-recovery-slices/check-email';
 
 export const ResultPage: React.FC = () => {
     const { data } = useAppSelector((state) => state.registration);
@@ -102,10 +103,12 @@ export const ResultPage: React.FC = () => {
                     subTitle='Мы не нашли в базе вашего e-mail. Попробуйте войти с другим e-mail.'
                     extra={
                         <Button
-                            block
                             type='primary'
                             data-test-id='check-retry-button'
-                            onClick={() => history.push('/auth/registration')}
+                            onClick={() => {
+                                dispatch(setStatusCode(0));
+                                history.push('/auth');
+                            }}
                         >
                             Попробовать снова
                         </Button>
@@ -115,16 +118,18 @@ export const ResultPage: React.FC = () => {
             {path === '/result/error-check-email' && (
                 <Result
                     status='500'
-                    title='Такой e-mail не зарегистрирован'
-                    subTitle='Мы не нашли в базе вашего e-mail. Попробуйте войти с другим e-mail.'
+                    title='Что-то пошло не так'
+                    subTitle='Произошла ошибка, попробуйте отправить форму ещё раз.'
                     extra={
                         <Button
-                            block
                             type='primary'
                             data-test-id='check-back-button'
-                            onClick={() => history.push('/auth/registration')}
+                            onClick={() => {
+                                dispatch(setStatusCode(0));
+                                history.push('/auth');
+                            }}
                         >
-                            Попробовать снова
+                            Назад
                         </Button>
                     }
                 />

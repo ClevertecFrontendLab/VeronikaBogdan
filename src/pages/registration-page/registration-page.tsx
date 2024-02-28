@@ -19,7 +19,6 @@ export const RegistrationPage: React.FC = () => {
     const [form] = Form.useForm();
 
     const onFinish = (values: RegistrationUserData) => {
-        console.log('Received values of form: ', values);
         dispatch(setRegistrationUserData(values));
         dispatch(postRegistration(values));
     };

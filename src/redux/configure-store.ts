@@ -5,6 +5,7 @@ import { createBrowserHistory } from 'history';
 
 import loginReducer from './login-slice/login-slice';
 import registrationReducer from './registration-slice/registration-slice';
+import checkEmailReducer from './password-recovery-slices/check-email';
 
 const { createReduxHistory, routerMiddleware, routerReducer } = createReduxHistoryContext({
     history: createBrowserHistory(),
@@ -15,6 +16,7 @@ export const store = configureStore({
         router: routerReducer,
         login: loginReducer,
         registration: registrationReducer,
+        checkEmail: checkEmailReducer,
     }),
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(routerMiddleware),
 });

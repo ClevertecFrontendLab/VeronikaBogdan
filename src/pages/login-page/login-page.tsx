@@ -11,28 +11,39 @@ import { LoginFormUserData } from '@redux/login-slice/types';
 import { history } from '@redux/configure-store';
 
 import '../registration-page/registration-page.scss';
+import { postCheckEmail, setEmail } from '@redux/password-recovery-slices/check-email';
 
 const { Item } = Form;
 
 export const LoginPage: React.FC = () => {
     const { accessToken, isError } = useAppSelector((state) => state.login);
+    const { email, message, statusCode } = useAppSelector((state) => state.checkEmail);
     const dispatch = useAppDispatch();
     const [form] = Form.useForm();
 
     const onFinish = (values: LoginFormUserData) => {
         dispatch(postLogin(values));
-        console.log(values);
     };
 
     if (accessToken) history.push('/main');
     if (isError) history.push('/result/error-login');
+    if (statusCode && message === 'Email не найден')
+        history.push('/result/error-check-email-no-exist');
+    else if (statusCode === 200) history.push('/auth/confirm-email');
+    else if (statusCode) history.push('/result/error-check-email');
 
     return (
         <AuthLayout>
             <AuthMenu itemKey={'entrance'} />
-            <Form form={form} name='register' onFinish={onFinish} scrollToFirstError>
+            <Form
+                form={form}
+                name='register'
+                onFinish={onFinish}
+                scrollToFirstError
+                initialValues={{ email: email }}
+            >
                 {(values, formInstance) => {
-                    const isEmailError = !!formInstance.getFieldError('email').length;
+                    const isEmailError = formInstance.getFieldError('email').length;
 
                     const isFieldError = formInstance
                         .getFieldsError()
@@ -82,6 +93,10 @@ export const LoginPage: React.FC = () => {
                                     type='link'
                                     className='form-forgot'
                                     data-test-id='login-forgot-button'
+                                    onClick={() => {
+                                        dispatch(setEmail(values.email));
+                                        !isEmailError && dispatch(postCheckEmail(values.email));
+                                    }}
                                 >
                                     Забыли пароль?
                                 </Button>

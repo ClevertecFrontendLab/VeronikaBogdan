@@ -1,0 +1,14 @@
+@import '@constants/colors';
+
+.loader-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    background: rgba(121, 156, 212, 0.5);
+    backdrop-filter: blur(3px);
+    z-index: 100;
+}

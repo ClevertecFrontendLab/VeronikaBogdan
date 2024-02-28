@@ -1,0 +1,52 @@
+@import '@constants/colors';
+
+section.ant-layout.auth-layout {
+    margin: 0 auto;
+    max-width: 1440px;
+    position: relative;
+    background: transparent;
+    height: 100%;
+    background: {
+        image: url('/public/background-enter-page-light.png');
+        size: cover;
+        repeat: no-repeat;
+        position: center;
+    }
+
+    .blur {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: inherit;
+        background: rgba(121, 156, 212, 0.5);
+        backdrop-filter: blur(5px);
+    }
+
+    main.ant-layout-content {
+        flex: none;
+        max-width: 539px;
+        width: 100%;
+        margin: 0;
+        padding: 64px 85.5px;
+        border-radius: 2px;
+        box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
+        background-color: $character-light-primary-inverse;
+
+        img {
+            max-width: 310px;
+            height: 76px;
+            margin: 4px 29px 33px;
+        }
+
+        @media (min-width: 320px) and (max-width: 500px) {
+            max-width: 328px;
+            padding: 32px 16px;
+
+            img {
+                max-width: 203px;
+                height: 50px;
+                margin: 4px 45px 17px;
+            }
+        }
+    }
+}

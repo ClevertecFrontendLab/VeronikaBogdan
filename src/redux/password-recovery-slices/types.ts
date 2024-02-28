@@ -3,7 +3,7 @@ export type CheckEmailData = {
 };
 
 export type ConfirmEmailData = {
-    email: CheckEmailData;
+    email: string;
     code: string;
 };
 
@@ -17,8 +17,8 @@ export type Message = {
 };
 
 export type ResponseData = {
-    email: CheckEmailData;
-    message: Message;
+    email: string;
+    message: string;
 };
 
 export type ErrorState = {

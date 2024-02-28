@@ -20,8 +20,10 @@ export const AuthLayout: React.FC<Props> = ({ children }) => {
     const { isLoading: isLoadingLogin } = useAppSelector((state) => state.login);
     const { isLoading: isLoadingRegistration } = useAppSelector((state) => state.registration);
     const { isLoading: isLoadingCheckEmail } = useAppSelector((state) => state.checkEmail);
+    const { isLoading: isLoadingConfirmEmail } = useAppSelector((state) => state.confirmEmail);
 
-    const isLoading = isLoadingLogin || isLoadingRegistration || isLoadingCheckEmail;
+    const isLoading =
+        isLoadingLogin || isLoadingRegistration || isLoadingCheckEmail || isLoadingConfirmEmail;
 
     return (
         <Layout className='auth-layout'>

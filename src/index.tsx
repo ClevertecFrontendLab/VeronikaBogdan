@@ -10,6 +10,7 @@ import { ConfirmEmailPage, LoginPage, MainPage, RegistrationPage, ResultPage } f
 import 'antd/dist/antd.css';
 import 'normalize.css';
 import './index.scss';
+import { ChangePasswordPage } from '@pages/change-password-page';
 
 const domNode = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(domNode);
@@ -32,6 +33,7 @@ root.render(
                     <Route path='/auth' element={<LoginPage />} />
                     <Route path='/auth/registration' element={<RegistrationPage />} />
                     <Route path='/auth/confirm-email' element={<ConfirmEmailPage />} />
+                    <Route path='/auth/change-password' element={<ChangePasswordPage />} />
                     <Route path='/result/:status' element={<ResultPage />} />
                     <Route path='/main' element={<MainPage />} />
                 </Routes>

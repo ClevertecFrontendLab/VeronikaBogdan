@@ -23,8 +23,6 @@ export const RegistrationPage: React.FC = () => {
         dispatch(postRegistration(values));
     };
 
-    // console.log('status', status);
-
     if (status === 201) history.push('/result/success');
     else if (status === 409) history.push('/result/error-user-exist');
     else if (status) history.push('/result/error');

@@ -9,9 +9,9 @@ export const postConfirmEmail = createAsyncThunk(
     async (confirmEmailData: ConfirmEmailData) => {
         try {
             const response = await instance.post('/auth/confirm-email', confirmEmailData);
-            return response.data;
+            return response;
         } catch (error) {
-            return error.response.data;
+            return error.response;
         }
     },
 );
@@ -40,19 +40,13 @@ const checkEmailSlice = createSlice({
                 state.isError = false;
             })
             .addCase(postConfirmEmail.fulfilled, (state, { payload }) => {
-                state.data = payload;
-                state.statusCode = payload.statusCode;
-                state.message = payload.message;
+                state.statusCode = payload.status;
                 state.isLoading = false;
                 state.isError = false;
             });
-        // .addCase(postConfirmEmail.rejected, (state) => {
-        //     state.isLoading = false;
-        //     state.isError = true;
-        // });
     },
 });
 
-export const { setEmail, setStatusCode } = checkEmailSlice.actions;
+export const { setStatusCode } = checkEmailSlice.actions;
 
 export default checkEmailSlice.reducer;

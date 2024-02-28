@@ -9,9 +9,9 @@ export const postCheckEmail = createAsyncThunk(
     async (email: CheckEmailData) => {
         try {
             const response = await instance.post('/auth/check-email', { email: email });
-            return response.data;
+            return response;
         } catch (error) {
-            return error.response.data;
+            return error.response;
         }
     },
 );
@@ -43,9 +43,9 @@ const checkEmailSlice = createSlice({
                 state.isError = false;
             })
             .addCase(postCheckEmail.fulfilled, (state, { payload }) => {
-                state.data = payload;
-                state.statusCode = payload.statusCode;
-                state.message = payload.message;
+                state.data = payload.data;
+                state.statusCode = payload?.status || payload?.data?.statusCode;
+                state.message = payload?.data?.message;
                 state.isLoading = false;
                 state.isError = false;
             })

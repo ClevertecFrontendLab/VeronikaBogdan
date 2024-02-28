@@ -8,13 +8,16 @@ import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
 import { history } from '@redux/configure-store';
 import { setError } from '@redux/login-slice/login-slice';
 import { postRegistration } from '@redux/registration-slice';
-import { setStatusCode } from '@redux/password-recovery-slices/check-email';
+import { postCheckEmail, setStatusCode } from '@redux/password-recovery-slices/check-email';
 import { setStatusRegistrationCode } from '@redux/registration-slice/registration-slice';
 
 import './result-page.scss';
+import { postChangePassword, setStatus } from '@redux/password-recovery-slices/change-password';
 
 export const ResultPage: React.FC = () => {
-    const { data } = useAppSelector((state) => state.registration);
+    const { data: registrationData } = useAppSelector((state) => state.registration);
+    const { data: changePasswordData } = useAppSelector((state) => state.changePassword);
+    const { email } = useAppSelector((state) => state.checkEmail);
     const dispatch = useAppDispatch();
 
     const path = history.location.pathname;
@@ -50,7 +53,7 @@ export const ResultPage: React.FC = () => {
                             data-test-id='registration-retry-button'
                             onClick={() => {
                                 history.push('/auth/registration');
-                                dispatch(postRegistration(data));
+                                dispatch(postRegistration(registrationData));
                             }}
                         >
                             Повторить
@@ -128,6 +131,7 @@ export const ResultPage: React.FC = () => {
                             data-test-id='check-back-button'
                             onClick={() => {
                                 dispatch(setStatusCode(0));
+                                dispatch(postCheckEmail({ email: email }));
                                 history.push('/auth');
                             }}
                         >
@@ -136,36 +140,40 @@ export const ResultPage: React.FC = () => {
                     }
                 />
             )}
-            {path === '/result/error-change-password ' && (
+            {path === '/result/error-change-password' && (
                 <Result
                     status='error'
-                    title='Такой e-mail не зарегистрирован'
-                    subTitle='Мы не нашли в базе вашего e-mail. Попробуйте войти с другим e-mail.'
+                    title='Данные не сохранились'
+                    subTitle='Что-то пошло не так. Попробуйте ещё раз.'
                     extra={
                         <Button
                             block
                             type='primary'
                             data-test-id='change-retry-button'
-                            onClick={() => history.push('/auth/registration')}
+                            onClick={() => {
+                                dispatch(setStatus(0));
+                                dispatch(postChangePassword(changePasswordData));
+                                history.push('/auth/change-password');
+                            }}
                         >
-                            Попробовать снова
+                            Повторить
                         </Button>
                     }
                 />
             )}
-            {path === '/result/success-change-password ' && (
+            {path === '/result/success-change-password' && (
                 <Result
-                    status='500'
-                    title='Такой e-mail не зарегистрирован'
-                    subTitle='Мы не нашли в базе вашего e-mail. Попробуйте войти с другим e-mail.'
+                    status='success'
+                    title='Пароль успешно изменен'
+                    subTitle='Теперь можно войти в аккаунт, используя свой логин и новый пароль'
                     extra={
                         <Button
                             block
                             type='primary'
                             data-test-id='change-entry-button'
-                            onClick={() => history.push('/auth/registration')}
+                            onClick={() => history.push('/auth')}
                         >
-                            Попробовать снова
+                            Вход
                         </Button>
                     }
                 />

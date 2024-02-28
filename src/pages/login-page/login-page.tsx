@@ -27,7 +27,7 @@ export const LoginPage: React.FC = () => {
 
     if (accessToken) history.push('/main');
     if (isError) history.push('/result/error-login');
-    if (statusCode && message === 'Email не найден')
+    if (statusCode === 404 && message === 'Email не найден')
         history.push('/result/error-check-email-no-exist');
     else if (statusCode === 200) history.push('/auth/confirm-email');
     else if (statusCode) history.push('/result/error-check-email');
@@ -40,7 +40,7 @@ export const LoginPage: React.FC = () => {
                 name='register'
                 onFinish={onFinish}
                 scrollToFirstError
-                initialValues={{ email: email }}
+                // initialValues={{ email: email }}
             >
                 {(values, formInstance) => {
                     const isEmailError = formInstance.getFieldError('email').length;

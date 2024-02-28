@@ -7,6 +7,7 @@ import loginReducer from './login-slice/login-slice';
 import registrationReducer from './registration-slice/registration-slice';
 import checkEmailReducer from './password-recovery-slices/check-email';
 import confirmEmailReducer from './password-recovery-slices/confirm-email';
+import changePasswordReducer from './password-recovery-slices/change-password';
 
 const { createReduxHistory, routerMiddleware, routerReducer } = createReduxHistoryContext({
     history: createBrowserHistory(),
@@ -19,6 +20,7 @@ export const store = configureStore({
         registration: registrationReducer,
         checkEmail: checkEmailReducer,
         confirmEmail: confirmEmailReducer,
+        changePassword: changePasswordReducer,
     }),
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(routerMiddleware),
 });

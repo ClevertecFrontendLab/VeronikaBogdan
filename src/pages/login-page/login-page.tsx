@@ -45,11 +45,6 @@ export const LoginPage: React.FC = () => {
                 {(values, formInstance) => {
                     const isEmailError = formInstance.getFieldError('email').length;
 
-                    const isFieldError = formInstance
-                        .getFieldsError()
-                        .map((item) => item.errors.length)
-                        .includes(1);
-
                     return (
                         <>
                             <Item
@@ -108,7 +103,6 @@ export const LoginPage: React.FC = () => {
                                         type='primary'
                                         htmlType='submit'
                                         data-test-id='login-submit-button'
-                                        disabled={isFieldError}
                                     >
                                         Войти
                                     </Button>

@@ -34,6 +34,9 @@ const registrationSlice = createSlice({
         setRegistrationUserData: (state, { payload }) => {
             state.data = payload;
         },
+        setStatusRegistrationCode: (state, { payload }) => {
+            state.status = payload;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -54,6 +57,6 @@ const registrationSlice = createSlice({
     },
 });
 
-export const { setRegistrationUserData } = registrationSlice.actions;
+export const { setRegistrationUserData, setStatusRegistrationCode } = registrationSlice.actions;
 
 export default registrationSlice.reducer;

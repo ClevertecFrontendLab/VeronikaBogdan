@@ -12,6 +12,7 @@ import { postRegistration } from '@redux/registration-slice';
 import './result-page.scss';
 import { push } from 'redux-first-history';
 import { setEmail, setStatusCode } from '@redux/password-recovery-slices/check-email';
+import { setStatusRegistrationCode } from '@redux/registration-slice/registration-slice';
 
 export const ResultPage: React.FC = () => {
     const { data } = useAppSelector((state) => state.registration);
@@ -68,7 +69,10 @@ export const ResultPage: React.FC = () => {
                             block
                             type='primary'
                             data-test-id='registration-back-button'
-                            onClick={() => dispatch(push('/auth/registration'))}
+                            onClick={() => {
+                                dispatch(setStatusRegistrationCode(0));
+                                history.push('/auth/registration');
+                            }}
                             // onClick={() => history.push('/auth/registration')}
                         >
                             Назад к регистрации

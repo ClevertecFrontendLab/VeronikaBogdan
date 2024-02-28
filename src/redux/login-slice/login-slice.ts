@@ -10,7 +10,7 @@ export const postLogin = createAsyncThunk(
         const response = await instance.post('/auth/login', { email: email, password: password });
 
         if (remember) localStorage.setItem('accessToken', response.data.accessToken);
-        console.log(response);
+
         return response.data;
     },
 );

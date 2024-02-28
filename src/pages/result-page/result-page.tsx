@@ -3,21 +3,20 @@ import React from 'react';
 
 import { AuthLayout } from '@components/auth-layout';
 
+import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
+
 import { history } from '@redux/configure-store';
 import { setError } from '@redux/login-slice/login-slice';
+import { postRegistration } from '@redux/registration-slice';
 
 import './result-page.scss';
-import { useAppDispatch, useAppSelector } from '@hooks/typed-react-redux-hooks';
-import { postRegistration } from '@redux/registration-slice';
-import { useNavigate } from 'react-router-dom';
+import { push } from 'redux-first-history';
 
 export const ResultPage: React.FC = () => {
     const { data } = useAppSelector((state) => state.registration);
     const dispatch = useAppDispatch();
 
     const path = history.location.pathname;
-
-    const navigate = useNavigate();
 
     return (
         <AuthLayout>
@@ -68,7 +67,7 @@ export const ResultPage: React.FC = () => {
                             block
                             type='primary'
                             data-test-id='registration-back-button'
-                            onClick={() => navigate('/auth/registration')}
+                            onClick={() => dispatch(push('/auth/registration'))}
                             // onClick={() => history.push('/auth/registration')}
                         >
                             Назад к регистрации

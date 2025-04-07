@@ -1,16 +1,17 @@
 import './index.css';
 
+import { ChakraProvider } from '@chakra-ui/react';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 
 import App from '~/app/App.tsx';
+import CategoryPage from '~/app/category-page';
+import JuiciestPage from '~/app/juiciest-page';
+import MainPage from '~/app/main-page';
 import { store } from '~/store/configure-store.ts';
-
-import CategoryPage from './app/category-page';
-import JuiciestPage from './app/juiciest-page';
-import MainPage from './app/main-page';
+import { theme } from '~/styles/theme';
 
 const router = createBrowserRouter([
     {
@@ -26,8 +27,10 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <Provider store={store}>
-            <RouterProvider router={router} />
-        </Provider>
+        <ChakraProvider theme={theme}>
+            <Provider store={store}>
+                <RouterProvider router={router} />
+            </Provider>
+        </ChakraProvider>
     </StrictMode>,
 );

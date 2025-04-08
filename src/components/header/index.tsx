@@ -6,14 +6,15 @@ import LogoText from '~/assets/svg/logo-text.svg';
 import MenuIcon from '~/assets/svg/menu-icon.svg';
 
 import BreadCrubms from '../breadcrumbs';
-import ProfileNotifications from '../profileNotifications';
+import ProfileNotifications from '../profile-notifications';
 
 const Header = () => (
     <Flex
         bg='lime.50'
         data-test-id='header'
         align='center'
-        py={4}
+        // py={4}
+        h={{ base: 16, xl: 20 }}
         pr={{ base: 7, md: 8, xl: 20 }}
         pl={4}
     >

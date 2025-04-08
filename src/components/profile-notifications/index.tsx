@@ -15,7 +15,7 @@ const ProfileNotifications = ({ type }: ProfileNotificationsProps) => {
 
     return (
         <Flex
-            hideBelow={type === 'aside' ? 'xl' : ''}
+            hideBelow={type === 'sidebar' ? 'xl' : ''}
             hideFrom={type === 'header' ? 'xl' : ''}
             direction={{ base: 'row', xl: 'column' }}
             gap={{ base: 4, xl: 10 }}

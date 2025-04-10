@@ -19,7 +19,10 @@ const router = createBrowserRouter([
         Component: App,
         children: [
             { index: true, Component: MainPage },
-            { path: 'category', Component: CategoryPage },
+            {
+                path: 'category/:category/:subcategory',
+                Component: CategoryPage,
+            },
             { path: 'juiciest', Component: JuiciestPage },
         ],
     },

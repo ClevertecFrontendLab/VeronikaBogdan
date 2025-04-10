@@ -7,14 +7,18 @@ import {
     AccordionPanel,
     Box,
     Button,
+    Center,
     Divider,
     Flex,
     HStack,
     Image,
+    LinkBox,
+    LinkOverlay,
     Text,
     useBoolean,
     VStack,
 } from '@chakra-ui/react';
+import { Link, useNavigate, useParams } from 'react-router';
 
 import AccordionIcon from '~/assets/svg/accordion-icon.svg';
 import ExitIcon from '~/assets/svg/exit.svg';
@@ -22,6 +26,11 @@ import CATEGORIES from '~/constants/categories';
 
 const NavigationMenu = () => {
     const [isExpandedMenu, handleMenu] = useBoolean();
+
+    const navigate = useNavigate();
+    const { subcategory } = useParams();
+
+    const isActiveSubcategory = (value: string) => subcategory === value;
 
     return (
         <Flex
@@ -59,6 +68,11 @@ const NavigationMenu = () => {
                                     _focus={{ outline: 0 }}
                                     _focusVisible={{ outline: 0 }}
                                     _expanded={{ bg: 'lime.100' }}
+                                    onClick={() =>
+                                        navigate(
+                                            `category/${category.path}/${category.children[0].path}`,
+                                        )
+                                    }
                                 >
                                     <Image src={category.icon} mr={3} />
                                     <Text>{category.label}</Text>
@@ -72,17 +86,53 @@ const NavigationMenu = () => {
                                         />
                                     </Box>
                                 </AccordionButton>
-                                <AccordionPanel>
+                                <AccordionPanel p={0}>
                                     {category.children.map((subcategory) => (
-                                        <HStack key={subcategory} spacing='11px'>
-                                            <Divider
-                                                orientation='vertical'
-                                                colorScheme='lime.300'
-                                                h={6}
-                                            />
-                                            {/* <Divider orientation='vertical' h={6} /> */}
-                                            <Text>{subcategory}</Text>
-                                        </HStack>
+                                        <LinkBox key={subcategory.path} _hover={{ bg: 'lime.50' }}>
+                                            <HStack
+                                                spacing='11px'
+                                                alignItems='flex-start'
+                                                pl={isActiveSubcategory(subcategory.path) ? 8 : 10}
+                                                py='6px'
+                                            >
+                                                <Center
+                                                    h={
+                                                        isActiveSubcategory(subcategory.path)
+                                                            ? 7
+                                                            : 6
+                                                    }
+                                                >
+                                                    <Divider
+                                                        orientation='vertical'
+                                                        variant={
+                                                            isActiveSubcategory(subcategory.path)
+                                                                ? 'menuActiveDivider'
+                                                                : 'menuInactiveDivider'
+                                                        }
+                                                        mt={
+                                                            isActiveSubcategory(subcategory.path)
+                                                                ? -1
+                                                                : 0
+                                                        }
+                                                    />
+                                                </Center>
+                                                <LinkOverlay
+                                                    as={Link}
+                                                    to={`category/${category.path}/${subcategory.path}`}
+                                                >
+                                                    <Text
+                                                        color='black'
+                                                        fontWeight={
+                                                            isActiveSubcategory(subcategory.path)
+                                                                ? 700
+                                                                : 500
+                                                        }
+                                                    >
+                                                        {subcategory.label}
+                                                    </Text>
+                                                </LinkOverlay>
+                                            </HStack>
+                                        </LinkBox>
                                     ))}
                                 </AccordionPanel>
                             </>

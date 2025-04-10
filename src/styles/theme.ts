@@ -1,5 +1,7 @@
 import { extendTheme } from '@chakra-ui/react';
 
+import { dividerTheme } from '~/components/navigation-menu/dividerTheme';
+
 const breakpoints = {
     base: '0em', // 0px
     sm: '360px', // ~480px. em is a relative unit and is dependant on the font size.
@@ -76,4 +78,10 @@ const fontSizes = {
     // '9xl': '8rem',
 };
 
-export const theme = extendTheme({ breakpoints, fonts, colors, fontSizes });
+export const theme = extendTheme({
+    breakpoints,
+    fonts,
+    colors,
+    fontSizes,
+    components: { Divider: dividerTheme },
+});

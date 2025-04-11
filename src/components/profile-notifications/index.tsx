@@ -19,7 +19,8 @@ const ProfileNotifications = ({ type }: ProfileNotificationsProps) => {
             hideFrom={type === 'header' ? 'xl' : ''}
             direction={{ base: 'row', xl: 'column' }}
             gap={{ base: 4, xl: 10 }}
-            mr={{ base: 7, md: 9 }}
+            mr={{ base: 7, md: 9, xl: '72px' }}
+            mt={{ xl: 6 }}
         >
             {profileNotifications.map((notification) => (
                 <HStack key={notification.icon} spacing={{ base: 2, md: 2, xl: 2 }}>

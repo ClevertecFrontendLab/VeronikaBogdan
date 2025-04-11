@@ -17,8 +17,12 @@ function App() {
                   "nav-menu main sidebar"
                   "nav-menu footer sidebar"`,
             }}
-            // gridTemplateRows='50px 1fr 30px'
-            gridTemplateColumns={{ base: '1fr', xl: 'max-content 1fr max-content' }}
+            // gridTemplateColumns={{ base: '1fr', xl: 'max-content max-content 1fr' }}
+            gridTemplateColumns={{
+                base: '1fr',
+                xl: 'max-content 880px 1fr',
+                '3xl': 'max-content 1360px 1fr',
+            }}
             columnGap={6}
         >
             <GridItem area='header'>
@@ -30,7 +34,7 @@ function App() {
             <GridItem area='main'>
                 <Outlet />
             </GridItem>
-            <GridItem area='sidebar' hideBelow='xl'>
+            <GridItem area='sidebar' hideBelow='xl' justifyItems={{ xl: 'end' }}>
                 <Sidebar />
             </GridItem>
             <GridItem area='footer' hideFrom='xl'>

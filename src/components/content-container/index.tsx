@@ -1,7 +1,6 @@
 import { SearchIcon } from '@chakra-ui/icons';
 import {
     Center,
-    Flex,
     FormControl,
     FormLabel,
     Heading,
@@ -23,22 +22,15 @@ import FilterIcon from '~/assets/svg/filter-icon.svg';
 type PageHeaderProps = { title: string; description?: string; children: ReactNode };
 
 const ContentContainer = ({ title, description, children }: PageHeaderProps) => (
-    <Stack spacing={6} px={{ base: 4, md: 5 }}>
-        <Center my={7} mt={{ base: 4 }}>
+    <Stack spacing={{ xl: 6 }} px={{ base: 4, md: 5, xl: 0 }}>
+        <Center my={7} mt={{ base: 4, xl: 5, '3xl': 4 }} mb={{ base: 8, xl: 8, '3xl': 6 }}>
             <Stack spacing={{ base: 4, xl: 6 }} flex={{ base: 1 }} align='center'>
                 <Stack spacing={{ base: 3, xl: 2 }}>
                     <Heading variant='pageTitle' size='pageTitle'>
                         {title}
                     </Heading>
                     {description && (
-                        <Text
-                            fontWeight={500}
-                            fontSize={{ base: 'sm', xl: 'md' }}
-                            lineHeight={{ base: '143%', xl: '135%' }}
-                            color='blackAlpha.600'
-                            align='center'
-                            maxW={727}
-                        >
+                        <Text textStyle='blockDescription' align='center' maxW={727}>
                             {description}
                         </Text>
                     )}
@@ -93,7 +85,7 @@ const ContentContainer = ({ title, description, children }: PageHeaderProps) => 
                 </Stack>
             </Stack>
         </Center>
-        <Flex gap={{ xl: 10 }}>{children}</Flex>
+        <Stack spacing={{ base: 8, xl: 10 }}>{children}</Stack>
     </Stack>
 );
 

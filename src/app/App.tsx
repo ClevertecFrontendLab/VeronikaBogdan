@@ -7,8 +7,10 @@ import Footer from '~/components/footer';
 import Header from '~/components/header';
 import NavigationMenu from '~/components/navigation-menu';
 import Sidebar from '~/components/sidebar';
+import { theme } from '~/styles/theme';
 
 function App() {
+    console.log(theme);
     return (
         <Grid
             templateAreas={{
@@ -17,9 +19,8 @@ function App() {
                   "nav-menu main sidebar"
                   "nav-menu footer sidebar"`,
             }}
-            // gridTemplateColumns={{ base: '1fr', xl: 'max-content max-content 1fr' }}
             gridTemplateColumns={{
-                base: '1fr',
+                base: '100%',
                 xl: 'max-content 880px 1fr',
                 '3xl': 'max-content 1360px 1fr',
             }}

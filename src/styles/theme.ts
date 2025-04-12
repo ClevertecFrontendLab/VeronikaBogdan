@@ -2,6 +2,7 @@ import { extendTheme } from '@chakra-ui/react';
 
 import dividerTheme from '~/components/navigation-menu/dividerTheme';
 import headingTheme from '~/styles/heading';
+import switchTheme from '~/styles/switch';
 
 const breakpoints = {
     base: '0em', // 0px
@@ -38,8 +39,8 @@ const colors = {
         700: '#2d3748',
     },
     blackAlpha: {
-        200: 'rgba(255, 255, 255, 0.08)',
-        300: 'rgba(255, 255, 255, 0.16)',
+        200: 'rgba(0, 0, 0, 0.08)',
+        300: 'rgba(0, 0, 0, 0.16)',
         400: 'rgba(0, 0, 0, 0.24)',
         600: 'rgba(0, 0, 0, 0.48)',
         700: 'rgba(0, 0, 0, 0.64)',
@@ -84,5 +85,5 @@ export const theme = extendTheme({
     fonts,
     colors,
     fontSizes,
-    components: { Divider: dividerTheme, Heading: headingTheme },
+    components: { Divider: dividerTheme, Heading: headingTheme, Switch: switchTheme },
 });

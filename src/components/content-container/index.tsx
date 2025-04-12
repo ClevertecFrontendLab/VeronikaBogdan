@@ -23,9 +23,7 @@ import FilterIcon from '~/assets/svg/filter-icon.svg';
 type PageHeaderProps = { title: string; description?: string; children: ReactNode };
 
 const ContentContainer = ({ title, description, children }: PageHeaderProps) => (
-    // <Stack spacing={6} mx={{ base: 4, md: 5 }}>
     <Stack spacing={6} px={{ base: 4, md: 5 }}>
-        {/* <Center my={7} mt={{ base: 4 }}> */}
         <Center my={7} mt={{ base: 4 }}>
             <Stack spacing={{ base: 4, xl: 6 }} flex={{ base: 1 }} align='center'>
                 <Stack spacing={{ base: 3, xl: 2 }}>
@@ -46,7 +44,6 @@ const ContentContainer = ({ title, description, children }: PageHeaderProps) => 
                     )}
                 </Stack>
                 <Stack spacing={4} w={{ base: '100%', md: 'auto' }}>
-                    {/* <HStack w='518px' spacing={3} h={8}> */}
                     <HStack
                         spacing={3}
                         w={{ base: '100%', md: '448px', xl: '518px' }}
@@ -87,11 +84,11 @@ const ContentContainer = ({ title, description, children }: PageHeaderProps) => 
                             </FormLabel>
                             <Switch id='exclude-allergens' />
                         </FormControl>
-                        <Select placeholder='Выберите из списка...'>
-                            <option value='option1'>Option 1</option>
-                            <option value='option2'>Option 2</option>
-                            <option value='option3'>Option 3</option>
-                        </Select>
+                        <Select
+                            placeholder='Выберите из списка...'
+                            color='blackAlpha.700'
+                            borderColor='blackAlpha.200'
+                        />
                     </HStack>
                 </Stack>
             </Stack>

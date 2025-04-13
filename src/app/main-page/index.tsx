@@ -1,123 +1,149 @@
+import './main-page.scss';
+
+import { ArrowForwardIcon } from '@chakra-ui/icons';
 import {
+    Button,
     Card,
     CardBody,
+    CardFooter,
     Flex,
+    Grid,
+    GridItem,
     Heading,
     HStack,
-    IconButton,
     Image,
     Stack,
     Text,
 } from '@chakra-ui/react';
 
-import ArrowLeft from '~/assets/svg/arrow-left.svg';
-import ArrowRight from '~/assets/svg/arrow-right.svg';
+import Recipe from '~/assets/png/new-recipies/recipe1.png';
+import RecommendationWoman from '~/assets/png/recommendation1.png';
+import Bookmark from '~/assets/svg/bookmark-heart.svg';
+import Bakery from '~/assets/svg/categories/bakery.svg';
 import Badge from '~/components/badge';
 import ContentContainer from '~/components/content-container';
 import IconCountWrapper from '~/components/icon-count-wrapper';
-import CATEGORIES from '~/constants/categories';
-import NEW_RECIPIES from '~/constants/new-recipies';
+
+import NewRecipies from './new-recipies';
 
 const MainPage = () => (
     <ContentContainer title='Приятного аппетита!'>
-        <Stack
-            spacing={{ base: 3, xl: 6 }}
-            position='relative'
-            overflowX={{ xl: 'hidden', '3xl': 'visible' }}
-        >
-            <Heading variant='blockTitle' size='blockTitle'>
-                Новые рецепты
-            </Heading>
-            <Flex
-                hideBelow='xl'
-                w={{ xl: '101%', '3xl': '100.5%' }}
-                justify='space-between'
-                position='absolute'
-                top={{ xl: '45.5%', '3xl': '46%' }}
-                zIndex={1}
-            >
-                <IconButton
-                    variant='outline'
-                    colorScheme='blackAlpha'
-                    aria-label='Стрелка влево'
-                    bg='black'
-                    ml={{ xl: -2 }}
-                    boxSize={{ xl: 10, '3xl': 12 }}
-                    icon={<Image src={ArrowLeft} h={{ xl: 4, '3xl': 6 }} />}
-                />
-                <IconButton
-                    variant='outline'
-                    colorScheme='blackAlpha'
-                    aria-label='Стрелка вправо'
-                    bg='black'
-                    boxSize={{ xl: 10, '3xl': 12 }}
-                    icon={<Image src={ArrowRight} h={{ xl: 4, '3xl': 6 }} />}
-                />
+        <NewRecipies />
+        <Stack spacing={{ base: 2, md: 3, xl: 3 }}>
+            <Flex justify='space-between'>
+                <Heading variant='blockTitle' size='blockTitle'>
+                    Самое сочное
+                </Heading>
+                <Button
+                    variant='pageSolid'
+                    size='pageActive'
+                    rightIcon={<ArrowForwardIcon />}
+                    hideBelow='xl'
+                >
+                    Вся подборка
+                </Button>
             </Flex>
-            <HStack spacing={{ base: 3, '3xl': 6 }} overflow='hidden' position='relative'>
-                {NEW_RECIPIES.map((recipe) => {
-                    const badge = CATEGORIES.find(
-                        (category) =>
-                            category.label === recipe.badge || category.label.includes('Веган'),
-                    );
-
-                    return (
-                        <Card
-                            key={recipe.key}
-                            position='relative'
-                            overflow='hidden'
-                            w={{ base: '158px', xl: '277px', '3xl': '322px' }}
-                            minW={{ base: '158px', xl: '277px', '3xl': '322px' }}
-                        >
+            <Grid
+                templateColumns={{
+                    base: '100%',
+                    md: 'repeat(2, 1fr)',
+                    xl: '100%',
+                    '3xl': 'repeat(2, 1fr)',
+                }}
+                gap={{ base: 2.5, md: 3, xl: 3.5, '3xl': 5 }}
+            >
+                {[1, 2, 3, 4].map((card) => (
+                    <GridItem key={card}>
+                        <Card direction='row'>
                             <Badge
-                                icon={badge?.icon}
-                                text={recipe?.badge}
-                                type='vertical'
+                                icon={Bakery}
+                                text='Вторые блюда'
+                                type='horizontal'
                                 hideFrom='xl'
                                 isTopPositioned
                             />
-                            <Image
-                                src={recipe.image}
-                                borderTopRadius='lg'
-                                h={{ base: '128px', xl: '230px' }}
+                            <Badge
+                                icon={RecommendationWoman}
+                                text='Елена Высоцкая рекомендует'
+                                type='vertical'
+                                hideBelow='xl'
+                                isBottomPositioned
                             />
-                            <CardBody p={{ base: 2, xl: 3, '3xl': 4 }} px={{ '3xl': 6 }}>
-                                <Stack>
-                                    <Heading
-                                        size='smallCardTitle'
-                                        letterSpacing='tight'
-                                        noOfLines={{ base: 2, xl: 1 }}
-                                    >
-                                        {recipe.title}
-                                    </Heading>
-                                    <Text textStyle='text' noOfLines={3} hideBelow='xl'>
-                                        {recipe.description}
-                                    </Text>
-                                    <Flex mt={{ xl: 5 }} justify='space-between'>
-                                        <Badge
-                                            icon={badge?.icon}
-                                            text={recipe?.badge}
-                                            type='vertical'
-                                            hideBelow='xl'
-                                        />
-                                        <HStack>
-                                            <IconCountWrapper
-                                                type='favorite'
-                                                count={recipe.favorite}
+                            <Image
+                                src={Recipe}
+                                borderLeftRadius='lg'
+                                h={{ base: '128px', xl: '244px' }}
+                                w={{ base: '158px', xl: '346px' }}
+                            />
+                            <Stack flex={1} px={{ base: 2, xl: 6 }}>
+                                <CardBody
+                                    px={{ base: 0 }}
+                                    py={{ base: 2, xl: 0 }}
+                                    pt={{ base: 2, xl: 5 }}
+                                >
+                                    <Stack gap={{ base: 0, xl: 2 }}>
+                                        <Flex justify='space-between'>
+                                            <Badge
+                                                icon={Bakery}
+                                                text='Вторые блюда'
+                                                type='horizontal'
+                                                hideBelow='xl'
                                             />
-                                            <IconCountWrapper type='like' count={recipe.like} />
-                                        </HStack>
-                                    </Flex>
-                                </Stack>
-                            </CardBody>
+                                            <HStack>
+                                                <IconCountWrapper type='favorite' count={85} />
+                                                <IconCountWrapper type='like' count={152} />
+                                            </HStack>
+                                        </Flex>
+                                        <Heading
+                                            size='listTitle'
+                                            letterSpacing='tight'
+                                            noOfLines={{ base: 2, '3xl': 1 }}
+                                            mt={{ base: 0, xl: 4 }}
+                                        >
+                                            Кнели со спагетти
+                                        </Heading>
+                                        <Text textStyle='text' noOfLines={3} hideBelow='xl'>
+                                            Как раз после праздников, когда мясные продукты еще
+                                            остались, но никто их уже не хочет, время варить
+                                            солянку.
+                                        </Text>
+                                    </Stack>
+                                </CardBody>
+                                <CardFooter
+                                    justify='flex-end'
+                                    gap={2}
+                                    px={{ base: 0 }}
+                                    pb={{ base: 1, xl: 5 }}
+                                >
+                                    <Button
+                                        variant='listCardOutline'
+                                        size='listCard'
+                                        leftIcon={<Image src={Bookmark} boxSize={{ xl: 3 }} />}
+                                        px={{ base: 1, xl: 3 }}
+                                    >
+                                        <Text hideBelow='xl'>Сохранить</Text>
+                                    </Button>
+                                    <Button variant='listCardSolid' size='listCard'>
+                                        Готовить
+                                    </Button>
+                                </CardFooter>
+                            </Stack>
                         </Card>
-                    );
-                })}
-            </HStack>
+                    </GridItem>
+                ))}
+            </Grid>
+            <Button
+                variant='pageSolid'
+                size='pageActive'
+                hideFrom='xl'
+                rightIcon={<ArrowForwardIcon />}
+            >
+                Вся подборка
+            </Button>
         </Stack>
         <Stack>
-            <div>s</div>
             <div>1</div>
+            <div>2</div>
         </Stack>
     </ContentContainer>
 );

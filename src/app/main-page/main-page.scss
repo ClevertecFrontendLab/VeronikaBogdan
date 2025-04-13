@@ -1,0 +1,9 @@
+span.chakra-button__icon {
+    margin-inline-end: 0;
+}
+
+@media (min-width: 1440px) {
+    span.chakra-button__icon {
+        margin-inline-end: 0.5rem;
+    }
+}

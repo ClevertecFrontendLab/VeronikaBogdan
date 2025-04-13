@@ -1,6 +1,7 @@
 import { extendTheme } from '@chakra-ui/react';
 
 import dividerTheme from '~/components/navigation-menu/dividerTheme';
+import buttonTheme from '~/styles/components/button';
 import cardTheme from '~/styles/components/card';
 import headingTheme from '~/styles/components/heading';
 import switchTheme from '~/styles/components/switch';
@@ -88,6 +89,7 @@ export const theme = extendTheme({
     layerStyles,
     radii,
     components: {
+        Button: buttonTheme,
         Card: cardTheme,
         Divider: dividerTheme,
         Heading: headingTheme,

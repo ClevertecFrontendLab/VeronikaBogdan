@@ -7,9 +7,18 @@ type BadgeProps = {
     hideBelow?: string;
     hideFrom?: string;
     isTopPositioned?: boolean;
+    isBottomPositioned?: boolean;
 };
 
-const Badge = ({ icon, text, type, hideBelow, hideFrom, isTopPositioned }: BadgeProps) => (
+const Badge = ({
+    icon,
+    text,
+    type,
+    hideBelow,
+    hideFrom,
+    isTopPositioned,
+    isBottomPositioned,
+}: BadgeProps) => (
     <HStack
         spacing={{ base: 0.5, xl: 2 }}
         borderRadius='base'
@@ -18,9 +27,10 @@ const Badge = ({ icon, text, type, hideBelow, hideFrom, isTopPositioned }: Badge
         bg={type === 'vertical' ? 'lime.150' : 'lime.50'}
         hideBelow={hideBelow}
         hideFrom={hideFrom}
-        position={isTopPositioned ? 'absolute' : 'static'}
-        top={2}
-        left={2}
+        position={isTopPositioned || isBottomPositioned ? 'absolute' : 'static'}
+        top={isTopPositioned ? 2 : ''}
+        left={isTopPositioned ? 2 : isBottomPositioned ? 6 : ''}
+        bottom={isBottomPositioned ? 5 : ''}
     >
         <Image src={icon} w={4} />
         <Text textStyle='text' whiteSpace='nowrap'>

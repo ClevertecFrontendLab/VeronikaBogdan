@@ -6,11 +6,15 @@ const sizes = defineStyle({
     },
     blockTitle: {
         fontSize: { base: '2xl', xl: '4xl', '3xl': '5xl' },
+        lineHeight: { base: '133%', xl: '111%' },
     },
-    h3: {},
     smallCardTitle: {
         fontSize: { xl: 'lg', '3xl': 'xl' },
         lineHeight: { base: '150%', xl: '156%', '3xl': '140%' },
+    },
+    listTitle: {
+        fontSize: { base: 'md', xl: 'xl' },
+        lineHeight: { base: '150%', xl: '140%' },
     },
 });
 
@@ -23,12 +27,10 @@ const variants = defineStyle({
     blockTitle: {
         color: 'black',
         fontWeight: 500,
-        lineHeight: { base: '133%', xl: '111%' },
     },
-    h3: {
+    listTitle: {
+        color: 'black',
         fontWeight: 500,
-        fontSize: '20px',
-        lineHeight: '140%',
     },
 });
 

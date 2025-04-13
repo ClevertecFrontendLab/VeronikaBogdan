@@ -85,7 +85,7 @@ const ContentContainer = ({ title, description, children }: PageHeaderProps) => 
                 </Stack>
             </Stack>
         </Center>
-        <Stack spacing={{ base: 8, xl: 10 }}>{children}</Stack>
+        <Stack spacing={{ base: 8, md: 7, xl: 10, '3xl': 12 }}>{children}</Stack>
     </Stack>
 );
 

@@ -1,22 +1,22 @@
-import Person1 from '~/assets/png/photo.png';
-import Person2 from '~/assets/png/recommendation1.png';
-import Person3 from '~/assets/png/recommendation2.png';
+import Man from '~/assets/png/man.png';
+import Person from '~/assets/png/photo.png';
+import Woman from '~/assets/png/woman.png';
 
 export const BLOG_COMMENTS = [
     {
-        avatar: Person1,
+        avatar: Woman,
         user: 'Елена Высоцкая',
         username: '@elenapovar',
         text: 'Как раз после праздников, когда мясные продукты еще остались, но никто их уже не хочет, время варить солянку.',
     },
     {
-        avatar: Person2,
+        avatar: Man,
         user: 'Alex Cook',
         username: '@funtasticooking',
         text: 'Как раз после праздников, когда мясные продукты еще остались, но никто их уже не хочет, время варить солянку.',
     },
     {
-        avatar: Person3,
+        avatar: Person,
         user: 'Екатерина Константинопольская',
         username: '@bake_and_pie',
         text: 'Как раз после праздников, когда мясные продукты еще остались, но никто их уже не хочет, время варить солянку.',

@@ -12,6 +12,11 @@ const sizes = defineStyle({
         fontSize: { xl: 'lg', '3xl': 'xl' },
         lineHeight: { base: '150%', xl: '156%', '3xl': '140%' },
     },
+    relevantCardTitle: {
+        fontSize: { xl: 'xl', '3xl': 'xl' },
+        lineHeight: { base: '140%', xl: '156%', '3xl': '140%' },
+    },
+
     listTitle: {
         fontSize: { base: 'md', xl: 'xl' },
         lineHeight: { base: '168%', xl: '140%' },

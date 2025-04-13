@@ -1,6 +1,6 @@
-import { Stack } from '@chakra-ui/react';
-
 import ContentContainer from '~/components/content-container';
+import RelevantKitchen from '~/components/relevant-kitchen';
+import { RELEVANT_KITCHEN_MAIN } from '~/constants/relevant-kitchen';
 
 import Blog from './blog';
 import Juiciest from './juiciest';
@@ -11,10 +11,7 @@ const MainPage = () => (
         <NewRecipies />
         <Juiciest />
         <Blog />
-        <Stack>
-            <div>1</div>
-            <div>2</div>
-        </Stack>
+        <RelevantKitchen data={RELEVANT_KITCHEN_MAIN} />
     </ContentContainer>
 );
 

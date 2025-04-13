@@ -11,6 +11,12 @@ const sizes = defineStyle({
         px: { base: 2, xl: 3 },
         py: { base: 1, xl: 1.5 },
     },
+    limeOutline: {
+        fontSize: { base: 'xs', '3xl': 'sm' },
+        lineHeight: { base: '133%', '3xl': '143%' },
+        px: { base: 2, '3xl': 3 },
+        py: { base: 1.5, xl: 2, '3xl': 1 },
+    },
 });
 
 const variants = defineStyle({

@@ -53,11 +53,15 @@ const Blog = () => (
                             <GridItem
                                 fontSize={{ base: 'md', xl: 'lg' }}
                                 fontWeight='medium'
-                                noOfLines={1}
+                                isTruncated
                             >
                                 {comment.user}
                             </GridItem>
-                            <GridItem fontSize={{ base: 'xs', xl: 'sm' }} color='blackAlpha.700'>
+                            <GridItem
+                                fontSize={{ base: 'xs', xl: 'sm' }}
+                                color='blackAlpha.700'
+                                isTruncated
+                            >
                                 {comment.username}
                             </GridItem>
                         </Grid>

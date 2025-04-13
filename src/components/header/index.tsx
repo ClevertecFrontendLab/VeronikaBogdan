@@ -13,6 +13,9 @@ const Header = () => (
         bg='lime.50'
         data-test-id='header'
         align='center'
+        position='fixed'
+        w='full'
+        zIndex={2}
         h={{ base: 16, xl: 20 }}
         pr={{ base: 7, md: 8, xl: 20 }}
         pl={4}

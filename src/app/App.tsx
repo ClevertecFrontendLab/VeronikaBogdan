@@ -21,8 +21,10 @@ function App() {
             }}
             gridTemplateColumns={{
                 base: '100%',
-                xl: 'max-content 880px 1fr',
-                '3xl': 'max-content 1360px 1fr',
+                // xl: 'max-content 880px 1fr',
+                xl: '257px 880px 1fr',
+                '3xl': '257px 1360px 1fr',
+                // '3xl': 'max-content 1360px 1fr',
             }}
             columnGap={6}
         >

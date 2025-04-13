@@ -3,7 +3,7 @@ import { Flex } from '@chakra-ui/react';
 import ProfileNotifications from '../profile-notifications';
 
 const Sidebar = () => (
-    <Flex>
+    <Flex position='fixed' top='80px'>
         <ProfileNotifications type='sidebar' />
     </Flex>
 );

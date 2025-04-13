@@ -23,10 +23,10 @@ type PageHeaderProps = { title: string; description?: string; children: ReactNod
 
 const ContentContainer = ({ title, description, children }: PageHeaderProps) => (
     <Stack
-        position='relative'
-        top={{ base: '62px', xl: '80px' }}
         spacing={{ xl: 6 }}
         px={{ base: 4, md: 5, xl: 0 }}
+        pb={{ base: '100px', xl: 0 }}
+        paddingTop={{ base: '62px', xl: '80px' }}
     >
         <Center my={7} mt={{ base: 4, xl: 5, '3xl': 4 }} mb={{ base: 8, xl: 8, '3xl': 6 }}>
             <Stack spacing={{ base: 4, xl: 6 }} flex={{ base: 1 }} align='center'>

@@ -1,5 +1,64 @@
-import { Box } from '@chakra-ui/react';
+import { SearchIcon } from '@chakra-ui/icons';
+import { Avatar, Grid, GridItem, IconButton, Image, Stack, Text } from '@chakra-ui/react';
 
-const Footer = () => <Box data-test-id='footer'>Footer</Box>;
+import Photo from '~/assets/png/photo.png';
+import Home from '~/assets/svg/home.svg';
+import Writeble from '~/assets/svg/writeble.svg';
+
+const Footer = () => (
+    <Grid
+        gridTemplateColumns='repeat(4,max-content)'
+        data-test-id='footer'
+        position='fixed'
+        bottom={0}
+        w='full'
+        h='84px'
+        bg='lime.50'
+        justifyContent='space-around'
+    >
+        <GridItem minW='90px'>
+            <Stack alignItems='center' mt={2.5}>
+                <IconButton
+                    isRound={true}
+                    variant='solid'
+                    w={1}
+                    bg='black'
+                    aria-label='Главная'
+                    icon={<Image src={Home} boxSize={4} />}
+                />
+                <Text textStyle='footerActive'>Главная</Text>
+            </Stack>
+        </GridItem>
+        <GridItem minW='90px'>
+            <Stack alignItems='center' mt={2.5}>
+                <IconButton
+                    isRound={true}
+                    bg='transparent'
+                    aria-label='Поиск'
+                    fontSize='26px'
+                    icon={<SearchIcon />}
+                />
+                <Text textStyle='footerInactive'>Поиск</Text>
+            </Stack>
+        </GridItem>
+        <GridItem minW='90px'>
+            <Stack alignItems='center' mt={2.5}>
+                <IconButton
+                    isRound={true}
+                    bg='transparent'
+                    aria-label='Поиск'
+                    icon={<Image src={Writeble} boxSize={6} />}
+                />
+                <Text textStyle='footerInactive'>Записать</Text>
+            </Stack>
+        </GridItem>
+        <GridItem minW='90px'>
+            <Stack alignItems='center' mt={2.5}>
+                <Avatar src={Photo} boxSize={10} borderRadius='full' />
+                <Text textStyle='footerInactive'>Мой профиль</Text>
+            </Stack>
+        </GridItem>
+    </Grid>
+);
 
 export default Footer;

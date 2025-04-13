@@ -7,10 +7,8 @@ import Footer from '~/components/footer';
 import Header from '~/components/header';
 import NavigationMenu from '~/components/navigation-menu';
 import Sidebar from '~/components/sidebar';
-import { theme } from '~/styles/theme';
 
 function App() {
-    console.log(theme);
     return (
         <Grid
             templateAreas={{

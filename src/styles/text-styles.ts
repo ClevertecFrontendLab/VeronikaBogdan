@@ -9,6 +9,19 @@ const textStyles = {
         fontSize: 'sm',
         lineHeight: '143%',
     },
+    footerActive: {
+        fontSize: 'xs',
+        lineHeight: '133%',
+        textAlign: 'center',
+        color: 'black',
+        whiteSpace: 'nowrap',
+    },
+    footerInactive: {
+        fontSize: 'xs',
+        lineHeight: '133%',
+        textAlign: 'center',
+        color: 'blackAlpha.700',
+    },
 };
 
 export default textStyles;

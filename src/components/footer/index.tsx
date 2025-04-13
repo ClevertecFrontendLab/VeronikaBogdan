@@ -17,7 +17,11 @@ const Footer = () => (
         justifyContent='space-around'
     >
         <GridItem minW='90px'>
-            <Stack alignItems='center' mt={2.5}>
+            <Stack
+                alignItems='center'
+                pt={2.5}
+                bgGradient='radial(62.52% 62.51% at 48.89% 38.5%, #c4ff61 0%, rgba(255, 255, 255, 0) 75%)'
+            >
                 <IconButton
                     isRound={true}
                     variant='solid'
@@ -30,7 +34,7 @@ const Footer = () => (
             </Stack>
         </GridItem>
         <GridItem minW='90px'>
-            <Stack alignItems='center' mt={2.5}>
+            <Stack alignItems='center' pt={2.5}>
                 <IconButton
                     isRound={true}
                     bg='transparent'
@@ -42,7 +46,7 @@ const Footer = () => (
             </Stack>
         </GridItem>
         <GridItem minW='90px'>
-            <Stack alignItems='center' mt={2.5}>
+            <Stack alignItems='center' pt={2.5}>
                 <IconButton
                     isRound={true}
                     bg='transparent'
@@ -53,7 +57,7 @@ const Footer = () => (
             </Stack>
         </GridItem>
         <GridItem minW='90px'>
-            <Stack alignItems='center' mt={2.5}>
+            <Stack alignItems='center' pt={2.5}>
                 <Avatar src={Photo} boxSize={10} borderRadius='full' />
                 <Text textStyle='footerInactive'>Мой профиль</Text>
             </Stack>

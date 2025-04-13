@@ -70,6 +70,9 @@ const NavigationMenu = () => {
                                     _focus={{ outline: 0 }}
                                     _focusVisible={{ outline: 0 }}
                                     _expanded={{ bg: 'lime.100' }}
+                                    data-test-id={
+                                        category.path === 'vegan-cuisine' ? 'vegan-cuisine' : ''
+                                    }
                                     onClick={() =>
                                         navigate(
                                             `category/${category.path}/${category.children[0].path}`,

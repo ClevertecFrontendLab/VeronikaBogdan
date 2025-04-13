@@ -73,7 +73,13 @@ const HorizontalCard = ({ card }: HorizontalCardProps) => (
                     </Text>
                 </Stack>
             </CardBody>
-            <CardFooter justify='flex-end' gap={2} px={{ base: 0 }} pb={{ base: 1, xl: 5 }}>
+            <CardFooter
+                justify='flex-end'
+                gap={2}
+                px={{ base: 0 }}
+                pt={{ base: 0 }}
+                pb={{ base: 1, xl: 5 }}
+            >
                 <Button
                     variant='listCardOutline'
                     size='listCard'

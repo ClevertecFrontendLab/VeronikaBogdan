@@ -34,6 +34,14 @@ const variants = defineStyle({
         border: '1px solid',
         borderColor: 'blackAlpha.600',
     },
+    blogActive: {
+        fontWeight: 600,
+        px: { base: 4, '3xl': 6 },
+        py: { base: 2, '3xl': 2.5 },
+        w: 'fit-content',
+        alignSelf: 'center',
+        mr: { xl: -2 },
+    },
 });
 
 const buttonTheme = defineStyleConfig({

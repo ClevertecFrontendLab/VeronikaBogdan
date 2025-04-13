@@ -14,7 +14,13 @@ const sizes = defineStyle({
     },
     listTitle: {
         fontSize: { base: 'md', xl: 'xl' },
-        lineHeight: { base: '150%', xl: '140%' },
+        lineHeight: { base: '168%', xl: '140%' },
+    },
+    blogTitle: {
+        fontWeight: 500,
+        fontSize: { base: '2xl', xl: '3xl', '3xl': '4xl' },
+        lineHeight: { base: '150%', xl: '130%', '3xl': '100%' },
+        letterSpacing: { xl: '-0.5px' },
     },
 });
 

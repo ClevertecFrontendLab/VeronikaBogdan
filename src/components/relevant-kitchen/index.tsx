@@ -30,7 +30,7 @@ const RelevantKitchen = ({ hideTopBorderFrom = '', data }: RelevantKitchenProps)
         }}
         gap={{ base: 3, '3xl': 4 }}
         pt={{ base: 2, xl: 7, '3xl': 2 }}
-        borderTop={hideTopBorderFrom ? { [hideTopBorderFrom]: '' } : '1px solid'}
+        borderTop={hideTopBorderFrom ? { base: '1px solid', [hideTopBorderFrom]: 0 } : '1px solid'}
         borderTopColor='blackAlpha.200'
     >
         <GridItem colSpan={{ md: 3, xl: 1, '3xl': 2 }}>

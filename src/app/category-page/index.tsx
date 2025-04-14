@@ -6,8 +6,8 @@ import ContentContainer from '~/components/content-container';
 import HorizontalCard from '~/components/horizontal-card';
 import RelevantKitchen from '~/components/relevant-kitchen';
 import { children as subcategories } from '~/constants/categories';
-import JUICIEST_MAIN_PAGE from '~/constants/main-page-juicies';
-import { RELEVANT_KITCHEN_MAIN } from '~/constants/relevant-kitchen';
+import { GRID_CARDS_CATEGORY } from '~/constants/grid-cards';
+import { RELEVANT_KITCHEN_CATEGORY } from '~/constants/relevant-kitchen';
 
 const CategoryPage = () => {
     const { subcategory } = useParams();
@@ -25,7 +25,7 @@ const CategoryPage = () => {
         >
             <Tabs
                 align='center'
-                mt={{ '3xl': -4 }}
+                mt={{ base: 1, '3xl': -3 }}
                 index={defaultIndex}
                 defaultIndex={tabIndex}
                 onChange={setTabIndex}
@@ -62,7 +62,14 @@ const CategoryPage = () => {
                 </TabList>
                 <TabPanels>
                     {subcategories.map((tab) => (
-                        <TabPanel key={tab.label} textAlign='left'>
+                        <TabPanel
+                            key={tab.label}
+                            textAlign='left'
+                            p={0}
+                            pt={{ base: 6 }}
+                            display='flex'
+                            flexDirection='column'
+                        >
                             <Grid
                                 templateColumns={{
                                     base: '100%',
@@ -70,22 +77,27 @@ const CategoryPage = () => {
                                     xl: '100%',
                                     '3xl': 'repeat(2, 1fr)',
                                 }}
-                                gap={{ base: 2.5, md: 3, xl: 3.5, '3xl': 5 }}
+                                gap={{ base: 4, md: 3, xl: 3.5, '3xl': 5 }}
                             >
-                                {[...JUICIEST_MAIN_PAGE, ...JUICIEST_MAIN_PAGE].map((card) => (
+                                {GRID_CARDS_CATEGORY.map((card) => (
                                     <GridItem key={card.key}>
                                         <HorizontalCard card={card} />
                                     </GridItem>
                                 ))}
                             </Grid>
-                            <Button variant='pageSolid' size='pageActive' hideFrom='xl'>
+                            <Button
+                                variant='pageSolid'
+                                size='pageActive'
+                                hideFrom='xl'
+                                mt={{ base: 4 }}
+                            >
                                 Загрузить еще
                             </Button>
                         </TabPanel>
                     ))}
                 </TabPanels>
             </Tabs>
-            <RelevantKitchen data={RELEVANT_KITCHEN_MAIN} hideTopBorderFrom='xl' />
+            <RelevantKitchen data={RELEVANT_KITCHEN_CATEGORY} hideTopBorderFrom='xl' />
         </ContentContainer>
     );
 };

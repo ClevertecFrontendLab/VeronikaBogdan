@@ -3,7 +3,7 @@ import { Button, Flex, Grid, GridItem, Heading, Stack } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
 
 import HorizontalCard from '~/components/horizontal-card';
-import JUICIEST_MAIN_PAGE from '~/constants/main-page-juicies';
+import JUICIEST_MAIN_PAGE from '~/constants/grid-cards';
 
 const Juiciest = () => {
     const navigate = useNavigate();

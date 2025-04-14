@@ -14,7 +14,6 @@ import {
 } from '@chakra-ui/react';
 
 import Bookmark from '~/assets/svg/bookmark-heart.svg';
-import Bakery from '~/assets/svg/categories/bakery.svg';
 import Badge from '~/components/badge';
 import IconCountWrapper from '~/components/icon-count-wrapper';
 
@@ -24,6 +23,7 @@ type HorizontalCardProps = {
         title: string;
         description: string;
         badge: string;
+        icon: string;
         favorite: number;
         like: number;
         recommend: { user: string; photo: string } | null;
@@ -32,7 +32,7 @@ type HorizontalCardProps = {
 
 const HorizontalCard = ({ card }: HorizontalCardProps) => (
     <Card direction='row'>
-        <Badge icon={Bakery} text='Вторые блюда' type='horizontal' hideFrom='xl' isTopPositioned />
+        <Badge icon={card.icon} text={card.badge} type='horizontal' hideFrom='xl' isTopPositioned />
         {card.recommend && (
             <Badge
                 icon={card.recommend.photo}
@@ -45,14 +45,19 @@ const HorizontalCard = ({ card }: HorizontalCardProps) => (
         <Image
             src={card.image}
             borderLeftRadius='lg'
-            h={{ base: '128px', xl: '244px' }}
+            h={{ base: '131px', xl: '244px' }}
             w={{ base: '158px', xl: '346px' }}
         />
         <Stack flex={1} px={{ base: 2, xl: 6 }}>
             <CardBody px={{ base: 0 }} py={{ base: 2, xl: 0 }} pt={{ base: 2, xl: 5 }}>
                 <Stack gap={{ base: 0, xl: 2 }}>
                     <Flex justify='space-between'>
-                        <Badge icon={Bakery} text={card.badge} type='horizontal' hideBelow='xl' />
+                        <Badge
+                            icon={card.icon}
+                            text={card.badge}
+                            type='horizontal'
+                            hideBelow='xl'
+                        />
                         <HStack>
                             {card.favorite && (
                                 <IconCountWrapper type='favorite' count={card.favorite} />

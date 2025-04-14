@@ -1,10 +1,9 @@
+import Blog from '~/app/main-page/blog';
+import Juiciest from '~/app/main-page/juiciest';
+import NewRecipies from '~/app/main-page/new-recipies';
 import ContentContainer from '~/components/content-container';
 import RelevantKitchen from '~/components/relevant-kitchen';
 import { RELEVANT_KITCHEN_MAIN } from '~/constants/relevant-kitchen';
-
-import Blog from './blog';
-import Juiciest from './juiciest';
-import NewRecipies from './new-recipies';
 
 const MainPage = () => (
     <ContentContainer title='Приятного аппетита!'>

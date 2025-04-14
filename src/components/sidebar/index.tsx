@@ -16,7 +16,7 @@ const Sidebar = () => (
         <Stack
             alignItems='center'
             pt='20px'
-            bgGradient='radial(50% 50% at 50% 48%, #c4ff61 0%, rgba(255, 255, 255, 0) 100%)'
+            bgGradient='radial(50% 50% at 50% 47%, #c4ff61 -55%, rgba(255, 255, 255, 0) 100%)'
             bottom={10}
             right={10}
             position='relative'

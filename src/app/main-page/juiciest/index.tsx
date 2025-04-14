@@ -1,7 +1,7 @@
-import { ArrowForwardIcon } from '@chakra-ui/icons';
-import { Button, Flex, Grid, GridItem, Heading, Stack } from '@chakra-ui/react';
+import { Button, Flex, Grid, GridItem, Heading, Image, Stack } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
 
+import RightArrow from '~/assets/svg/arrow-right-dark.svg';
 import HorizontalCard from '~/components/horizontal-card';
 import JUICIEST_MAIN_PAGE from '~/constants/grid-cards';
 
@@ -20,7 +20,7 @@ const Juiciest = () => {
                     variant='pageSolid'
                     size='pageActive'
                     hideBelow='xl'
-                    rightIcon={<ArrowForwardIcon />}
+                    rightIcon={<Image src={RightArrow} />}
                     data-test-id='juiciest-link'
                     onClick={handleNavigateJuiciestPage}
                 >
@@ -46,7 +46,7 @@ const Juiciest = () => {
                 variant='pageSolid'
                 size='pageActive'
                 hideFrom='xl'
-                rightIcon={<ArrowForwardIcon />}
+                rightIcon={<Image src={RightArrow} />}
                 data-test-id='juiciest-link-mobile'
                 onClick={handleNavigateJuiciestPage}
             >

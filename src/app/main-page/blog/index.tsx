@@ -1,4 +1,3 @@
-import { ArrowForwardIcon } from '@chakra-ui/icons';
 import {
     Avatar,
     Button,
@@ -9,10 +8,12 @@ import {
     Grid,
     GridItem,
     Heading,
+    Image,
     Stack,
     Text,
 } from '@chakra-ui/react';
 
+import RightArrow from '~/assets/svg/arrow-right-dark.svg';
 import { BLOG_COMMENTS } from '~/constants/blog-main-page';
 
 const Blog = () => (
@@ -23,7 +24,7 @@ const Blog = () => (
                 variant='blogActive'
                 size='pageActive'
                 hideBelow='xl'
-                rightIcon={<ArrowForwardIcon />}
+                rightIcon={<Image src={RightArrow} />}
             >
                 Все авторы
             </Button>
@@ -79,7 +80,7 @@ const Blog = () => (
             size='pageActive'
             hideFrom='xl'
             pt={{ base: 4 }}
-            rightIcon={<ArrowForwardIcon />}
+            rightIcon={<Image src={RightArrow} />}
         >
             Все авторы
         </Button>

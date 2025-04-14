@@ -14,7 +14,9 @@ const Header = () => (
         data-test-id='header'
         align='center'
         position='fixed'
-        w='full'
+        // maxW={{ base: '100%', xl: '1920px', '3xl': '1920px' }}
+        // w='full'
+        w='100%'
         zIndex={2}
         h={{ base: 16, xl: 20 }}
         pr={{ base: 7, md: 8, xl: 20 }}

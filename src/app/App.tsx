@@ -7,8 +7,10 @@ import Footer from '~/components/footer';
 import Header from '~/components/header';
 import NavigationMenu from '~/components/navigation-menu';
 import Sidebar from '~/components/sidebar';
+import { theme } from '~/styles/theme';
 
 function App() {
+    console.log(theme);
     return (
         <Grid
             templateAreas={{
@@ -28,6 +30,8 @@ function App() {
                 // xl: '257px 880px max-content',
                 // '3xl': '257px 1360px max-content',
                 //----
+                // xl: '257px max-content 200px',
+                // '3xl': '257px max-content 200px',
                 xl: '257px 880px 250px',
                 '3xl': '257px 1360px 250px',
             }}

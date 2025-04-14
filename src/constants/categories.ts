@@ -12,7 +12,7 @@ import SecondDishes from '~/assets/svg/categories/second-dishes.svg';
 import Snacks from '~/assets/svg/categories/snacks.svg';
 import VeganCuisine from '~/assets/svg/categories/vegan-cuisine.svg';
 
-const children = [
+export const children = [
     {
         label: 'Закуски',
         path: 'snacks',

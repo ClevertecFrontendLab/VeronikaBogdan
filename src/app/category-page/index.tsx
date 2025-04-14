@@ -1,12 +1,93 @@
-import ContentContainer from '~/components/content-container';
+import { Button, Grid, GridItem, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
+import { useMemo, useState } from 'react';
+import { useParams } from 'react-router';
 
-const CategoryPage = () => (
-    <ContentContainer
-        title='Веганская кухня'
-        description='Интересны не только убеждённым вегетарианцам, но и тем, кто хочет попробовать вегетарианскую диету и готовить вкусные вегетарианские блюда.'
-    >
-        в
-    </ContentContainer>
-);
+import ContentContainer from '~/components/content-container';
+import HorizontalCard from '~/components/horizontal-card';
+import RelevantKitchen from '~/components/relevant-kitchen';
+import { children as subcategories } from '~/constants/categories';
+import JUICIEST_MAIN_PAGE from '~/constants/main-page-juicies';
+import { RELEVANT_KITCHEN_MAIN } from '~/constants/relevant-kitchen';
+
+const CategoryPage = () => {
+    const { subcategory } = useParams();
+    const [tabIndex, setTabIndex] = useState(0);
+
+    const defaultIndex = useMemo(
+        () => subcategories.findIndex((item) => item.path === subcategory),
+        [subcategory],
+    );
+
+    return (
+        <ContentContainer
+            title='Веганская кухня'
+            description='Интересны не только убеждённым вегетарианцам, но и тем, кто хочет попробовать вегетарианскую диету и готовить вкусные вегетарианские блюда.'
+        >
+            <Tabs
+                align='center'
+                mt={{ '3xl': -4 }}
+                index={defaultIndex}
+                defaultIndex={tabIndex}
+                onChange={setTabIndex}
+                variant='unstyled'
+            >
+                <TabList
+                    overflowX='hidden'
+                    pl={{ base: '265px', md: 0 }}
+                    pr={{ md: '133px', xl: 0 }}
+                    w={{ base: '109%', md: '105.5%', xl: '100%' }}
+                    justifySelf={{ base: 'center' }}
+                >
+                    {subcategories.map((tab) => (
+                        <Tab
+                            key={tab.label}
+                            fontSize={{ base: 'sm', xl: 'md' }}
+                            lineHeight={{ base: '143%', xl: '150%' }}
+                            whiteSpace='nowrap'
+                            color='lime.800'
+                            border={0}
+                            borderBottom='1px solid'
+                            borderBottomColor='blackAlpha.200'
+                            borderRadius={0}
+                            _selected={{
+                                color: 'lime.600',
+                                borderBottom: '2px solid',
+                                borderBottomColor: 'lime.600',
+                            }}
+                            p={{ base: '4px 16px' }}
+                        >
+                            {tab.label}
+                        </Tab>
+                    ))}
+                </TabList>
+                <TabPanels>
+                    {subcategories.map((tab) => (
+                        <TabPanel key={tab.label} textAlign='left'>
+                            <Grid
+                                templateColumns={{
+                                    base: '100%',
+                                    md: 'repeat(2, 1fr)',
+                                    xl: '100%',
+                                    '3xl': 'repeat(2, 1fr)',
+                                }}
+                                gap={{ base: 2.5, md: 3, xl: 3.5, '3xl': 5 }}
+                            >
+                                {[...JUICIEST_MAIN_PAGE, ...JUICIEST_MAIN_PAGE].map((card) => (
+                                    <GridItem key={card.key}>
+                                        <HorizontalCard card={card} />
+                                    </GridItem>
+                                ))}
+                            </Grid>
+                            <Button variant='pageSolid' size='pageActive' hideFrom='xl'>
+                                Загрузить еще
+                            </Button>
+                        </TabPanel>
+                    ))}
+                </TabPanels>
+            </Tabs>
+            <RelevantKitchen data={RELEVANT_KITCHEN_MAIN} hideTopBorderFrom='xl' />
+        </ContentContainer>
+    );
+};
 
 export default CategoryPage;

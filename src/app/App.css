@@ -1,5 +1,6 @@
 #root {
-    max-width: 1920px;
+    max-width: 2020px;
     width: 100%;
     margin: 0 auto;
+    position: relative;
 }

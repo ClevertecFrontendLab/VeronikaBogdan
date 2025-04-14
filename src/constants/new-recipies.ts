@@ -64,14 +64,6 @@ const NEW_RECIPIES = [
         favorite: 0,
         like: 0,
     },
-    // {
-    //     image: Bakery,
-    //     title: '',
-    //     description: '',
-    //     badge: '',
-    //     favorite: 0,
-    //     like: 0,
-    // },
 ];
 
 export default NEW_RECIPIES;

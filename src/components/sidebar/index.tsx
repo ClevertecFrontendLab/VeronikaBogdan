@@ -1,8 +1,7 @@
 import { Flex, IconButton, Image, Stack, Text } from '@chakra-ui/react';
 
 import WritebleLight from '~/assets/svg/writeble-light.svg';
-
-import ProfileNotifications from '../profile-notifications';
+import ProfileNotifications from '~/components/profile-notifications';
 
 const Sidebar = () => (
     <Flex
@@ -18,7 +17,7 @@ const Sidebar = () => (
             alignItems='center'
             pt='20px'
             bgGradient='radial(50% 50% at 50% 48%, #c4ff61 0%, rgba(255, 255, 255, 0) 100%)'
-            bottom={14}
+            bottom={10}
             right={10}
             position='relative'
         >

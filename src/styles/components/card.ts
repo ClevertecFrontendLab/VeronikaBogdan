@@ -14,26 +14,8 @@ const baseStyle = definePartsStyle({
                 '0 2px 4px -1px rgba(32, 126, 0, 0.06), 0 4px 6px -1px rgba(32, 126, 0, 0.1)',
         },
     },
-    // header: {
-    //     paddingBottom: '2px',
-    // },
-    // body: {
-    //     paddingTop: '2px',
-    // },
-    // footer: {
-    //     paddingTop: '2px',
-    // },
 });
 
-const variants = {
-    // funky: definePartsStyle({
-    //     container: {
-    //         borderColor: 'red',
-    //         borderWidth: '3px',
-    //     },
-    // }),
-};
-
-export const cardTheme = defineMultiStyleConfig({ baseStyle, variants });
+export const cardTheme = defineMultiStyleConfig({ baseStyle });
 
 export default cardTheme;

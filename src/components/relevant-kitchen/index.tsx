@@ -12,9 +12,9 @@ import {
     Text,
 } from '@chakra-ui/react';
 
-import Badge from '../badge';
-import IconCountWrapper from '../icon-count-wrapper';
-import { relevantKitchenData } from './types';
+import Badge from '~/components/badge';
+import IconCountWrapper from '~/components/icon-count-wrapper';
+import { relevantKitchenData } from '~/components/relevant-kitchen/types';
 
 type RelevantKitchenProps = {
     hideTopBorderFrom?: string;

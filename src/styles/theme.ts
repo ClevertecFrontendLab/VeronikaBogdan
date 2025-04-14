@@ -9,13 +9,13 @@ import layerStyles from '~/styles/layer-styles';
 import textStyles from '~/styles/text-styles';
 
 const breakpoints = {
-    base: '0em', // 0px
-    sm: '360px', // ~480px. em is a relative unit and is dependant on the font size.
-    md: '768px', // ~768px
-    lg: '992px', // ~992px
-    xl: '1440px', // ~1280px
-    '2xl': '96em', // ~1536px 1920px
-    '3xl': '1920px', // ~1536px 1920px
+    base: '0em',
+    sm: '360px',
+    md: '768px',
+    lg: '992px',
+    xl: '1440px',
+    '2xl': '96em',
+    '3xl': '1920px',
 };
 
 const fonts = {

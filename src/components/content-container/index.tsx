@@ -23,8 +23,6 @@ type PageHeaderProps = { title: string; description?: string; children: ReactNod
 
 const ContentContainer = ({ title, description, children }: PageHeaderProps) => (
     <Stack
-        // minW={{ xl: '880px' }}
-        maxW={{ xl: '1360px' }}
         spacing={{ xl: 6 }}
         px={{ base: 4, md: 5, xl: 0 }}
         pb={{ base: '100px', xl: 0 }}

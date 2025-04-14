@@ -4,9 +4,8 @@ import Photo from '~/assets/png/photo.png';
 import LogoIcon from '~/assets/svg/logo-icon.svg';
 import LogoText from '~/assets/svg/logo-text.svg';
 import MenuIcon from '~/assets/svg/menu-icon.svg';
-
-import BreadCrubms from '../breadcrumbs';
-import ProfileNotifications from '../profile-notifications';
+import BreadCrubms from '~/components/breadcrumbs';
+import ProfileNotifications from '~/components/profile-notifications';
 
 const Header = () => (
     <Flex
@@ -14,8 +13,7 @@ const Header = () => (
         data-test-id='header'
         align='center'
         position='fixed'
-        // maxW={{ base: '100%', xl: '1920px', '3xl': '1920px' }}
-        // w='full'
+        maxW={{ base: '100%', xl: '1920px' }}
         w='100%'
         zIndex={2}
         h={{ base: 16, xl: 20 }}

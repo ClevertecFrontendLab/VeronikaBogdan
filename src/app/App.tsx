@@ -1,34 +1,46 @@
 import './App.css';
 
-import { useState } from 'react';
+import { Grid, GridItem } from '@chakra-ui/react';
+import { Outlet } from 'react-router';
 
-import reactLogo from '~/assets/react.svg';
-import { useGetPostsQuery } from '~/query/services/posts.ts';
+import Footer from '~/components/footer';
+import Header from '~/components/header';
+import NavigationMenu from '~/components/navigation-menu';
+import Sidebar from '~/components/sidebar';
 
-function App() {
-    const [count, setCount] = useState(0);
-    const { data: _data, isLoading: _isLoading } = useGetPostsQuery();
-
-    return (
-        <>
-            <div>
-                <a href='https://vite.dev' target='_blank'>
-                    <img src='/vite.svg' className='logo' alt='Vite logo' />
-                </a>
-                <a href='https://react.dev' target='_blank'>
-                    <img src={reactLogo} className='logo react' alt='React logo' />
-                </a>
-            </div>
-            <h1>Vite + React</h1>
-            <div className='card'>
-                <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-                <p>
-                    Edit <code>src/App.tsx</code> and save to test HMR
-                </p>
-            </div>
-            <p className='read-the-docs'>Click on the Vite and React logos to learn more</p>
-        </>
-    );
-}
+const App = () => (
+    <Grid
+        templateAreas={{
+            base: `"header" "main" "footer"`,
+            xl: `"header header header"
+                "nav-menu main sidebar"
+                "nav-menu footer sidebar"`,
+        }}
+        gridTemplateColumns={{
+            base: '100%',
+            xl: '1fr 880px 1fr',
+            '3xl': '1fr 1360px 1fr',
+        }}
+        maxW={{ '3xl': '1920px' }}
+        position='relative'
+        columnGap={6}
+    >
+        <GridItem area='header'>
+            <Header />
+        </GridItem>
+        <GridItem area='nav-menu' hideBelow='xl'>
+            <NavigationMenu />
+        </GridItem>
+        <GridItem area='main'>
+            <Outlet />
+        </GridItem>
+        <GridItem area='sidebar' hideBelow='xl' justifyItems={{ xl: 'end' }}>
+            <Sidebar />
+        </GridItem>
+        <GridItem area='footer' hideFrom='xl'>
+            <Footer />
+        </GridItem>
+    </Grid>
+);
 
 export default App;

@@ -1,0 +1,16 @@
+.chakra-accordion::-webkit-scrollbar {
+    width: 17px;
+}
+.chakra-accordion::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+
+    box-shadow: inset 0 0 17px 17px rgba(0, 0, 0, 0.16);
+    border: solid 4px transparent;
+}
+.chakra-accordion::-webkit-scrollbar-track {
+    margin-bottom: 8px;
+    border-radius: 8px;
+
+    box-shadow: inset 0 0 17px 17px rgba(0, 0, 0, 0.04);
+    border: solid 4px transparent;
+}

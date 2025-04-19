@@ -23,7 +23,7 @@ const JuiciestPage = () => (
                 </GridItem>
             ))}
         </Grid>
-        <Button variant='pageSolid' size='pageActive' hideFrom='xl' mt={{ base: 4 }}>
+        <Button variant='pageSolid' size='pageActive' hideFrom='xl' mt={{ base: -4 }}>
             Загрузить еще
         </Button>
         <RelevantKitchen data={RELEVANT_KITCHEN_MAIN} />

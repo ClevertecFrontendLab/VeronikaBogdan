@@ -87,7 +87,8 @@ const CATEGORIES = [
     {
         icon: VeganCuisine,
         label: 'Веганская кухня',
-        path: 'vegan-cuisine',
+        path: 'vegan',
+        testId: 'vegan-cuisine',
         children,
     },
     {

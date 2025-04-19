@@ -1,6 +1,5 @@
 import { Button, Grid, GridItem, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
-import { useMemo, useState } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 import ContentContainer from '~/components/content-container';
 import HorizontalCard from '~/components/horizontal-card';
@@ -10,13 +9,10 @@ import { GRID_CARDS_CATEGORY } from '~/constants/grid-cards';
 import { RELEVANT_KITCHEN_CATEGORY } from '~/constants/relevant-kitchen';
 
 const CategoryPage = () => {
-    const { subcategory } = useParams();
-    const [tabIndex, setTabIndex] = useState(0);
+    const navigate = useNavigate();
+    const { category, subcategory } = useParams();
 
-    const defaultIndex = useMemo(
-        () => subcategories.findIndex((item) => item.path === subcategory),
-        [subcategory],
-    );
+    const defaultSubcategory = subcategories.findIndex((item) => item.path === subcategory);
 
     return (
         <ContentContainer
@@ -26,9 +22,7 @@ const CategoryPage = () => {
             <Tabs
                 align='center'
                 mt={{ base: 1, '3xl': -3 }}
-                index={defaultIndex}
-                defaultIndex={tabIndex}
-                onChange={setTabIndex}
+                index={defaultSubcategory}
                 variant='unstyled'
             >
                 <TabList
@@ -38,23 +32,29 @@ const CategoryPage = () => {
                     w={{ base: '109%', md: '105.5%', xl: '100%' }}
                     justifySelf={{ base: 'center' }}
                 >
-                    {subcategories.map((tab) => (
+                    {subcategories.map((tab, tabIndex) => (
                         <Tab
                             key={tab.label}
+                            data-test-id={`tab-${subcategory}-${tabIndex}`}
                             fontSize={{ base: 'sm', xl: 'md' }}
                             lineHeight={{ base: '143%', xl: '150%' }}
                             whiteSpace='nowrap'
                             color='lime.800'
                             border={0}
+                            outline={0}
                             borderBottom='1px solid'
                             borderBottomColor='blackAlpha.200'
                             borderRadius={0}
+                            _hover={{ borderBottomColor: 'lime.600' }}
                             _selected={{
+                                outline: 0,
                                 color: 'lime.600',
                                 borderBottom: '2px solid',
                                 borderBottomColor: 'lime.600',
                             }}
+                            _focus={{ outline: 0 }}
                             p={{ base: '4px 16px' }}
+                            onClick={() => navigate(`/${category}/${tab.path}`)}
                         >
                             {tab.label}
                         </Tab>

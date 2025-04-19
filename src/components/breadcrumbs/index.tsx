@@ -36,7 +36,7 @@ const BreadCrubms = () => {
             <BreadcrumbItem>
                 <BreadcrumbLink
                     as={Link}
-                    to={`/category/${params?.category}`}
+                    to={`/${params?.category}`}
                     fontWeight={400}
                     color='blackAlpha.700'
                 >

@@ -28,9 +28,11 @@ const NavigationMenu = () => {
     const [isExpandedMenu, handleMenu] = useBoolean();
 
     const navigate = useNavigate();
-    const { subcategory } = useParams();
+    const { category, subcategory } = useParams();
 
     const isActiveSubcategory = (value: string) => subcategory === value;
+
+    const defaultCategory = CATEGORIES.findIndex((item) => item.path === category);
 
     return (
         <Flex
@@ -54,6 +56,7 @@ const NavigationMenu = () => {
                         : ''
                 }
                 allowToggle
+                defaultIndex={defaultCategory}
                 onChange={(value) => (value === -1 ? handleMenu.off() : handleMenu.on())}
             >
                 {CATEGORIES.map((category) => (
@@ -70,13 +73,9 @@ const NavigationMenu = () => {
                                     _focus={{ outline: 0 }}
                                     _focusVisible={{ outline: 0 }}
                                     _expanded={{ bg: 'lime.100' }}
-                                    data-test-id={
-                                        category.path === 'vegan-cuisine' ? 'vegan-cuisine' : ''
-                                    }
+                                    data-test-id={category?.testId || category.path}
                                     onClick={() =>
-                                        navigate(
-                                            `category/${category.path}/${category.children[0].path}`,
-                                        )
+                                        navigate(`/${category.path}/${category.children[0].path}`)
                                     }
                                 >
                                     <Image src={category.icon} mr={3} />
@@ -93,7 +92,15 @@ const NavigationMenu = () => {
                                 </AccordionButton>
                                 <AccordionPanel p={0}>
                                     {category.children.map((subcategory) => (
-                                        <LinkBox key={subcategory.path} _hover={{ bg: 'lime.50' }}>
+                                        <LinkBox
+                                            key={subcategory.path}
+                                            data-test-id={
+                                                isActiveSubcategory(subcategory.path)
+                                                    ? `tab-${subcategory.path}-active`
+                                                    : ''
+                                            }
+                                            _hover={{ bg: 'lime.50' }}
+                                        >
                                             <HStack
                                                 spacing='11px'
                                                 alignItems='flex-start'
@@ -123,7 +130,7 @@ const NavigationMenu = () => {
                                                 </Center>
                                                 <LinkOverlay
                                                     as={Link}
-                                                    to={`category/${category.path}/${subcategory.path}`}
+                                                    to={`/${category.path}/${subcategory.path}`}
                                                 >
                                                     <Text
                                                         color='black'

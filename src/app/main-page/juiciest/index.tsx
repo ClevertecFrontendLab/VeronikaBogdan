@@ -8,7 +8,7 @@ import JUICIEST_MAIN_PAGE from '~/constants/grid-cards';
 const Juiciest = () => {
     const navigate = useNavigate();
 
-    const handleNavigateJuiciestPage = () => navigate('/juiciest');
+    const handleNavigateJuiciestPage = () => navigate('/the-juiciest');
 
     return (
         <Stack spacing={{ base: 2, md: 3, xl: 3 }}>

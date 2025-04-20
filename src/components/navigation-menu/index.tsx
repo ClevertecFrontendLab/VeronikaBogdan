@@ -22,9 +22,14 @@ import { Link, useNavigate, useParams } from 'react-router';
 
 import AccordionIcon from '~/assets/svg/accordion-icon.svg';
 import ExitIcon from '~/assets/svg/exit.svg';
+import BreadCrubms from '~/components/breadcrumbs';
 import CATEGORIES from '~/constants/categories';
+import { useAppSelector } from '~/store/hooks';
+import { menuSelector } from '~/store/menu-slice';
 
 const NavigationMenu = () => {
+    const { isBurgerMenu } = useAppSelector(menuSelector);
+
     const [isExpandedMenu, handleMenu] = useBoolean();
 
     const navigate = useNavigate();
@@ -36,14 +41,18 @@ const NavigationMenu = () => {
 
     return (
         <Flex
-            position='fixed'
+            data-test-id='nav'
+            position={{ base: 'absolute', xl: 'fixed' }}
             flexDir='column'
             justify='space-between'
-            w='256px'
-            top='80px'
-            h='calc(100vh - 80px)'
+            w={{ base: '344px', xl: '256px' }}
+            top={{ base: '64px', xl: '80px' }}
+            h={{ xl: 'calc(100vh - 80px)' }}
+            backgroundColor='white'
+            zIndex={2}
             boxShadow='0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 3px 0 rgba(0, 0, 0, 0.12);'
         >
+            {isBurgerMenu && <BreadCrubms hideFrom='xl' />}
             <Accordion
                 py={2.5}
                 pl={2.5}

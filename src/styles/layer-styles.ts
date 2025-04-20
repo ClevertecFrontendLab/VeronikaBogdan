@@ -1,4 +1,9 @@
 const layerStyles = {
+    blur: {
+        bg: 'gray.300',
+        filter: 'auto',
+        blur: '2px',
+    },
     base: {
         bg: 'gray.50',
         border: '2px solid',

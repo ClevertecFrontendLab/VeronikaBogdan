@@ -23,7 +23,7 @@ const router = createBrowserRouter([
                 path: ':category/:subcategory',
                 Component: CategoryPage,
             },
-            { path: 'juiciest', Component: JuiciestPage },
+            { path: 'the-juiciest', Component: JuiciestPage },
         ],
     },
 ]);

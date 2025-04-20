@@ -3,20 +3,34 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react';
 import { useLocation, useParams } from 'react-router';
 import { Link } from 'react-router';
 
-import CATEGORIES, { children } from '~/constants/categories';
+import CATEGORIES, { children as subcategories } from '~/constants/categories';
 
-const BreadCrubms = () => {
+type BreadCrumbsProps = { hideBelow?: string; hideFrom?: string };
+
+const BreadCrubms = ({ hideBelow, hideFrom }: BreadCrumbsProps) => {
     const { pathname } = useLocation();
-    const params = useParams();
+    const { category, subcategory } = useParams();
 
     return pathname === '/' ? (
-        <Breadcrumb separator={<ChevronRightIcon />} ml={127} hideBelow='xl'>
+        <Breadcrumb
+            separator={<ChevronRightIcon />}
+            data-test-id='breadcrumbs'
+            ml={127}
+            hideBelow={hideBelow}
+            hideFrom={hideFrom}
+        >
             <BreadcrumbItem isCurrentPage>
                 <BreadcrumbLink>Главная</BreadcrumbLink>
             </BreadcrumbItem>
         </Breadcrumb>
-    ) : pathname === '/juiciest' ? (
-        <Breadcrumb separator={<ChevronRightIcon />} ml={127} hideBelow='xl'>
+    ) : pathname === '/the-juiciest' ? (
+        <Breadcrumb
+            separator={<ChevronRightIcon />}
+            data-test-id='breadcrumbs'
+            ml={127}
+            hideBelow={hideBelow}
+            hideFrom={hideFrom}
+        >
             <BreadcrumbItem>
                 <BreadcrumbLink as={Link} to='/' fontWeight={400} color='blackAlpha.700'>
                     Главная
@@ -27,7 +41,13 @@ const BreadCrubms = () => {
             </BreadcrumbItem>
         </Breadcrumb>
     ) : (
-        <Breadcrumb separator={<ChevronRightIcon />} ml={127} hideBelow='xl'>
+        <Breadcrumb
+            separator={<ChevronRightIcon />}
+            data-test-id='breadcrumbs'
+            ml={127}
+            hideBelow={hideBelow}
+            hideFrom={hideFrom}
+        >
             <BreadcrumbItem>
                 <BreadcrumbLink as={Link} to='/' fontWeight={400} color='blackAlpha.700'>
                     Главная
@@ -36,16 +56,16 @@ const BreadCrubms = () => {
             <BreadcrumbItem>
                 <BreadcrumbLink
                     as={Link}
-                    to={`/${params?.category}`}
+                    to={`/${category}/${subcategories[0].path}`}
                     fontWeight={400}
                     color='blackAlpha.700'
                 >
-                    {CATEGORIES.find((category) => category.path === params?.category)?.label}
+                    {CATEGORIES.find((categoryItem) => categoryItem.path === category)?.label}
                 </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbItem isCurrentPage>
                 <BreadcrumbLink>
-                    {children.find((category) => category.path === params?.subcategory)?.label}
+                    {subcategories.find((category) => category.path === subcategory)?.label}
                 </BreadcrumbLink>
             </BreadcrumbItem>
         </Breadcrumb>

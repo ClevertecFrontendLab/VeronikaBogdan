@@ -1,8 +1,11 @@
 const layerStyles = {
     blur: {
-        bg: 'gray.300',
-        filter: 'auto',
-        blur: '2px',
+        position: 'fixed',
+        top: 0,
+        width: '100%',
+        height: '100%',
+        backdropFilter: 'blur(2px)',
+        bg: 'blackAlpha.300',
     },
     base: {
         bg: 'gray.50',

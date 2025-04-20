@@ -15,9 +15,12 @@ const BreadCrubms = ({ hideBelow, hideFrom }: BreadCrumbsProps) => {
         <Breadcrumb
             separator={<ChevronRightIcon />}
             data-test-id='breadcrumbs'
-            ml={127}
+            ml={{ base: 6, xl: 127 }}
+            mt={{ base: 4 }}
+            mb={{ base: -4 }}
             hideBelow={hideBelow}
             hideFrom={hideFrom}
+            listProps={{ flexWrap: 'wrap' }}
         >
             <BreadcrumbItem isCurrentPage>
                 <BreadcrumbLink>Главная</BreadcrumbLink>
@@ -27,9 +30,12 @@ const BreadCrubms = ({ hideBelow, hideFrom }: BreadCrumbsProps) => {
         <Breadcrumb
             separator={<ChevronRightIcon />}
             data-test-id='breadcrumbs'
-            ml={127}
+            ml={{ base: 6, xl: 127 }}
+            mt={{ base: 4 }}
+            mb={{ base: -4 }}
             hideBelow={hideBelow}
             hideFrom={hideFrom}
+            listProps={{ flexWrap: 'wrap' }}
         >
             <BreadcrumbItem>
                 <BreadcrumbLink as={Link} to='/' fontWeight={400} color='blackAlpha.700'>
@@ -44,9 +50,12 @@ const BreadCrubms = ({ hideBelow, hideFrom }: BreadCrumbsProps) => {
         <Breadcrumb
             separator={<ChevronRightIcon />}
             data-test-id='breadcrumbs'
-            ml={127}
+            ml={{ base: 6, xl: 127 }}
+            mt={{ base: 4 }}
+            mb={{ base: -4 }}
             hideBelow={hideBelow}
             hideFrom={hideFrom}
+            listProps={{ flexWrap: 'wrap' }}
         >
             <BreadcrumbItem>
                 <BreadcrumbLink as={Link} to='/' fontWeight={400} color='blackAlpha.700'>

@@ -4,13 +4,13 @@ import { ApplicationState } from './configure-store';
 export type MenuState = typeof initialState;
 
 const initialState = {
-    isBurgerMenu: false,
+    isBurgerMenu: false as boolean | null,
 };
 export const menuSlice = createSlice({
     name: 'menu',
     initialState,
     reducers: {
-        setBurgerMenuState(state, { payload }: PayloadAction<boolean>) {
+        setBurgerMenuState(state, { payload }: PayloadAction<boolean | null>) {
             state.isBurgerMenu = payload;
         },
     },

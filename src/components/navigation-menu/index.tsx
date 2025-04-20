@@ -16,18 +16,21 @@ import {
     LinkOverlay,
     Text,
     useBoolean,
+    useOutsideClick,
     VStack,
 } from '@chakra-ui/react';
+import { useRef } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 
 import AccordionIcon from '~/assets/svg/accordion-icon.svg';
 import ExitIcon from '~/assets/svg/exit.svg';
 import BreadCrubms from '~/components/breadcrumbs';
 import CATEGORIES from '~/constants/categories';
-import { useAppSelector } from '~/store/hooks';
-import { menuSelector } from '~/store/menu-slice';
+import { useAppDispatch, useAppSelector } from '~/store/hooks';
+import { menuSelector, setBurgerMenuState } from '~/store/menu-slice';
 
 const NavigationMenu = () => {
+    const dispatch = useAppDispatch();
     const { isBurgerMenu } = useAppSelector(menuSelector);
 
     const [isExpandedMenu, handleMenu] = useBoolean();
@@ -35,22 +38,33 @@ const NavigationMenu = () => {
     const navigate = useNavigate();
     const { category, subcategory } = useParams();
 
+    const menuRef = useRef(null);
+    useOutsideClick({
+        ref: menuRef,
+        handler: () => dispatch(setBurgerMenuState(null)),
+    });
+
     const isActiveSubcategory = (value: string) => subcategory === value;
 
     const defaultCategory = CATEGORIES.findIndex((item) => item.path === category);
-
     return (
         <Flex
             data-test-id='nav'
+            ref={menuRef}
             position={{ base: 'absolute', xl: 'fixed' }}
             flexDir='column'
             justify='space-between'
             w={{ base: '344px', xl: '256px' }}
+            h={{ base: 'calc(100vh - 145px)', xl: 'calc(100vh - 80px)' }}
             top={{ base: '64px', xl: '80px' }}
-            h={{ xl: 'calc(100vh - 80px)' }}
-            backgroundColor='white'
+            right={{ base: '8px', xl: 'auto' }}
             zIndex={2}
-            boxShadow='0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 3px 0 rgba(0, 0, 0, 0.12);'
+            backgroundColor='white'
+            borderBottomRadius={{ base: '12px', xl: 0 }}
+            boxShadow={{
+                base: '0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.1);',
+                xl: '0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 3px 0 rgba(0, 0, 0, 0.12);',
+            }}
         >
             {isBurgerMenu && <BreadCrubms hideFrom='xl' />}
             <Accordion
@@ -89,7 +103,7 @@ const NavigationMenu = () => {
                                 >
                                     <Image src={category.icon} mr={3} />
                                     <Text>{category.label}</Text>
-                                    <Box ml='auto' pr={2.5}>
+                                    <Box ml='auto' pr={{ base: 6, xl: 2.5 }}>
                                         <Image
                                             src={AccordionIcon}
                                             h={4}

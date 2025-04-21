@@ -1,16 +1,36 @@
 import './App.css';
 
-import { Grid, GridItem, useMediaQuery } from '@chakra-ui/react';
+import { Box, Grid, GridItem, useMediaQuery, useOutsideClick } from '@chakra-ui/react';
+import { useRef } from 'react';
 import { Outlet } from 'react-router';
 
-import BurgerMenu from '~/components/burger-menu';
 import Footer from '~/components/footer';
 import Header from '~/components/header';
 import NavigationMenu from '~/components/navigation-menu';
 import Sidebar from '~/components/sidebar';
+import { useAppDispatch, useAppSelector } from '~/store/hooks';
+import { menuSelector, setBurgerMenuState } from '~/store/menu-slice';
 
 const App = () => {
+    const dispatch = useAppDispatch();
     const [isLargerThan1440] = useMediaQuery('(min-width: 1440px)');
+    const { isBurgerMenu } = useAppSelector(menuSelector);
+
+    const headerRef = useRef(null);
+    const menuRef = useRef(null);
+    useOutsideClick({
+        ref: menuRef,
+        handler: (event) => {
+            if (isBurgerMenu) {
+                event.preventDefault();
+                event.stopPropagation();
+
+                if (headerRef.current && !headerRef.current.contains(event.target)) {
+                    dispatch(setBurgerMenuState());
+                }
+            }
+        },
+    });
 
     return (
         <>
@@ -31,7 +51,7 @@ const App = () => {
                 columnGap={6}
             >
                 <GridItem area='header'>
-                    <Header />
+                    <Header ref={headerRef} />
                 </GridItem>
                 <GridItem area='nav-menu' hideBelow='xl'>
                     {isLargerThan1440 && <NavigationMenu />}
@@ -46,7 +66,11 @@ const App = () => {
                     <Footer />
                 </GridItem>
             </Grid>
-            <BurgerMenu />
+            {isBurgerMenu && (
+                <Box layerStyle='blur'>
+                    <NavigationMenu menuRef={menuRef} />
+                </Box>
+            )}
         </>
     );
 };

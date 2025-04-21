@@ -1,17 +1,17 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 import { ApplicationState } from './configure-store';
 export type MenuState = typeof initialState;
 
 const initialState = {
-    isBurgerMenu: false as boolean | null,
+    isBurgerMenu: false,
 };
 export const menuSlice = createSlice({
     name: 'menu',
     initialState,
     reducers: {
-        setBurgerMenuState(state, { payload }: PayloadAction<boolean | null>) {
-            state.isBurgerMenu = payload;
+        setBurgerMenuState(state) {
+            state.isBurgerMenu = !state.isBurgerMenu;
         },
     },
 });

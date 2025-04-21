@@ -1,4 +1,5 @@
 import { Avatar, Flex, Grid, GridItem, Image, Spacer } from '@chakra-ui/react';
+import { Ref } from 'react';
 
 import Photo from '~/assets/png/photo.png';
 import CloseMenuIcon from '~/assets/svg/close-button.svg';
@@ -10,12 +11,15 @@ import ProfileNotifications from '~/components/profile-notifications';
 import { useAppDispatch, useAppSelector } from '~/store/hooks';
 import { menuSelector, setBurgerMenuState } from '~/store/menu-slice';
 
-const Header = () => {
+type HeaderProps = { ref?: Ref<HTMLDivElement | null> };
+
+const Header = ({ ref }: HeaderProps) => {
     const dispatch = useAppDispatch();
     const { isBurgerMenu } = useAppSelector(menuSelector);
 
     return (
         <Flex
+            ref={ref}
             bg={isBurgerMenu ? 'white' : 'lime.50'}
             data-test-id='header'
             align='center'
@@ -55,11 +59,7 @@ const Header = () => {
                 src={isBurgerMenu ? CloseMenuIcon : MenuIcon}
                 data-test-id={isBurgerMenu ? 'close-icon' : 'hamburger-icon'}
                 hideFrom='xl'
-                onClick={() => {
-                    isBurgerMenu === null
-                        ? dispatch(setBurgerMenuState(false))
-                        : dispatch(setBurgerMenuState(true));
-                }}
+                onClick={() => dispatch(setBurgerMenuState())}
             />
         </Flex>
     );

@@ -16,21 +16,21 @@ import {
     LinkOverlay,
     Text,
     useBoolean,
-    useOutsideClick,
     VStack,
 } from '@chakra-ui/react';
-import { useRef } from 'react';
+import { Ref } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 
 import AccordionIcon from '~/assets/svg/accordion-icon.svg';
 import ExitIcon from '~/assets/svg/exit.svg';
 import BreadCrubms from '~/components/breadcrumbs';
 import CATEGORIES from '~/constants/categories';
-import { useAppDispatch, useAppSelector } from '~/store/hooks';
-import { menuSelector, setBurgerMenuState } from '~/store/menu-slice';
+import { useAppSelector } from '~/store/hooks';
+import { menuSelector } from '~/store/menu-slice';
 
-const NavigationMenu = () => {
-    const dispatch = useAppDispatch();
+type NavigationMenuProps = { menuRef?: Ref<HTMLDivElement | null> };
+
+const NavigationMenu = ({ menuRef }: NavigationMenuProps) => {
     const { isBurgerMenu } = useAppSelector(menuSelector);
 
     const [isExpandedMenu, handleMenu] = useBoolean();
@@ -38,19 +38,13 @@ const NavigationMenu = () => {
     const navigate = useNavigate();
     const { category, subcategory } = useParams();
 
-    const menuRef = useRef(null);
-    useOutsideClick({
-        ref: menuRef,
-        handler: () => dispatch(setBurgerMenuState(null)),
-    });
-
     const isActiveSubcategory = (value: string) => subcategory === value;
 
     const defaultCategory = CATEGORIES.findIndex((item) => item.path === category);
     return (
         <Flex
             data-test-id='nav'
-            ref={menuRef}
+            ref={menuRef || null}
             position={{ base: 'absolute', xl: 'fixed' }}
             flexDir='column'
             justify='space-between'

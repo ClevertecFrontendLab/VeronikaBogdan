@@ -16,8 +16,8 @@ const BreadCrubms = ({ hideBelow, hideFrom }: BreadCrumbsProps) => {
             separator={<ChevronRightIcon />}
             data-test-id='breadcrumbs'
             ml={{ base: 6, xl: 127 }}
-            mt={{ base: 4 }}
-            mb={{ base: -4 }}
+            mt={{ base: 4, xl: 0 }}
+            mb={{ base: -4, xl: 0 }}
             hideBelow={hideBelow}
             hideFrom={hideFrom}
             listProps={{ flexWrap: 'wrap' }}
@@ -31,8 +31,8 @@ const BreadCrubms = ({ hideBelow, hideFrom }: BreadCrumbsProps) => {
             separator={<ChevronRightIcon />}
             data-test-id='breadcrumbs'
             ml={{ base: 6, xl: 127 }}
-            mt={{ base: 4 }}
-            mb={{ base: -4 }}
+            mt={{ base: 4, xl: 0 }}
+            mb={{ base: -4, xl: 0 }}
             hideBelow={hideBelow}
             hideFrom={hideFrom}
             listProps={{ flexWrap: 'wrap' }}
@@ -51,8 +51,8 @@ const BreadCrubms = ({ hideBelow, hideFrom }: BreadCrumbsProps) => {
             separator={<ChevronRightIcon />}
             data-test-id='breadcrumbs'
             ml={{ base: 6, xl: 127 }}
-            mt={{ base: 4 }}
-            mb={{ base: -4 }}
+            mt={{ base: 4, xl: 0 }}
+            mb={{ base: -4, xl: 0 }}
             hideBelow={hideBelow}
             hideFrom={hideFrom}
             listProps={{ flexWrap: 'wrap' }}

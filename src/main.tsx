@@ -23,6 +23,10 @@ const router = createBrowserRouter([
                 path: ':category/:subcategory',
                 Component: CategoryPage,
             },
+            {
+                path: ':category/:subcategory/:id',
+                Component: CategoryPage,
+            },
             { path: 'the-juiciest', Component: JuiciestPage },
         ],
     },

@@ -5,7 +5,7 @@ import ContentContainer from '~/components/content-container';
 import HorizontalCard from '~/components/horizontal-card';
 import RelevantKitchen from '~/components/relevant-kitchen';
 import { children as subcategories } from '~/constants/categories';
-import { GRID_CARDS_CATEGORY } from '~/constants/grid-cards';
+import { ALL_CARDS } from '~/constants/grid-cards';
 import { RELEVANT_KITCHEN_CATEGORY } from '~/constants/relevant-kitchen';
 
 const CategoryPage = () => {
@@ -79,8 +79,8 @@ const CategoryPage = () => {
                                 }}
                                 gap={{ base: 4, md: 3, xl: 3.5, '3xl': 5 }}
                             >
-                                {GRID_CARDS_CATEGORY.map((card) => (
-                                    <GridItem key={card.key}>
+                                {ALL_CARDS.map((card) => (
+                                    <GridItem key={card.id}>
                                         <HorizontalCard card={card} />
                                     </GridItem>
                                 ))}

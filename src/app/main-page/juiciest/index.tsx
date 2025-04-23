@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 
 import RightArrow from '~/assets/svg/arrow-right-dark.svg';
 import HorizontalCard from '~/components/horizontal-card';
-import JUICIEST_MAIN_PAGE from '~/constants/grid-cards';
+import { ALL_CARDS } from '~/constants/grid-cards';
 
 const Juiciest = () => {
     const navigate = useNavigate();
@@ -36,8 +36,8 @@ const Juiciest = () => {
                 }}
                 gap={{ base: 2.5, md: 3, xl: 3.5, '3xl': 5 }}
             >
-                {JUICIEST_MAIN_PAGE.map((card) => (
-                    <GridItem key={card.key}>
+                {ALL_CARDS.map((card) => (
+                    <GridItem key={card.id}>
                         <HorizontalCard card={card} />
                     </GridItem>
                 ))}

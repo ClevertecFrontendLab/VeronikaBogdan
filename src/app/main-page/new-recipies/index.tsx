@@ -1,3 +1,6 @@
+import 'swiper/swiper-bundle.css';
+import './new-recipies.scss';
+
 import {
     Card,
     CardBody,
@@ -9,6 +12,8 @@ import {
     Stack,
     Text,
 } from '@chakra-ui/react';
+import { Navigation } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 import ArrowLeft from '~/assets/svg/arrow-left.svg';
 import ArrowRight from '~/assets/svg/arrow-right.svg';
@@ -32,7 +37,7 @@ const NewRecipies = () => (
             justify='space-between'
             position='absolute'
             top={{ xl: '45.5%', '3xl': '46%' }}
-            zIndex={1}
+            zIndex={2}
         >
             <IconButton
                 colorScheme='blackAlpha'
@@ -41,6 +46,7 @@ const NewRecipies = () => (
                 ml={{ xl: -2 }}
                 boxSize={{ xl: 10, '3xl': 12 }}
                 icon={<Image src={ArrowLeft} h={{ xl: 4, '3xl': 6 }} />}
+                className='prev'
             />
             <IconButton
                 colorScheme='blackAlpha'
@@ -48,9 +54,18 @@ const NewRecipies = () => (
                 bg='black'
                 boxSize={{ xl: 10, '3xl': 12 }}
                 icon={<Image src={ArrowRight} h={{ xl: 4, '3xl': 6 }} />}
+                className='next'
             />
         </Flex>
-        <HStack spacing={{ base: 3, '3xl': 6 }} overflow='hidden' position='relative'>
+        <Swiper
+            modules={[Navigation]}
+            slidesPerView='auto'
+            loop={true}
+            navigation={{
+                nextEl: '.next',
+                prevEl: '.prev',
+            }}
+        >
             {NEW_RECIPIES.map((recipe) => {
                 const badge = CATEGORIES.find(
                     (category) =>
@@ -58,56 +73,60 @@ const NewRecipies = () => (
                 );
 
                 return (
-                    <Card
-                        key={recipe.key}
-                        position='relative'
-                        overflow='hidden'
-                        h={{ base: '224px', xl: 'auto' }}
-                        w={{ base: '158px', xl: '277px', '3xl': '322px' }}
-                        minW={{ base: '158px', xl: '277px', '3xl': '322px' }}
-                    >
-                        <Badge
-                            icon={badge?.icon}
-                            text={recipe?.badge}
-                            type='vertical'
-                            hideFrom='xl'
-                            isTopPositioned
-                        />
-                        <Image
-                            src={recipe.image}
-                            borderTopRadius='lg'
-                            h={{ base: '128px', xl: '230px' }}
-                        />
-                        <CardBody p={{ base: 2, xl: 3, '3xl': 4 }} px={{ '3xl': 6 }}>
-                            <Stack>
-                                <Heading
-                                    size='smallCardTitle'
-                                    letterSpacing='tight'
-                                    noOfLines={{ base: 2, xl: 1 }}
-                                >
-                                    {recipe.title}
-                                </Heading>
-                                <Text textStyle='text' noOfLines={3} hideBelow='xl'>
-                                    {recipe.description}
-                                </Text>
-                                <Flex mt={{ xl: 5 }} justify='space-between'>
-                                    <Badge
-                                        icon={badge?.icon}
-                                        text={recipe?.badge}
-                                        type='vertical'
-                                        hideBelow='xl'
-                                    />
-                                    <HStack>
-                                        <IconCountWrapper type='favorite' count={recipe.favorite} />
-                                        <IconCountWrapper type='like' count={recipe.like} />
-                                    </HStack>
-                                </Flex>
-                            </Stack>
-                        </CardBody>
-                    </Card>
+                    <SwiperSlide key={recipe.key}>
+                        <Card
+                            position='relative'
+                            overflow='hidden'
+                            h={{ base: '224px', xl: 'auto' }}
+                            w={{ base: '158px', xl: '277px', '3xl': '322px' }}
+                            minW={{ base: '158px', xl: '277px', '3xl': '322px' }}
+                        >
+                            <Badge
+                                icon={badge?.icon}
+                                text={recipe?.badge}
+                                type='vertical'
+                                hideFrom='xl'
+                                isTopPositioned
+                            />
+                            <Image
+                                src={recipe.image}
+                                borderTopRadius='lg'
+                                h={{ base: '128px', xl: '230px' }}
+                            />
+                            <CardBody p={{ base: 2, xl: 3, '3xl': 4 }} px={{ '3xl': 6 }}>
+                                <Stack>
+                                    <Heading
+                                        size='smallCardTitle'
+                                        letterSpacing='tight'
+                                        noOfLines={{ base: 2, xl: 1 }}
+                                    >
+                                        {recipe.title}
+                                    </Heading>
+                                    <Text textStyle='text' noOfLines={3} hideBelow='xl'>
+                                        {recipe.description}
+                                    </Text>
+                                    <Flex mt={{ xl: 5 }} justify='space-between'>
+                                        <Badge
+                                            icon={badge?.icon}
+                                            text={recipe?.badge}
+                                            type='vertical'
+                                            hideBelow='xl'
+                                        />
+                                        <HStack>
+                                            <IconCountWrapper
+                                                type='favorite'
+                                                count={recipe.favorite}
+                                            />
+                                            <IconCountWrapper type='like' count={recipe.like} />
+                                        </HStack>
+                                    </Flex>
+                                </Stack>
+                            </CardBody>
+                        </Card>
+                    </SwiperSlide>
                 );
             })}
-        </HStack>
+        </Swiper>
     </Stack>
 );
 

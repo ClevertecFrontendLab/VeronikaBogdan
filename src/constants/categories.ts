@@ -19,11 +19,11 @@ export const children = [
     },
     {
         label: 'Первые блюда',
-        path: 'first-dishes',
+        path: 'first-dish',
     },
     {
         label: 'Вторые блюда',
-        path: 'second-dishes',
+        path: 'second-dish',
     },
     {
         label: 'Гарниры',

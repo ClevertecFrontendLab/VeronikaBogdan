@@ -114,7 +114,7 @@ const NavigationMenu = ({ menuRef }: NavigationMenuProps) => {
                                             key={subcategory.path}
                                             data-test-id={
                                                 isActiveSubcategory(subcategory.path)
-                                                    ? `tab-${subcategory.path}-active`
+                                                    ? `${subcategory.path}-active`
                                                     : ''
                                             }
                                             _hover={{ bg: 'lime.50' }}

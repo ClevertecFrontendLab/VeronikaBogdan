@@ -20,9 +20,16 @@ const CategoryPage = () => {
 
     const defaultSubcategory = subcategories?.findIndex((item) => item.path === subcategory);
 
-    const filteredBySearchText = searchTextFilter({ cards: ALL_CARDS, searchText });
+    const filteredByCategory = ALL_CARDS.filter((card) => card.category.includes(category || ''));
+    const filteredBySubcategory = filteredByCategory.filter((card) =>
+        card.subcategory.includes(subcategory || ''),
+    );
 
-    const cards = filteredBySearchText.length > 0 ? filteredBySearchText : ALL_CARDS;
+    const filteredBySearchText = searchTextFilter({ cards: filteredBySubcategory, searchText });
+
+    console.log(filteredBySubcategory, filteredBySearchText);
+
+    const cards = filteredBySearchText.length > 0 ? filteredBySearchText : filteredBySubcategory;
 
     return (
         <ContentContainer
@@ -46,7 +53,7 @@ const CategoryPage = () => {
                     {subcategories.map((tab, tabIndex) => (
                         <Tab
                             key={tab.label}
-                            data-test-id={`tab-${subcategory}-${tabIndex}`}
+                            data-test-id={`tab-${tab.path}-${tabIndex}`}
                             fontSize={{ base: 'sm', xl: 'md' }}
                             lineHeight={{ base: '143%', xl: '150%' }}
                             whiteSpace='nowrap'
@@ -83,15 +90,21 @@ const CategoryPage = () => {
                         >
                             <Grid layerStyle='horizontalCards'>
                                 {cards.map((card, cardIndex) => (
-                                    <GridItem key={card.id} data-test-id={`food-card-${cardIndex}`}>
+                                    <GridItem
+                                        key={card.id}
+                                        data-test-id={
+                                            subcategory === tab.path ? `food-card-${cardIndex}` : ''
+                                        }
+                                    >
                                         <HorizontalCard card={card} />
                                     </GridItem>
                                 ))}
                             </Grid>
+
                             <Button
                                 variant='pageSolid'
                                 size='pageActive'
-                                hideFrom='xl'
+                                // hideFrom='xl'
                                 mt={{ base: 4 }}
                             >
                                 Загрузить еще

@@ -27,7 +27,7 @@ import { ALL_CARDS } from '~/constants/grid-cards';
 const NewRecipies = () => {
     const navigate = useNavigate();
 
-    const sortedNewRecipiesByDate = ALL_CARDS.toSorted(
+    const sortedNewRecipiesByDate = [...ALL_CARDS].sort(
         (firstCard, secondCard) => Date.parse(secondCard.date) - Date.parse(firstCard.date),
     );
 

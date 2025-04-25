@@ -11,7 +11,7 @@ const Juiciest = () => {
     const handleNavigateJuiciestPage = () => navigate('/the-juiciest');
 
     return (
-        <Stack spacing={{ base: 2, md: 3, xl: 3 }}>
+        <Stack spacing={{ base: 2, md: 3, xl: 3 }} layerStyle='contentContainer'>
             <Flex justify='space-between'>
                 <Heading variant='blockTitle' size='blockTitle'>
                     Самое сочное
@@ -27,17 +27,9 @@ const Juiciest = () => {
                     Вся подборка
                 </Button>
             </Flex>
-            <Grid
-                templateColumns={{
-                    base: '100%',
-                    md: 'repeat(2, 1fr)',
-                    xl: '100%',
-                    '3xl': 'repeat(2, 1fr)',
-                }}
-                gap={{ base: 2.5, md: 3, xl: 3.5, '3xl': 5 }}
-            >
-                {ALL_CARDS.map((card) => (
-                    <GridItem key={card.id}>
+            <Grid layerStyle='horizontalCards'>
+                {ALL_CARDS.map((card, cardIndex) => (
+                    <GridItem key={card.id} data-test-id={`food-card-${cardIndex}`}>
                         <HorizontalCard card={card} />
                     </GridItem>
                 ))}

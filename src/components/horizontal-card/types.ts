@@ -17,27 +17,25 @@ type step = {
     image: string;
 };
 
-export type HorizontalCardProps = {
-    card: {
-        id: string;
-        title: string;
-        description: string;
-        category: string[];
-        subcategory: string[];
-        image: string;
-        bookmarks: number;
-        likes: number;
-        date: string;
-        time: string;
-        portions?: number;
-        nutritionValue: nutritionValue;
-        ingredients: ingredient[];
-        steps: step[];
-        meat?: string;
-        side?: string;
+export type Card = {
+    id: string;
+    title: string;
+    description: string;
+    category: string[];
+    subcategory: string[];
+    image: string;
+    bookmarks: number;
+    likes: number;
+    date: string;
+    time: string;
+    portions?: number;
+    nutritionValue: nutritionValue;
+    ingredients: ingredient[];
+    steps: step[];
+    meat?: string;
+    side?: string;
+};
 
-        // badge: string;
-        // icon: string;
-        // recommend: { user: string; photo: string } | null;
-    };
+export type HorizontalCardProps = {
+    card: Card;
 };

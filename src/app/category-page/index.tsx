@@ -4,15 +4,25 @@ import { useNavigate, useParams } from 'react-router';
 import ContentContainer from '~/components/content-container';
 import HorizontalCard from '~/components/horizontal-card';
 import RelevantKitchen from '~/components/relevant-kitchen';
-import { children as subcategories } from '~/constants/categories';
+import CATEGORIES from '~/constants/categories';
 import { ALL_CARDS } from '~/constants/grid-cards';
 import { RELEVANT_KITCHEN_CATEGORY } from '~/constants/relevant-kitchen';
+import { filtersSelector } from '~/store/filters-slice';
+import { useAppSelector } from '~/store/hooks';
+import { searchTextFilter } from '~/utils/searchTextFilter';
 
 const CategoryPage = () => {
     const navigate = useNavigate();
     const { category, subcategory } = useParams();
+    const { searchText } = useAppSelector(filtersSelector);
 
-    const defaultSubcategory = subcategories.findIndex((item) => item.path === subcategory);
+    const subcategories = CATEGORIES.find((item) => item.path === category)?.children || [];
+
+    const defaultSubcategory = subcategories?.findIndex((item) => item.path === subcategory);
+
+    const filteredBySearchText = searchTextFilter({ cards: ALL_CARDS, searchText });
+
+    const cards = filteredBySearchText.length > 0 ? filteredBySearchText : ALL_CARDS;
 
     return (
         <ContentContainer
@@ -20,6 +30,7 @@ const CategoryPage = () => {
             description='Интересны не только убеждённым вегетарианцам, но и тем, кто хочет попробовать вегетарианскую диету и готовить вкусные вегетарианские блюда.'
         >
             <Tabs
+                layerStyle='contentContainer'
                 align='center'
                 mt={{ base: 1, '3xl': -3 }}
                 index={defaultSubcategory}
@@ -27,9 +38,9 @@ const CategoryPage = () => {
             >
                 <TabList
                     overflowX='hidden'
-                    pl={{ base: '265px', md: 0 }}
-                    pr={{ md: '133px', xl: 0 }}
-                    w={{ base: '109%', md: '105.5%', xl: '100%' }}
+                    // pl={{ base: '265px', md: 0 }}
+                    // pr={{ md: '130px', xl: 0 }}
+                    w='100%'
                     justifySelf={{ base: 'center' }}
                 >
                     {subcategories.map((tab, tabIndex) => (
@@ -70,17 +81,9 @@ const CategoryPage = () => {
                             display='flex'
                             flexDirection='column'
                         >
-                            <Grid
-                                templateColumns={{
-                                    base: '100%',
-                                    md: 'repeat(2, 1fr)',
-                                    xl: '100%',
-                                    '3xl': 'repeat(2, 1fr)',
-                                }}
-                                gap={{ base: 4, md: 3, xl: 3.5, '3xl': 5 }}
-                            >
-                                {ALL_CARDS.map((card) => (
-                                    <GridItem key={card.id}>
+                            <Grid layerStyle='horizontalCards'>
+                                {cards.map((card, cardIndex) => (
+                                    <GridItem key={card.id} data-test-id={`food-card-${cardIndex}`}>
                                         <HorizontalCard card={card} />
                                     </GridItem>
                                 ))}

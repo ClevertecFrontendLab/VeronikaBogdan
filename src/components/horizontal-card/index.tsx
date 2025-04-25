@@ -7,6 +7,7 @@ import {
     CardFooter,
     Flex,
     Heading,
+    Highlight,
     HStack,
     Image,
     Stack,
@@ -19,9 +20,13 @@ import Bookmark from '~/assets/svg/bookmark-heart.svg';
 import Badge from '~/components/badge';
 import { HorizontalCardProps } from '~/components/horizontal-card/types';
 import IconCountWrapper from '~/components/icon-count-wrapper';
+import { filtersSelector } from '~/store/filters-slice';
+import { useAppSelector } from '~/store/hooks';
 
 const HorizontalCard = ({ card }: HorizontalCardProps) => {
     const navigate = useNavigate();
+
+    const { searchText } = useAppSelector(filtersSelector);
 
     return (
         <Card direction='row'>
@@ -70,7 +75,9 @@ const HorizontalCard = ({ card }: HorizontalCardProps) => {
                             noOfLines={{ base: 2, '3xl': 1 }}
                             mt={{ base: 0, xl: 4 }}
                         >
-                            {card.title}
+                            <Highlight query={searchText} styles={{ color: 'lime.600' }}>
+                                {card.title}
+                            </Highlight>
                         </Heading>
                         <Text textStyle='text' noOfLines={3} hideBelow='xl'>
                             {card.description}

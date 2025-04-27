@@ -9,12 +9,13 @@ import { ALL_CARDS } from '~/constants/grid-cards';
 import { RELEVANT_KITCHEN_CATEGORY } from '~/constants/relevant-kitchen';
 import { filtersSelector } from '~/store/filters-slice';
 import { useAppSelector } from '~/store/hooks';
+import { filterByAllergens } from '~/utils/allergenFilter';
 import { searchTextFilter } from '~/utils/searchTextFilter';
 
 const CategoryPage = () => {
     const navigate = useNavigate();
     const { category, subcategory } = useParams();
-    const { searchText } = useAppSelector(filtersSelector);
+    const { allergens, searchText } = useAppSelector(filtersSelector);
 
     const subcategories = CATEGORIES.find((item) => item.path === category)?.children || [];
 
@@ -25,16 +26,20 @@ const CategoryPage = () => {
         card.subcategory.includes(subcategory || ''),
     );
 
-    const filteredBySearchText = searchTextFilter({ cards: filteredBySubcategory, searchText });
+    const filteredByAllergens = filterByAllergens({ cards: filteredBySubcategory, allergens });
 
-    // console.log(filteredBySubcategory, filteredBySearchText);
+    const filteredBySearchText = searchTextFilter({
+        cards: filteredByAllergens,
+        searchText,
+    });
 
-    const cards = filteredBySearchText.length > 0 ? filteredBySearchText : filteredBySubcategory;
+    const cards = filteredBySearchText.length > 0 ? filteredBySearchText : filteredByAllergens;
 
     return (
         <ContentContainer
             title='Веганская кухня'
             description='Интересны не только убеждённым вегетарианцам, но и тем, кто хочет попробовать вегетарианскую диету и готовить вкусные вегетарианские блюда.'
+            notFound={filteredBySearchText.length === 0 || filteredByAllergens.length === 0}
         >
             <Tabs
                 layerStyle='contentContainer'
@@ -100,13 +105,7 @@ const CategoryPage = () => {
                                     </GridItem>
                                 ))}
                             </Grid>
-
-                            <Button
-                                variant='pageSolid'
-                                size='pageActive'
-                                // hideFrom='xl'
-                                mt={{ base: 4 }}
-                            >
+                            <Button variant='pageSolid' size='pageActive' mt={{ base: 4 }}>
                                 Загрузить еще
                             </Button>
                         </TabPanel>

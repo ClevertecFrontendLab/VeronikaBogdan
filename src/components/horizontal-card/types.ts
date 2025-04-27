@@ -5,7 +5,7 @@ type nutritionValue = {
     carbohydrates: number;
 };
 
-type ingredient = {
+export type ingredient = {
     title: string;
     count: string;
     measureUnit: string;

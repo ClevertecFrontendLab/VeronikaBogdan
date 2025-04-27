@@ -17,6 +17,9 @@ export const menuStyles = {
             color: 'blackAlpha.700',
             borderColor: 'blackAlpha.200',
         },
+        _hover: {
+            backgroundColor: 'transparent',
+        },
         _expanded: {
             backgroundColor: 'white',
             borderColor: 'lime.300',
@@ -30,7 +33,6 @@ export const menuStyles = {
         },
     },
     list: {
-        p: 'relative',
         top: -2,
         border: 0,
         py: 1,

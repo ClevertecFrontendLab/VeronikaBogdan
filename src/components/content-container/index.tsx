@@ -19,9 +19,14 @@ import AllergenMenu from '~/components/allergen-menu';
 import { filtersSelector, setSearchText, setSearchTextInput } from '~/store/filters-slice';
 import { useAppDispatch, useAppSelector } from '~/store/hooks';
 
-type PageHeaderProps = { title: string; description?: string; children: ReactNode };
+type PageHeaderProps = {
+    title: string;
+    description?: string;
+    children: ReactNode;
+    notFound: boolean;
+};
 
-const ContentContainer = ({ title, description, children }: PageHeaderProps) => {
+const ContentContainer = ({ title, description, children, notFound }: PageHeaderProps) => {
     const dispatch = useAppDispatch();
 
     const [isSearch, setSearch] = useBoolean();
@@ -84,14 +89,14 @@ const ContentContainer = ({ title, description, children }: PageHeaderProps) => 
                                     colorScheme='blackAlpha'
                                     fontSize={{ base: 'sm', xl: 'lg' }}
                                     h={{ base: 8, xl: 12 }}
-                                    borderColor='blackAlpha.600'
+                                    borderColor={notFound ? 'red' : 'blackAlpha.600'}
                                     placeholder={isSearch ? '' : 'Название или ингредиент...'}
                                     _placeholder={{ color: 'inherit' }}
                                     _focusVisible={{
-                                        borderColor: 'blackAlpha.600',
+                                        borderColor: notFound ? 'red' : 'blackAlpha.600',
                                         boxShadow: 'none',
                                     }}
-                                    _hover={{ borderColor: 'blackAlpha.600' }}
+                                    _hover={{ borderColor: notFound ? 'red' : 'blackAlpha.600' }}
                                     onFocus={() => {
                                         setSearch.on();
                                     }}

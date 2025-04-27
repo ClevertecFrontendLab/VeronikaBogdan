@@ -14,6 +14,7 @@ import {
     Switch,
     Tag,
 } from '@chakra-ui/react';
+import { useEffect, useRef } from 'react';
 
 import { ALLERGENS } from '~/constants/allergens';
 import {
@@ -31,7 +32,13 @@ const AllergenMenu = () => {
 
     const { isAllergens, allergens, otherAllergen } = useAppSelector(filtersSelector);
 
-    console.log('isAllergens', isAllergens, allergens);
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        setTimeout(() => {
+            inputRef.current?.focus();
+        }, 10);
+    }, [inputRef, allergens]);
 
     return (
         <>
@@ -74,7 +81,11 @@ const AllergenMenu = () => {
                                   ))
                                 : 'Выберите из списка...'}
                         </MenuButton>
-                        <MenuList data-test-id='allergens-menu' {...menuStyles.list}>
+                        <MenuList
+                            data-test-id='allergens-menu'
+                            position='relative'
+                            {...menuStyles.list}
+                        >
                             <MenuOptionGroup
                                 type='checkbox'
                                 value={allergens}
@@ -84,11 +95,19 @@ const AllergenMenu = () => {
                                     <MenuItemOption
                                         key={allergen}
                                         fontSize='sm'
+                                        borderRadius={0}
+                                        _hover={{
+                                            outline: 0,
+                                        }}
+                                        _focus={{
+                                            outline: 0,
+                                            border: 0,
+                                        }}
                                         sx={{
-                                            '&:nth-child(2n + 1)': {
+                                            '&:nth-of-type(2n + 1)': {
                                                 backgroundColor: 'blackAlpha.200',
                                             },
-                                            '& > span:first-child': {
+                                            '& > span:first-of-type': {
                                                 borderRadius: '2px',
                                                 border: '3px solid',
                                                 borderColor: allergens.includes(allergen)
@@ -107,7 +126,6 @@ const AllergenMenu = () => {
                                                 opacity: allergens.includes(allergen) ? 1 : 0,
                                             },
                                         }}
-                                        borderRadius={0}
                                         value={allergen}
                                         data-test-id={`allergen-${allergenIndex}`}
                                     >
@@ -117,11 +135,14 @@ const AllergenMenu = () => {
                             </MenuOptionGroup>
                             <HStack pl={6} pr={3} spacing={4} my={2}>
                                 <Input
+                                    ref={inputRef}
                                     type='text'
                                     data-test-id='add-other-allergen'
                                     placeholder='Другой аллерген'
                                     _placeholder={{ color: 'lime.800' }}
                                     fontSize='sm'
+                                    _focusVisible={{ outline: 0 }}
+                                    autoFocus
                                     value={otherAllergen}
                                     onChange={(event) =>
                                         dispatch(setOtherAllergen(event.target.value))
@@ -142,6 +163,7 @@ const AllergenMenu = () => {
                                     color='white'
                                     aria-label='Add new allergen'
                                     icon={<SmallAddIcon width='auto' height='auto' />}
+                                    onClick={() => dispatch(addOtherAllergen())}
                                 />
                             </HStack>
                         </MenuList>

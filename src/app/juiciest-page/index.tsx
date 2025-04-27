@@ -7,17 +7,23 @@ import { ALL_CARDS } from '~/constants/grid-cards';
 import { RELEVANT_KITCHEN_MAIN } from '~/constants/relevant-kitchen';
 import { filtersSelector } from '~/store/filters-slice';
 import { useAppSelector } from '~/store/hooks';
+import { filterByAllergens } from '~/utils/allergenFilter';
 import { searchTextFilter } from '~/utils/searchTextFilter';
 
 const JuiciestPage = () => {
-    const { searchText } = useAppSelector(filtersSelector);
+    const { allergens, searchText } = useAppSelector(filtersSelector);
 
-    const filteredBySearchText = searchTextFilter({ cards: ALL_CARDS, searchText });
+    const filteredByAllergens = filterByAllergens({ cards: ALL_CARDS, allergens });
 
-    const cards = filteredBySearchText.length > 0 ? filteredBySearchText : ALL_CARDS;
+    const filteredBySearchText = searchTextFilter({ cards: filteredByAllergens, searchText });
+
+    const cards = filteredBySearchText.length > 0 ? filteredBySearchText : filteredByAllergens;
 
     return (
-        <ContentContainer title='Самое сочное'>
+        <ContentContainer
+            title='Самое сочное'
+            notFound={filteredBySearchText.length === 0 || filteredByAllergens.length === 0}
+        >
             <Grid
                 layerStyle='contentContainer'
                 templateColumns={{

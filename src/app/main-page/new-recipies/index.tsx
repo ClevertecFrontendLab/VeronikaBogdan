@@ -96,7 +96,7 @@ const NewRecipies = () => {
                                 h={{ base: '224px', xl: '402px', '3xl': '424px' }}
                                 w={{ base: '158px', xl: '277px', '3xl': '322px' }}
                                 minW={{ base: '158px', xl: '277px', '3xl': '322px' }}
-                                onClick={() => navigate(`/vegan-cuisine/first-dishes/${recipe.id}`)}
+                                onClick={() => navigate(`/vegan/first-dishes/${recipe.id}`)}
                             >
                                 <Badge
                                     icon={badge?.icon}

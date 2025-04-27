@@ -1,8 +1,6 @@
 import { SearchIcon } from '@chakra-ui/icons';
 import {
     Center,
-    FormControl,
-    FormLabel,
     Heading,
     HStack,
     IconButton,
@@ -10,15 +8,14 @@ import {
     Input,
     InputGroup,
     InputRightElement,
-    Select,
     Stack,
-    Switch,
     Text,
     useBoolean,
 } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 import FilterIcon from '~/assets/svg/filter-icon.svg';
+import AllergenMenu from '~/components/allergen-menu';
 import { filtersSelector, setSearchText, setSearchTextInput } from '~/store/filters-slice';
 import { useAppDispatch, useAppSelector } from '~/store/hooks';
 
@@ -42,7 +39,7 @@ const ContentContainer = ({ title, description, children }: PageHeaderProps) => 
                     spacing={{ base: 4, xl: 6 }}
                     flex={{ base: 1 }}
                     align='center'
-                    maxW={{ md: '480px', xl: '578px', '3xl': '900px' }}
+                    maxW={{ md: '480px', xl: '700px', '3xl': '900px' }}
                     pt={{ base: 4, xl: 5, '3xl': 1 }}
                     pb={{ base: 4, xl: 8, '3xl': 8 }}
                     boxShadow={
@@ -70,6 +67,7 @@ const ContentContainer = ({ title, description, children }: PageHeaderProps) => 
                             mt={{ base: '-4px', xl: description ? '2' : '-4px' }}
                         >
                             <IconButton
+                                data-test-id='filter-button'
                                 variant='outline'
                                 colorScheme='blackAlpha'
                                 aria-label='Фильтры'
@@ -86,6 +84,7 @@ const ContentContainer = ({ title, description, children }: PageHeaderProps) => 
                                     colorScheme='blackAlpha'
                                     fontSize={{ base: 'sm', xl: 'lg' }}
                                     h={{ base: 8, xl: 12 }}
+                                    borderColor='blackAlpha.600'
                                     placeholder={isSearch ? '' : 'Название или ингредиент...'}
                                     _placeholder={{ color: 'inherit' }}
                                     _focusVisible={{
@@ -93,7 +92,6 @@ const ContentContainer = ({ title, description, children }: PageHeaderProps) => 
                                         boxShadow: 'none',
                                     }}
                                     _hover={{ borderColor: 'blackAlpha.600' }}
-                                    borderColor='blackAlpha.600'
                                     onFocus={() => {
                                         setSearch.on();
                                     }}
@@ -132,22 +130,7 @@ const ContentContainer = ({ title, description, children }: PageHeaderProps) => 
                             </InputGroup>
                         </HStack>
                         <HStack hideBelow='xl' spacing={4}>
-                            <FormControl
-                                display='flex'
-                                alignItems='center'
-                                whiteSpace='nowrap'
-                                ml={2}
-                            >
-                                <FormLabel htmlFor='exclude-allergens' mb='0'>
-                                    Исключить мои аллергены
-                                </FormLabel>
-                                <Switch id='exclude-allergens' />
-                            </FormControl>
-                            <Select
-                                placeholder='Выберите из списка...'
-                                color='blackAlpha.700'
-                                borderColor='blackAlpha.200'
-                            />
+                            <AllergenMenu />
                         </HStack>
                     </Stack>
                 </Stack>

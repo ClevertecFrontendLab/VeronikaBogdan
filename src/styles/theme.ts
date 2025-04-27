@@ -5,6 +5,7 @@ import buttonTheme from '~/styles/components/button';
 import cardTheme from '~/styles/components/card';
 import gridTheme from '~/styles/components/grid';
 import headingTheme from '~/styles/components/heading';
+import menuTheme from '~/styles/components/menu';
 import switchTheme from '~/styles/components/switch';
 import layerStyles from '~/styles/layer-styles';
 import textStyles from '~/styles/text-styles';
@@ -95,6 +96,7 @@ export const theme = extendTheme({
         Divider: dividerTheme,
         Grid: gridTheme,
         Heading: headingTheme,
+        Menu: menuTheme,
         Switch: switchTheme,
     },
 });

@@ -27,7 +27,7 @@ const CategoryPage = () => {
 
     const filteredBySearchText = searchTextFilter({ cards: filteredBySubcategory, searchText });
 
-    console.log(filteredBySubcategory, filteredBySearchText);
+    // console.log(filteredBySubcategory, filteredBySearchText);
 
     const cards = filteredBySearchText.length > 0 ? filteredBySearchText : filteredBySubcategory;
 

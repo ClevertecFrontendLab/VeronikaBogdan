@@ -40,6 +40,8 @@ const NewRecipies = () => {
             spacing={{ base: 3, xl: 6 }}
             position='relative'
             overflowX={{ xl: 'hidden', '3xl': 'visible' }}
+            // layerStyle='contentContainer'
+            pl={{ base: 4, md: 5, xl: 0 }}
         >
             <Heading variant='blockTitle' size='blockTitle'>
                 Новые рецепты
@@ -95,14 +97,13 @@ const NewRecipies = () => {
                                     `/${getCategory(recipe.category[0])?.path}/${getSingleSubcategory(recipe.category[0], recipe.subcategory[0])?.path}/${recipe.id}`,
                                 )
                             }
-                            // onClick={() => navigate(`/vegan/first-dishes/${recipe.id}`)}
                         >
                             <Stack
                                 spacing={2}
                                 position='absolute'
                                 top={2}
                                 left={2}
-                                // w={{ base: '158px', xl: '346px' }}
+                                w={{ base: '158px', xl: '277px', '3xl': '322px' }}
                             >
                                 {recipe.category.map((category) => (
                                     <Badge
@@ -131,7 +132,13 @@ const NewRecipies = () => {
                                     <Text textStyle='text' noOfLines={3} hideBelow='xl'>
                                         {recipe.description}
                                     </Text>
-                                    <Flex mt='auto' mb={0} justify='space-between'>
+                                    <Flex
+                                        mt='auto'
+                                        mb={0}
+                                        justify='space-between'
+                                        flexDirection={{ base: 'row-reverse', xl: 'row' }}
+                                        alignItems='flex-end'
+                                    >
                                         <Stack spacing={2}>
                                             {recipe.category.map((category) => (
                                                 <Badge

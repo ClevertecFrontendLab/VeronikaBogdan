@@ -5,7 +5,6 @@ import {
     Card,
     CardBody,
     CardFooter,
-    // Flex,
     Heading,
     Highlight,
     HStack,
@@ -30,14 +29,8 @@ const HorizontalCard = ({ card, dataTestIdButton }: HorizontalCardProps) => {
     const { searchText } = useAppSelector(filtersSelector);
 
     return (
-        <Card direction='row'>
-            <Stack
-                spacing={2}
-                position='absolute'
-                top={2}
-                left={2}
-                w={{ base: '158px', xl: '346px' }}
-            >
+        <Card direction='row' h='full'>
+            <Stack spacing={2} position='absolute' top={2} left={2}>
                 {card.category.map((category) => (
                     <Badge
                         key={category}
@@ -58,14 +51,22 @@ const HorizontalCard = ({ card, dataTestIdButton }: HorizontalCardProps) => {
             <Image
                 src={card.image}
                 borderLeftRadius='lg'
-                h={{ base: '131px', xl: '244px' }}
+                // h={{ base: '131px', xl: '244px' }}
                 w={{ base: '158px', xl: '346px' }}
             />
             <Stack flex={1} px={{ base: 2, xl: 6 }}>
                 <CardBody px={{ base: 0 }} py={{ base: 2, xl: 0 }} pt={{ base: 2, xl: 5 }}>
                     <Stack gap={{ base: 0, xl: 2 }}>
-                        <HStack justify='space-between'>
-                            <Stack spacing={2}>
+                        <HStack
+                            justify='space-between'
+                            alignItems='flex-start'
+                            flexDir={{ base: 'row-reverse', xl: 'row' }}
+                        >
+                            <Stack
+                                spacing={2}
+                                flexWrap='wrap'
+                                direction={{ xl: 'row', '3xl': 'column' }}
+                            >
                                 {card.category.map((category) => (
                                     <Badge
                                         key={category}
@@ -76,7 +77,10 @@ const HorizontalCard = ({ card, dataTestIdButton }: HorizontalCardProps) => {
                                     />
                                 ))}
                             </Stack>
-                            <HStack>
+                            <HStack
+                                w='130px'
+                                justifyContent={{ base: 'flex-start', xl: 'flex-end' }}
+                            >
                                 {card.bookmarks && (
                                     <IconCountWrapper type='favorite' count={card.bookmarks} />
                                 )}

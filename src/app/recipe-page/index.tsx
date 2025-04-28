@@ -1,4 +1,5 @@
 import {
+    Box,
     Button,
     Card,
     CardBody,
@@ -13,6 +14,8 @@ import {
 import { useParams } from 'react-router';
 
 import Bookmark from '~/assets/svg/bookmark-heart.svg';
+import HeartEyes from '~/assets/svg/emoji-heart-eyes.svg';
+import Timer from '~/assets/svg/timer.svg';
 import Badge from '~/components/badge';
 import IconCountWrapper from '~/components/icon-count-wrapper';
 import { ALL_CARDS } from '~/constants/grid-cards';
@@ -27,39 +30,28 @@ const RecipePage = () => {
         <Stack
             spacing={{ '3xl': 10 }}
             pb={{ base: '100px', xl: 0 }}
-            paddingTop={{ base: '62px', xl: '135px' }}
+            paddingTop={{ base: '80px', xl: '135px' }}
         >
-            <Card direction='row' variant='page'>
-                <Stack
-                    spacing={2}
-                    position='absolute'
-                    top={2}
-                    left={2}
-                    w={{ base: '158px', xl: '346px' }}
-                >
-                    {card.category.map((category) => (
-                        <Badge
-                            key={category}
-                            icon={getCategory(category)?.icon}
-                            text={getCategory(category)?.label}
-                            type='horizontal'
-                            hideFrom='xl'
-                        />
-                    ))}
-                </Stack>
+            <Card
+                direction={{ base: 'column', md: 'row' }}
+                variant='page'
+                layerStyle='contentContainer'
+            >
                 <Image
                     src={card?.image}
-                    borderLeftRadius='lg'
-                    h={{ base: '131px', xl: '244px' }}
-                    w={{ base: '158px', xl: '346px' }}
+                    borderRadius='lg'
+                    h={{ base: '224px', md: '225px', xl: '411px' }}
+                    w={{ base: '100%', md: '230px', xl: '353px', '3xl': '554px' }}
+                    objectFit='cover'
                 />
-                <Stack flex={1} px={{ base: 2, xl: 6 }}>
-                    <CardBody px={{ base: 0 }} py={{ base: 2, xl: 0 }} pt={{ base: 2, xl: 5 }}>
+                <Stack flex={1} pl={{ base: 0, md: 5, xl: 6 }} pt={{ base: 4, md: 0 }}>
+                    <CardBody px={{ base: 0 }} py={{ base: 2, xl: 0 }} pt={0}>
                         <Stack gap={{ base: 0, xl: 2 }}>
-                            <Flex justify='space-between'>
+                            <Flex justify='space-between' alignItems='flex-start'>
                                 <Stack
                                     spacing={2}
-                                    //  w={{ base: '158px', xl: '346px' }}
+                                    flexWrap='wrap'
+                                    direction={{ base: 'column', xl: 'row' }}
                                 >
                                     {card.category.map((category) => (
                                         <Badge
@@ -67,11 +59,10 @@ const RecipePage = () => {
                                             icon={getCategory(category)?.icon}
                                             text={getCategory(category)?.label}
                                             type='horizontal'
-                                            hideBelow='xl'
                                         />
                                     ))}
                                 </Stack>
-                                <HStack>
+                                <HStack w='165px' justifyContent='flex-end'>
                                     {card?.bookmarks && (
                                         <IconCountWrapper type='favorite' count={card.bookmarks} />
                                     )}
@@ -81,42 +72,61 @@ const RecipePage = () => {
                                 </HStack>
                             </Flex>
                             <Heading
-                                size='listTitle'
-                                letterSpacing='tight'
-                                noOfLines={{ base: 2, '3xl': 1 }}
-                                mt={{ base: 0, xl: 4 }}
+                                fontSize={{ base: '2xl', xl: '5xl' }}
+                                lineHeight={{ base: '133%', xl: '100%' }}
+                                mt={{ base: 8 }}
+                                maxW={{ xl: '430px' }}
                             >
                                 {card.title}
                             </Heading>
-                            <Text textStyle='text' noOfLines={3} hideBelow='xl'>
+                            <Text textStyle='text' mt={{ base: 4 }}>
                                 {card.description}
                             </Text>
                         </Stack>
                     </CardBody>
                     <CardFooter
-                        justify='flex-end'
-                        gap={2}
-                        px={{ base: 0 }}
-                        pt={{ base: 0 }}
-                        pb={{ base: 1, xl: 5 }}
+                        justify='space-between'
+                        flexDirection={{ base: 'column', md: 'row' }}
+                        gap={3}
+                        p={{ base: 0 }}
                     >
-                        <Button
-                            variant='listCardOutline'
-                            size='listCard'
-                            leftIcon={<Image src={Bookmark} boxSize={{ xl: 3 }} />}
-                            px={{ base: 1, xl: 3 }}
+                        <Box alignContent='flex-end'>
+                            <Badge icon={Timer} text={card.time} type='time' />
+                        </Box>
+                        <HStack
+                            justify={{ base: 'flex-start', md: 'flex-end' }}
+                            gap={{ base: 2, md: 4 }}
+                            px={{ base: 0 }}
+                            pt={{ base: 0 }}
+                            pb={{ base: 0 }}
                         >
-                            <Text hideBelow='xl'>Сохранить</Text>
-                        </Button>
-                        <Button
-                            variant='listCardSolid'
-                            size='listCard'
-                            // onClick={() =>
-                            //     navigate(`/${card.category[0]}/${card.subcategory[0]}/${card.id}`)
-                            // }
-                        >
-                            Готовить
-                        </Button>
+                            <Button
+                                variant='listCardOutline'
+                                size='recipeButton'
+                                leftIcon={
+                                    <Image
+                                        src={HeartEyes}
+                                        marginInlineEnd={2}
+                                        boxSize={{ base: 3, xl: 4 }}
+                                    />
+                                }
+                            >
+                                <Text>Оценить рецепт</Text>
+                            </Button>
+                            <Button
+                                variant='recipeButton'
+                                size='recipeButton'
+                                leftIcon={
+                                    <Image
+                                        src={Bookmark}
+                                        marginInlineEnd={2}
+                                        boxSize={{ base: 3, xl: 4 }}
+                                    />
+                                }
+                            >
+                                Сохранить в закладки
+                            </Button>
+                        </HStack>
                     </CardFooter>
                 </Stack>
             </Card>

@@ -17,6 +17,12 @@ const sizes = defineStyle({
         px: { base: 2, '3xl': 3 },
         py: { base: 1.5, xl: 2, '3xl': 1 },
     },
+    recipeButton: {
+        fontSize: { base: 'xs', xl: 'sm', '3xl': 'lg' },
+        lineHeight: { base: '133%', xl: '143%', '3xl': '156%' },
+        px: { base: 2, md: 2, '3xl': 6 },
+        py: { base: 1, md: 1, '3xl': 2.5 },
+    },
 });
 
 const variants = defineStyle({
@@ -55,6 +61,12 @@ const variants = defineStyle({
         w: 'fit-content',
         alignSelf: 'center',
         mr: { xl: -2 },
+    },
+    recipeButton: {
+        fontWeight: 600,
+        bg: 'lime.400',
+        w: 'fit-content',
+        alignSelf: 'center',
     },
 });
 

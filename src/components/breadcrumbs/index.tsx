@@ -5,18 +5,22 @@ import { useLocation, useParams } from 'react-router';
 import { Link } from 'react-router';
 
 import { ALL_CARDS } from '~/constants/grid-cards';
-import { setBurgerMenuState } from '~/store/menu-slice';
+import { useAppSelector } from '~/store/hooks';
+import { menuSelector, setBurgerMenuState } from '~/store/menu-slice';
 import { getCategory, getSingleSubcategory, getSubcategories } from '~/utils/currentPaths';
 
 type BreadCrumbsProps = { hideBelow?: string; hideFrom?: string };
 
 const BreadCrubms = ({ hideBelow, hideFrom }: BreadCrumbsProps) => {
+    const { isBurgerMenu } = useAppSelector(menuSelector);
     const dispatch = useDispatch();
     const { pathname } = useLocation();
     const { category, subcategory, recipeId } = useParams();
 
     const handleHide = () => {
-        dispatch(setBurgerMenuState());
+        if (isBurgerMenu) {
+            dispatch(setBurgerMenuState());
+        }
     };
 
     return pathname === '/' ? (

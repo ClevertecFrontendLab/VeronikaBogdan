@@ -24,7 +24,7 @@ const Badge = ({
         borderRadius='base'
         py='2px'
         px={{ base: 1, xl: 2 }}
-        bg={type === 'vertical' ? 'lime.150' : 'lime.50'}
+        bg={type === 'time' ? 'blackAlpha.100' : type === 'vertical' ? 'lime.150' : 'lime.50'}
         hideBelow={hideBelow}
         hideFrom={hideFrom}
         position={isTopPositioned || isBottomPositioned ? 'absolute' : 'static'}

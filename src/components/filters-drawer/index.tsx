@@ -25,7 +25,13 @@ import {
 import MultiSelect from '~/components/multi-select';
 import CATEGORIES from '~/constants/categories';
 import { ALLERGENS, AUTHORS, MEAT, SIDE } from '~/constants/labels';
-import { addNewAllergen, clearFilters, filtersSelector, setFilters } from '~/store/filters-slice';
+import {
+    addNewAllergen,
+    clearFilters,
+    filtersSelector,
+    setFilters,
+    toggleFindRecipe,
+} from '~/store/filters-slice';
 import { useAppDispatch, useAppSelector } from '~/store/hooks';
 
 type FiltersDrawer = { disclosure: { isOpen: boolean; onClose: () => void } };
@@ -43,8 +49,6 @@ const FiltersDrawer = ({ disclosure }: FiltersDrawer) => {
     const tags = Object.values(filters)
         .filter((tag) => tag && tag !== true)
         .flat();
-
-    console.log(Object.values(filters).flat());
 
     return (
         <Drawer isOpen={isOpen} placement='right' onClose={onClose}>
@@ -104,6 +108,7 @@ const FiltersDrawer = ({ disclosure }: FiltersDrawer) => {
                                 Тип мяса
                             </Heading>
                             <CheckboxGroup
+                                value={filters.meat}
                                 onChange={(value) => dispatch(setFilters({ name: 'meat', value }))}
                             >
                                 {MEAT.map((meatItem) => (
@@ -123,6 +128,7 @@ const FiltersDrawer = ({ disclosure }: FiltersDrawer) => {
                                 Тип гарнира
                             </Heading>
                             <CheckboxGroup
+                                value={filters.side}
                                 onChange={(value) => dispatch(setFilters({ name: 'side', value }))}
                             >
                                 {SIDE.map((sideItem) => (
@@ -189,6 +195,7 @@ const FiltersDrawer = ({ disclosure }: FiltersDrawer) => {
                                     borderRadius='full'
                                     variant='solid'
                                     bg='lime.100'
+                                    border='1px solid'
                                     borderColor='lime.400'
                                     data-test-id='filter-tag'
                                 >
@@ -218,6 +225,7 @@ const FiltersDrawer = ({ disclosure }: FiltersDrawer) => {
                                 onClick={() => {
                                     if (!isDisableNewRecipe) {
                                         onClose();
+                                        dispatch(toggleFindRecipe(true));
                                     }
                                 }}
                             >

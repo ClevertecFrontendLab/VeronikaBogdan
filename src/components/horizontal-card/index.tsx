@@ -37,7 +37,6 @@ const HorizontalCard = ({ card }: HorizontalCardProps) => {
                 hideFrom='xl'
                 isTopPositioned
             />
-            {/* {card?.recommend && ( */}
             <Badge
                 icon={RecommendationWoman}
                 text='Елена Высоцкая рекомендует'
@@ -45,7 +44,6 @@ const HorizontalCard = ({ card }: HorizontalCardProps) => {
                 hideBelow='xl'
                 isBottomPositioned
             />
-            {/* )} */}
             <Image
                 src={card.image}
                 borderLeftRadius='lg'

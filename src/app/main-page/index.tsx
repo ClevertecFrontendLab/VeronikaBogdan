@@ -11,12 +11,20 @@ import { RELEVANT_KITCHEN_MAIN } from '~/constants/relevant-kitchen';
 import { filtersSelector } from '~/store/filters-slice';
 import { useAppSelector } from '~/store/hooks';
 import { filterByAllergens } from '~/utils/allergenFilter';
+import { filterByCategory } from '~/utils/categoryFilter';
 import { searchTextFilter } from '~/utils/searchTextFilter';
 
 const MainPage = () => {
-    const { allergens, searchText } = useAppSelector(filtersSelector);
+    const {
+        allergens,
+        searchText,
+        filters: { categories },
+    } = useAppSelector(filtersSelector);
 
-    const filteredByAllergens = filterByAllergens({ cards: ALL_CARDS, allergens });
+    const filteredByCategory =
+        categories.length > 0 ? filterByCategory({ cards: ALL_CARDS, categories }) : ALL_CARDS;
+
+    const filteredByAllergens = filterByAllergens({ cards: filteredByCategory, allergens });
 
     const filteredBySearchText = searchTextFilter({ cards: filteredByAllergens, searchText });
 
@@ -28,7 +36,11 @@ const MainPage = () => {
     return (
         <ContentContainer
             title='Приятного аппетита!'
-            notFound={filteredBySearchText.length === 0 || filteredByAllergens.length === 0}
+            notFound={
+                filteredBySearchText.length === 0 ||
+                filteredByAllergens.length === 0 ||
+                filteredByCategory.length === 0
+            }
         >
             {clearedSearch ? (
                 <>

@@ -12,6 +12,7 @@ const initialState = {
     allergens: [] as string[],
     otherAllergen: '',
 
+    isFindRecipe: false,
     filters: {
         categories: [] as string[],
         authors: [] as string[],
@@ -63,6 +64,16 @@ export const filtersSlice = createSlice({
         clearFilters(state) {
             state.filters = initialState.filters;
         },
+
+        toggleFindRecipe(state, { payload }) {
+            state.isFindRecipe = payload;
+
+            if (payload) {
+                state.allergens = Object.values(state.filters)
+                    .filter((tag) => tag && tag !== true)
+                    .flat();
+            }
+        },
     },
 });
 export const filtersSelector = (state: ApplicationState) => state.filters;
@@ -79,5 +90,7 @@ export const {
     setFilters,
     addNewAllergen,
     clearFilters,
+
+    toggleFindRecipe,
 } = filtersSlice.actions;
 export default filtersSlice.reducer;

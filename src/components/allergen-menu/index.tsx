@@ -62,7 +62,7 @@ const AllergenMenu = () => {
                         <MenuButton
                             as={Button}
                             isDisabled={!isAllergens}
-                            data-test-id={isOpen ? 'allergens-menu-button' : ''}
+                            data-test-id='allergens-menu-button'
                             rightIcon={isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
                             borderColor={allergens.length > 0 ? 'lime.300' : 'blackAlpha.200'}
                             {...menuStyles.button}

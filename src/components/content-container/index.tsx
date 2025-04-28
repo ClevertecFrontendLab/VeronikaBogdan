@@ -18,7 +18,13 @@ import { ReactNode } from 'react';
 import FilterIcon from '~/assets/svg/filter-icon.svg';
 import AllergenMenu from '~/components/allergen-menu';
 import FiltersDrawer from '~/components/filters-drawer';
-import { filtersSelector, setSearchText, setSearchTextInput } from '~/store/filters-slice';
+import {
+    clearFilters,
+    filtersSelector,
+    setSearchText,
+    setSearchTextInput,
+    toggleFindRecipe,
+} from '~/store/filters-slice';
 import { useAppDispatch, useAppSelector } from '~/store/hooks';
 
 type PageHeaderProps = {
@@ -83,7 +89,11 @@ const ContentContainer = ({ title, description, children, notFound }: PageHeader
                                 h={{ base: 8, xl: 12 }}
                                 minW={{ base: 8, xl: 'auto' }}
                                 icon={<Image src={FilterIcon} h={{ base: 4, xl: 7 }} />}
-                                onClick={() => filtersDrawerDisclosure.onOpen()}
+                                onClick={() => {
+                                    filtersDrawerDisclosure.onOpen();
+                                    dispatch(toggleFindRecipe(false));
+                                    dispatch(clearFilters());
+                                }}
                             />
                             <InputGroup>
                                 <Input

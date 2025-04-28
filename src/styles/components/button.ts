@@ -32,6 +32,14 @@ const variants = defineStyle({
         fontWeight: 600,
         color: 'white',
         bg: 'black',
+        _disabled: {
+            bg: 'gray.700',
+            '&[type="button"]': {
+                _hover: {
+                    bg: 'gray.700',
+                },
+            },
+        },
     },
     listCardOutline: {
         fontWeight: 600,

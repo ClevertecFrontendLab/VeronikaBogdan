@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { ApplicationState } from './configure-store';
 
@@ -11,6 +11,16 @@ const initialState = {
     isAllergens: false,
     allergens: [] as string[],
     otherAllergen: '',
+
+    filters: {
+        categories: [] as string[],
+        authors: [] as string[],
+        meat: [] as string[],
+        side: [] as string[],
+        isAllergens: false,
+        newAllergen: '',
+        allergens: [] as string[],
+    },
 };
 export const filtersSlice = createSlice({
     name: 'filters',
@@ -40,6 +50,19 @@ export const filtersSlice = createSlice({
             state.allergens.push(state.otherAllergen);
             state.otherAllergen = initialState.otherAllergen;
         },
+
+        setFilters(state, { payload }: PayloadAction<{ name: string; value: string[] | boolean }>) {
+            const { name, value } = payload;
+
+            state.filters[name] = value;
+        },
+        addNewAllergen(state) {
+            state.filters.allergens.push(state.filters.newAllergen);
+            state.filters.newAllergen = initialState.filters.newAllergen;
+        },
+        clearFilters(state) {
+            state.filters = initialState.filters;
+        },
     },
 });
 export const filtersSelector = (state: ApplicationState) => state.filters;
@@ -52,5 +75,9 @@ export const {
     setAllergens,
     setOtherAllergen,
     addOtherAllergen,
+
+    setFilters,
+    addNewAllergen,
+    clearFilters,
 } = filtersSlice.actions;
 export default filtersSlice.reducer;

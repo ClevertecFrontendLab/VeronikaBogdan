@@ -22,6 +22,12 @@ const textStyles = {
         textAlign: 'center',
         color: 'blackAlpha.700',
     },
+    filterHeader: {
+        fontSize: '2xl',
+        fontWeight: 700,
+        lineHeight: '133%',
+        color: 'black',
+    },
 };
 
 export default textStyles;

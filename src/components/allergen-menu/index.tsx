@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useRef } from 'react';
 
-import { ALLERGENS } from '~/constants/allergens';
+import { ALLERGENS } from '~/constants/labels';
 import {
     addOtherAllergen,
     filtersSelector,
@@ -34,10 +34,13 @@ const AllergenMenu = () => {
 
     const inputRef = useRef<HTMLInputElement>(null);
 
-    useEffect(() => {
+    const focusInput = () =>
         setTimeout(() => {
             inputRef.current?.focus();
-        }, 10);
+        }, 35);
+
+    useEffect(() => {
+        focusInput();
     }, [inputRef, allergens]);
 
     return (
@@ -53,13 +56,13 @@ const AllergenMenu = () => {
                     onChange={() => dispatch(toggleAllergens())}
                 />
             </FormControl>
-            <Menu closeOnSelect={false} variant='searchBox'>
+            <Menu closeOnSelect={false} onOpen={() => focusInput()} variant='searchBox'>
                 {({ isOpen }) => (
                     <>
                         <MenuButton
                             as={Button}
                             isDisabled={!isAllergens}
-                            data-test-id='allergens-menu-button'
+                            data-test-id={isOpen ? 'allergens-menu-button' : ''}
                             rightIcon={isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
                             borderColor={allergens.length > 0 ? 'lime.300' : 'blackAlpha.200'}
                             {...menuStyles.button}
@@ -82,7 +85,7 @@ const AllergenMenu = () => {
                                 : 'Выберите из списка...'}
                         </MenuButton>
                         <MenuList
-                            data-test-id='allergens-menu'
+                            data-test-id={isOpen ? 'allergens-menu' : ''}
                             position='relative'
                             {...menuStyles.list}
                         >
@@ -127,7 +130,7 @@ const AllergenMenu = () => {
                                             },
                                         }}
                                         value={allergen}
-                                        data-test-id={`allergen-${allergenIndex}`}
+                                        data-test-id={isOpen ? `allergen-${allergenIndex}` : ''}
                                     >
                                         {allergen}
                                     </MenuItemOption>
@@ -137,7 +140,7 @@ const AllergenMenu = () => {
                                 <Input
                                     ref={inputRef}
                                     type='text'
-                                    data-test-id='add-other-allergen'
+                                    data-test-id={isOpen ? 'add-other-allergen' : ''}
                                     placeholder='Другой аллерген'
                                     _placeholder={{ color: 'lime.800' }}
                                     fontSize='sm'
@@ -154,7 +157,7 @@ const AllergenMenu = () => {
                                     }}
                                 />
                                 <IconButton
-                                    data-test-id='add-allergen-button'
+                                    data-test-id={isOpen ? 'add-allergen-button' : ''}
                                     isRound={true}
                                     variant='solid'
                                     minW='12px'

@@ -2,11 +2,10 @@ import { createMultiStyleConfigHelpers } from '@chakra-ui/styled-system';
 
 export const menuStyles = {
     page: { maxW: '270px' },
-    drawer: { maxW: '270px' },
     button: {
         w: '100%',
-        h: '100%',
-        minH: 10,
+        h: 'fit-content',
+        minH: 3,
         py: 2.5,
         pl: 4,
         pr: 0,

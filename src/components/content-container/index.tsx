@@ -11,11 +11,13 @@ import {
     Stack,
     Text,
     useBoolean,
+    useDisclosure,
 } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 import FilterIcon from '~/assets/svg/filter-icon.svg';
 import AllergenMenu from '~/components/allergen-menu';
+import FiltersDrawer from '~/components/filters-drawer';
 import { filtersSelector, setSearchText, setSearchTextInput } from '~/store/filters-slice';
 import { useAppDispatch, useAppSelector } from '~/store/hooks';
 
@@ -28,10 +30,11 @@ type PageHeaderProps = {
 
 const ContentContainer = ({ title, description, children, notFound }: PageHeaderProps) => {
     const dispatch = useAppDispatch();
+    const { searchTextInput } = useAppSelector(filtersSelector);
 
     const [isSearch, setSearch] = useBoolean();
 
-    const { searchTextInput } = useAppSelector(filtersSelector);
+    const filtersDrawerDisclosure = useDisclosure();
 
     return (
         <Stack
@@ -80,6 +83,7 @@ const ContentContainer = ({ title, description, children, notFound }: PageHeader
                                 h={{ base: 8, xl: 12 }}
                                 minW={{ base: 8, xl: 'auto' }}
                                 icon={<Image src={FilterIcon} h={{ base: 4, xl: 7 }} />}
+                                onClick={() => filtersDrawerDisclosure.onOpen()}
                             />
                             <InputGroup>
                                 <Input
@@ -141,6 +145,7 @@ const ContentContainer = ({ title, description, children, notFound }: PageHeader
                 </Stack>
             </Center>
             <Stack spacing={{ base: 8, md: 7, xl: 10, '3xl': 12 }}>{children}</Stack>
+            <FiltersDrawer disclosure={filtersDrawerDisclosure} />
         </Stack>
     );
 };

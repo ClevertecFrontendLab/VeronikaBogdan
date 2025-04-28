@@ -41,6 +41,7 @@ const NavigationMenu = ({ menuRef }: NavigationMenuProps) => {
     const isActiveSubcategory = (value: string) => subcategory === value;
 
     const defaultCategory = CATEGORIES.findIndex((item) => item.path === category);
+
     return (
         <Flex
             data-test-id='nav'

@@ -5,7 +5,7 @@ import {
     Card,
     CardBody,
     CardFooter,
-    Flex,
+    // Flex,
     Heading,
     Highlight,
     HStack,
@@ -22,21 +22,32 @@ import { HorizontalCardProps } from '~/components/horizontal-card/types';
 import IconCountWrapper from '~/components/icon-count-wrapper';
 import { filtersSelector } from '~/store/filters-slice';
 import { useAppSelector } from '~/store/hooks';
+import { getCategory } from '~/utils/currentPaths';
 
-const HorizontalCard = ({ card }: HorizontalCardProps) => {
+const HorizontalCard = ({ card, dataTestIdButton }: HorizontalCardProps) => {
     const navigate = useNavigate();
 
     const { searchText } = useAppSelector(filtersSelector);
 
     return (
         <Card direction='row'>
-            <Badge
-                icon={card?.icon}
-                text={card?.badge}
-                type='horizontal'
-                hideFrom='xl'
-                isTopPositioned
-            />
+            <Stack
+                spacing={2}
+                position='absolute'
+                top={2}
+                left={2}
+                w={{ base: '158px', xl: '346px' }}
+            >
+                {card.category.map((category) => (
+                    <Badge
+                        key={category}
+                        icon={getCategory(category)?.icon}
+                        text={getCategory(category)?.label}
+                        type='horizontal'
+                        hideFrom='xl'
+                    />
+                ))}
+            </Stack>
             <Badge
                 icon={RecommendationWoman}
                 text='Елена Высоцкая рекомендует'
@@ -53,20 +64,25 @@ const HorizontalCard = ({ card }: HorizontalCardProps) => {
             <Stack flex={1} px={{ base: 2, xl: 6 }}>
                 <CardBody px={{ base: 0 }} py={{ base: 2, xl: 0 }} pt={{ base: 2, xl: 5 }}>
                     <Stack gap={{ base: 0, xl: 2 }}>
-                        <Flex justify='space-between'>
-                            <Badge
-                                icon={card.icon}
-                                text={card.badge}
-                                type='horizontal'
-                                hideBelow='xl'
-                            />
+                        <HStack justify='space-between'>
+                            <Stack spacing={2}>
+                                {card.category.map((category) => (
+                                    <Badge
+                                        key={category}
+                                        icon={getCategory(category)?.icon}
+                                        text={getCategory(category)?.label}
+                                        type='horizontal'
+                                        hideBelow='xl'
+                                    />
+                                ))}
+                            </Stack>
                             <HStack>
                                 {card.bookmarks && (
                                     <IconCountWrapper type='favorite' count={card.bookmarks} />
                                 )}
                                 {card.likes && <IconCountWrapper type='like' count={card.likes} />}
                             </HStack>
-                        </Flex>
+                        </HStack>
                         <Heading
                             size='listTitle'
                             letterSpacing='tight'
@@ -98,6 +114,7 @@ const HorizontalCard = ({ card }: HorizontalCardProps) => {
                         <Text hideBelow='xl'>Сохранить</Text>
                     </Button>
                     <Button
+                        data-test-id={dataTestIdButton}
                         variant='listCardSolid'
                         size='listCard'
                         onClick={() =>

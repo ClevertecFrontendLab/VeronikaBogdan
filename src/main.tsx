@@ -10,6 +10,7 @@ import App from '~/app/App.tsx';
 import CategoryPage from '~/app/category-page';
 import JuiciestPage from '~/app/juiciest-page';
 import MainPage from '~/app/main-page';
+import RecipePage from '~/app/recipe-page';
 import { store } from '~/store/configure-store.ts';
 import { theme } from '~/styles/theme';
 
@@ -24,8 +25,8 @@ const router = createBrowserRouter([
                 Component: CategoryPage,
             },
             {
-                path: ':category/:subcategory/:id',
-                Component: CategoryPage,
+                path: ':category/:subcategory/:recipeId',
+                Component: RecipePage,
             },
             { path: 'the-juiciest', Component: JuiciestPage },
         ],

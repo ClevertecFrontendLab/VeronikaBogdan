@@ -31,6 +31,7 @@ const Badge = ({
         top={isTopPositioned ? 2 : ''}
         left={isTopPositioned ? 2 : isBottomPositioned ? 6 : ''}
         bottom={isBottomPositioned ? 5 : ''}
+        w='fit-content'
     >
         <Image src={icon} w={4} />
         <Text textStyle='text' whiteSpace='nowrap'>

@@ -21,8 +21,8 @@ import ArrowRight from '~/assets/svg/arrow-right.svg';
 import Badge from '~/components/badge';
 import IconCountWrapper from '~/components/icon-count-wrapper';
 import { NEW_RECIPIES_COUNT } from '~/constants';
-import CATEGORIES from '~/constants/categories';
 import { ALL_CARDS } from '~/constants/grid-cards';
+import { getCategory, getSingleSubcategory } from '~/utils/currentPaths';
 
 const NewRecipies = () => {
     const navigate = useNavigate();
@@ -82,75 +82,80 @@ const NewRecipies = () => {
                 }}
                 data-test-id='carousel'
             >
-                {filteredNewRecipiesByCount.map((recipe, recipeIndex) => {
-                    const badge = CATEGORIES.find(
-                        (category) =>
-                            category.label === recipe.badge || category.label.includes('Веган'),
-                    );
-
-                    return (
-                        <SwiperSlide key={recipe.id} data-test-id={`carousel-card-${recipeIndex}`}>
-                            <Card
-                                position='relative'
-                                overflow='hidden'
-                                h={{ base: '224px', xl: '402px', '3xl': '424px' }}
-                                w={{ base: '158px', xl: '277px', '3xl': '322px' }}
-                                minW={{ base: '158px', xl: '277px', '3xl': '322px' }}
-                                onClick={() => navigate(`/vegan/first-dishes/${recipe.id}`)}
+                {filteredNewRecipiesByCount.map((recipe, recipeIndex) => (
+                    <SwiperSlide key={recipe.id} data-test-id={`carousel-card-${recipeIndex}`}>
+                        <Card
+                            position='relative'
+                            overflow='hidden'
+                            h={{ base: '224px', xl: '402px', '3xl': '424px' }}
+                            w={{ base: '158px', xl: '277px', '3xl': '322px' }}
+                            minW={{ base: '158px', xl: '277px', '3xl': '322px' }}
+                            onClick={() =>
+                                navigate(
+                                    `/${getCategory(recipe.category[0])?.path}/${getSingleSubcategory(recipe.category[0], recipe.subcategory[0])?.path}/${recipe.id}`,
+                                )
+                            }
+                            // onClick={() => navigate(`/vegan/first-dishes/${recipe.id}`)}
+                        >
+                            <Stack
+                                spacing={2}
+                                position='absolute'
+                                top={2}
+                                left={2}
+                                // w={{ base: '158px', xl: '346px' }}
                             >
-                                <Badge
-                                    icon={badge?.icon}
-                                    text={recipe?.badge}
-                                    type='vertical'
-                                    hideFrom='xl'
-                                    isTopPositioned
-                                />
-                                <Image
-                                    src={recipe.image}
-                                    borderTopRadius='lg'
-                                    h={{ base: '128px', xl: '230px' }}
-                                />
-                                <CardBody
-                                    p={{ base: 2, xl: 3, '3xl': 4 }}
-                                    px={{ '3xl': 6 }}
-                                    h='100%'
-                                >
-                                    <Stack h='100%'>
-                                        <Heading
-                                            size='smallCardTitle'
-                                            letterSpacing='tight'
-                                            noOfLines={{ base: 2, xl: 1 }}
-                                        >
-                                            {recipe.title}
-                                        </Heading>
-                                        <Text textStyle='text' noOfLines={3} hideBelow='xl'>
-                                            {recipe.description}
-                                        </Text>
-                                        {/* <Flex mt={{ xl: 5 }} justify='space-between'> */}
-                                        <Flex mt='auto' mb={0} justify='space-between'>
-                                            <Badge
-                                                icon={badge?.icon}
-                                                text={recipe?.badge}
-                                                type='vertical'
-                                                hideBelow='xl'
+                                {recipe.category.map((category) => (
+                                    <Badge
+                                        key={category}
+                                        icon={getCategory(category)?.icon}
+                                        text={getCategory(category)?.label}
+                                        type='vertical'
+                                        hideFrom='xl'
+                                    />
+                                ))}
+                            </Stack>
+                            <Image
+                                src={recipe.image}
+                                borderTopRadius='lg'
+                                h={{ base: '128px', xl: '230px' }}
+                            />
+                            <CardBody p={{ base: 2, xl: 3, '3xl': 4 }} px={{ '3xl': 6 }} h='100%'>
+                                <Stack h='100%'>
+                                    <Heading
+                                        size='smallCardTitle'
+                                        letterSpacing='tight'
+                                        noOfLines={{ base: 2, xl: 1 }}
+                                    >
+                                        {recipe.title}
+                                    </Heading>
+                                    <Text textStyle='text' noOfLines={3} hideBelow='xl'>
+                                        {recipe.description}
+                                    </Text>
+                                    <Flex mt='auto' mb={0} justify='space-between'>
+                                        <Stack spacing={2}>
+                                            {recipe.category.map((category) => (
+                                                <Badge
+                                                    key={category}
+                                                    icon={getCategory(category)?.icon}
+                                                    text={getCategory(category)?.label}
+                                                    type='vertical'
+                                                    hideBelow='xl'
+                                                />
+                                            ))}
+                                        </Stack>
+                                        <HStack>
+                                            <IconCountWrapper
+                                                type='favorite'
+                                                count={recipe.bookmarks}
                                             />
-                                            <HStack>
-                                                <IconCountWrapper
-                                                    type='favorite'
-                                                    count={recipe.bookmarks}
-                                                />
-                                                <IconCountWrapper
-                                                    type='like'
-                                                    count={recipe.likes}
-                                                />
-                                            </HStack>
-                                        </Flex>
-                                    </Stack>
-                                </CardBody>
-                            </Card>
-                        </SwiperSlide>
-                    );
-                })}
+                                            <IconCountWrapper type='like' count={recipe.likes} />
+                                        </HStack>
+                                    </Flex>
+                                </Stack>
+                            </CardBody>
+                        </Card>
+                    </SwiperSlide>
+                ))}
             </Swiper>
         </Stack>
     );

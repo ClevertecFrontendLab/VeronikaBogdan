@@ -30,7 +30,7 @@ const Juiciest = () => {
             <Grid layerStyle='horizontalCards'>
                 {ALL_CARDS.map((card, cardIndex) => (
                     <GridItem key={card.id} data-test-id={`food-card-${cardIndex}`}>
-                        <HorizontalCard card={card} />
+                        <HorizontalCard card={card} dataTestIdButton={`card-link-${cardIndex}`} />
                     </GridItem>
                 ))}
             </Grid>

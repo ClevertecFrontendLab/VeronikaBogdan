@@ -12,6 +12,19 @@ import SecondDishes from '~/assets/svg/categories/second-dishes.svg';
 import Snacks from '~/assets/svg/categories/snacks.svg';
 import VeganCuisine from '~/assets/svg/categories/vegan-cuisine.svg';
 
+export type Subcategory = {
+    label: string;
+    path: string;
+};
+
+export type Category = {
+    label: string;
+    path: string;
+    children: Subcategory[];
+    testId?: string;
+    icon?: string;
+};
+
 export const children = [
     {
         label: 'Закуски',

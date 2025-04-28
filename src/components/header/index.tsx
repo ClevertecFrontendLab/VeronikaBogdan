@@ -1,4 +1,4 @@
-import { Avatar, Flex, Grid, GridItem, Image, Spacer } from '@chakra-ui/react';
+import { Avatar, Flex, Grid, GridItem, Image, Spacer, useMediaQuery } from '@chakra-ui/react';
 import { Ref } from 'react';
 
 import Photo from '~/assets/png/photo.png';
@@ -16,6 +16,7 @@ type HeaderProps = { ref?: Ref<HTMLDivElement | null> };
 const Header = ({ ref }: HeaderProps) => {
     const dispatch = useAppDispatch();
     const { isBurgerMenu } = useAppSelector(menuSelector);
+    const [isLargerThan1440] = useMediaQuery('(min-width: 1440px)');
 
     return (
         <Flex
@@ -35,7 +36,7 @@ const Header = ({ ref }: HeaderProps) => {
                 <Image src={LogoIcon} />
                 <Image src={LogoText} hideBelow='md' />
             </Flex>
-            <BreadCrubms hideBelow='xl' />
+            {isLargerThan1440 && <BreadCrubms />}
             <Spacer />
             <Grid
                 hideBelow='xl'

@@ -38,4 +38,5 @@ export type Card = {
 
 export type HorizontalCardProps = {
     card: Card;
+    dataTestIdButton?: string;
 };

@@ -20,15 +20,17 @@ const layerStyles = {
         gap: { base: 2.5, md: 3, xl: 3.5, '3xl': 5 },
     },
 
+    nutritionBox: {
+        border: '1px solid',
+        borderColor: 'blackAlpha.200',
+        borderRadius: '16px',
+        textAlign: 'center',
+    },
+
     base: {
         bg: 'gray.50',
         border: '2px solid',
         borderColor: 'gray.500',
-    },
-    selected: {
-        bg: 'teal.500',
-        color: 'teal.700',
-        borderColor: 'orange.500',
     },
 };
 

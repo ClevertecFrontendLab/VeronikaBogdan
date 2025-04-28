@@ -5,6 +5,7 @@ import {
     CardBody,
     CardFooter,
     Flex,
+    Grid,
     Heading,
     HStack,
     Image,
@@ -13,6 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { useParams } from 'react-router';
 
+import NutritionBox from '~/app/recipe-page/nutritionBox';
 import Bookmark from '~/assets/svg/bookmark-heart.svg';
 import HeartEyes from '~/assets/svg/emoji-heart-eyes.svg';
 import Timer from '~/assets/svg/timer.svg';
@@ -28,7 +30,7 @@ const RecipePage = () => {
 
     return card ? (
         <Stack
-            spacing={{ '3xl': 10 }}
+            spacing={{ base: 6, xl: 10 }}
             pb={{ base: '100px', xl: 0 }}
             paddingTop={{ base: '80px', xl: '135px' }}
         >
@@ -106,7 +108,7 @@ const RecipePage = () => {
                                 leftIcon={
                                     <Image
                                         src={HeartEyes}
-                                        marginInlineEnd={2}
+                                        marginInlineEnd={1}
                                         boxSize={{ base: 3, xl: 4 }}
                                     />
                                 }
@@ -119,7 +121,7 @@ const RecipePage = () => {
                                 leftIcon={
                                     <Image
                                         src={Bookmark}
-                                        marginInlineEnd={2}
+                                        marginInlineEnd={1}
                                         boxSize={{ base: 3, xl: 4 }}
                                     />
                                 }
@@ -130,6 +132,44 @@ const RecipePage = () => {
                     </CardFooter>
                 </Stack>
             </Card>
+            <Stack spacing={{ base: 6, xl: 10 }}>
+                <Stack
+                    margin={{ base: 0, xl: 'auto' }}
+                    maxW={{ base: '100%', xl: '668px' }}
+                    spacing={{ base: 2, md: 4 }}
+                    layerStyle='contentContainer'
+                >
+                    <Text fontSize='sm'>* Калорийность на 1 порцию</Text>
+                    <Grid
+                        templateColumns={{ base: '1fr', md: 'repeat(4, 1fr)' }}
+                        gap={{ base: 3, xl: 4, '3xl': 6 }}
+                    >
+                        <NutritionBox
+                            name='калорийность'
+                            count={card.nutritionValue.calories}
+                            unit='ккал'
+                            pl={-2}
+                        />
+                        <NutritionBox
+                            name='белки'
+                            count={card.nutritionValue.proteins}
+                            unit='грамм'
+                            pl={14}
+                        />
+                        <NutritionBox
+                            name='калорийность'
+                            count={card.nutritionValue.fats}
+                            unit='грамм'
+                        />
+                        <NutritionBox
+                            name='калорийность'
+                            count={card.nutritionValue.carbohydrates}
+                            unit='грамм'
+                        />
+                    </Grid>
+                </Stack>
+                <Box>asdf</Box>
+            </Stack>
         </Stack>
     ) : null;
 };

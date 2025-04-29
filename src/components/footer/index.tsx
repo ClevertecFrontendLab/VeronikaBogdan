@@ -16,7 +16,7 @@ const Footer = () => (
         bg='lime.50'
         justifyContent='space-around'
     >
-        <GridItem minW='90px'>
+        <GridItem minW='73px'>
             <Stack
                 alignItems='center'
                 pt={2.5}

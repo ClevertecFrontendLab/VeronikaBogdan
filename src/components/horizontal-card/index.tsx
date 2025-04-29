@@ -92,6 +92,7 @@ const HorizontalCard = ({ card, dataTestIdButton }: HorizontalCardProps) => {
                             letterSpacing='tight'
                             noOfLines={{ base: 2, '3xl': 1 }}
                             mt={{ base: 0, xl: 4 }}
+                            fontWeight={500}
                         >
                             <Highlight query={searchText} styles={{ color: 'lime.600' }}>
                                 {card.title}

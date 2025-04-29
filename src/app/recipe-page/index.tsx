@@ -14,7 +14,11 @@ import {
 } from '@chakra-ui/react';
 import { useParams } from 'react-router';
 
-import NutritionBox from '~/app/recipe-page/nutritionBox';
+import NewRecipies from '~/app/main-page/new-recipies';
+import AuthorBox from '~/app/recipe-page/author-box';
+import Ingredients from '~/app/recipe-page/ingredients';
+import NutritionBox from '~/app/recipe-page/nutrition-box';
+import Steps from '~/app/recipe-page/steps';
 import Bookmark from '~/assets/svg/bookmark-heart.svg';
 import HeartEyes from '~/assets/svg/emoji-heart-eyes.svg';
 import Timer from '~/assets/svg/timer.svg';
@@ -148,27 +152,31 @@ const RecipePage = () => {
                             name='калорийность'
                             count={card.nutritionValue.calories}
                             unit='ккал'
-                            pl={-2}
                         />
                         <NutritionBox
                             name='белки'
                             count={card.nutritionValue.proteins}
                             unit='грамм'
-                            pl={14}
+                            pl={16}
                         />
                         <NutritionBox
-                            name='калорийность'
+                            name='жиры'
                             count={card.nutritionValue.fats}
                             unit='грамм'
+                            pl={16}
                         />
                         <NutritionBox
-                            name='калорийность'
+                            name='углеводы'
                             count={card.nutritionValue.carbohydrates}
                             unit='грамм'
+                            pl={10}
                         />
                     </Grid>
                 </Stack>
-                <Box>asdf</Box>
+                <Ingredients ingredients={card.ingredients} portions={card.portions} />
+                <Steps steps={card.steps} />
+                <AuthorBox />
+                <NewRecipies />
             </Stack>
         </Stack>
     ) : null;

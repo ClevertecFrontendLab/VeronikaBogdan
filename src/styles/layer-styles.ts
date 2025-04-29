@@ -26,7 +26,10 @@ const layerStyles = {
         borderRadius: '16px',
         textAlign: 'center',
     },
-
+    recipeContainer: {
+        mx: { base: 0, md: '62px', xl: '158px', '3xl': '356px' },
+        px: { base: 4, md: 5, xl: 0 },
+    },
     base: {
         bg: 'gray.50',
         border: '2px solid',

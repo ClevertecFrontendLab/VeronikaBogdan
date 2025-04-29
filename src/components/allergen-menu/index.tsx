@@ -145,7 +145,7 @@ const AllergenMenu = () => {
                                     _placeholder={{ color: 'lime.800' }}
                                     fontSize='sm'
                                     _focusVisible={{ outline: 0 }}
-                                    autoFocus
+                                    autoFocus={true}
                                     value={otherAllergen}
                                     onChange={(event) =>
                                         dispatch(setOtherAllergen(event.target.value))

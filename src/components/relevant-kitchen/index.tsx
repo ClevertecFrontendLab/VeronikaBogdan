@@ -57,7 +57,7 @@ const RelevantKitchen = ({ hideTopBorderFrom = '', data }: RelevantKitchenProps)
                     <Card h='full'>
                         <CardBody p={{ base: 3, '3xl': 5 }}>
                             <Stack>
-                                <Heading size='relevantCardTitle' isTruncated>
+                                <Heading size='relevantCardTitle' fontWeight={500} isTruncated>
                                     {card.title}
                                 </Heading>
                                 <Text textStyle='text' noOfLines={3}>
@@ -93,7 +93,7 @@ const RelevantKitchen = ({ hideTopBorderFrom = '', data }: RelevantKitchenProps)
                             >
                                 <HStack>
                                     <Image src={listItem.icon} boxSize={5} />
-                                    <Heading size='smallCardTitle' isTruncated>
+                                    <Heading size='smallCardTitle' fontWeight={500} isTruncated>
                                         {listItem.name}
                                     </Heading>
                                     <Button

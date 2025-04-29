@@ -11,7 +11,7 @@ export type ingredient = {
     measureUnit: string;
 };
 
-type step = {
+export type step = {
     stepNumber: number;
     description: string;
     image: string;

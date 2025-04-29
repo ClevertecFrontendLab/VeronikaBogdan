@@ -28,6 +28,14 @@ const textStyles = {
         lineHeight: '133%',
         color: 'black',
     },
+    ingredients: {
+        fontSize: 'xs',
+        fontWeight: 700,
+        lineHeight: '133%',
+        letterSpacing: '0.05em',
+        color: 'lime.600',
+        textTransform: 'uppercase',
+    },
 };
 
 export default textStyles;

@@ -78,6 +78,7 @@ const NewRecipies = () => {
                 modules={[Navigation]}
                 slidesPerView='auto'
                 loop={true}
+                speed={0}
                 navigation={{
                     nextEl: '.forward',
                     prevEl: '.back',
@@ -126,6 +127,7 @@ const NewRecipies = () => {
                                         size='smallCardTitle'
                                         letterSpacing='tight'
                                         noOfLines={{ base: 2, xl: 1 }}
+                                        fontWeight={500}
                                     >
                                         {recipe.title}
                                     </Heading>

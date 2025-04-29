@@ -144,7 +144,6 @@ const MultiSelect = ({
                                             ? `allergen-${optionIndex}`
                                             : `checkbox-${option.toLowerCase()}`
                                     }
-                                    // data-test-id={`allergen-${optionIndex}`}
                                 >
                                     {option}
                                 </MenuItemOption>

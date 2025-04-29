@@ -59,7 +59,6 @@ const Ingredients = ({ ingredients, portions }: IngredientsProps) => {
                         <Box display='flex' gap='2px'>
                             <Text textStyle='text' data-test-id={`ingredient-quantity-${index}`}>
                                 {(+ingredient.count * portion) / portions}
-                                {/* {+ingredient.count * portion} */}
                             </Text>{' '}
                             <Text textStyle='text'>{ingredient.measureUnit}</Text>
                         </Box>

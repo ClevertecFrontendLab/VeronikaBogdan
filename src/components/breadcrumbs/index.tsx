@@ -7,7 +7,7 @@ import { Link } from 'react-router';
 import { ALL_CARDS } from '~/constants/grid-cards';
 import { useAppSelector } from '~/store/hooks';
 import { menuSelector, setBurgerMenuState } from '~/store/menu-slice';
-import { getCategory, getSingleSubcategory, getSubcategories } from '~/utils/currentPaths';
+import { getCategory, getSingleSubcategory, getSubcategories } from '~/utils/current-paths';
 
 type BreadCrumbsProps = { hideBelow?: string; hideFrom?: string };
 

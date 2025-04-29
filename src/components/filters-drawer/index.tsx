@@ -207,7 +207,6 @@ const FiltersDrawer = ({ disclosure }: FiltersDrawer) => {
                                 size='drawerButtons'
                                 mr={3}
                                 onClick={() => {
-                                    // onClose();
                                     dispatch(clearFilters());
                                 }}
                                 data-test-id='clear-filter-button'
@@ -232,50 +231,6 @@ const FiltersDrawer = ({ disclosure }: FiltersDrawer) => {
                         </HStack>
                     </VStack>
                 </DrawerBody>
-                {/* <DrawerFooter px={0}>
-                    <VStack spacing={8} align='end' w='full'>
-                        <HStack flexWrap='wrap' w='full'>
-                            {tags.map((tag, tagIndex) => (
-                                <Tag
-                                    key={tagIndex}
-                                    size='sm'
-                                    borderRadius='full'
-                                    variant='solid'
-                                    bg='lime.100'
-                                    borderColor='lime.400'
-                                    data-test-id='filter-tag'
-                                >
-                                    <TagLabel color='lime.800'>{tag}</TagLabel>
-                                    <TagCloseButton color='lime.600' />
-                                </Tag>
-                            ))}
-                        </HStack>
-                        <HStack>
-                            <Button
-                                variant='listCardOutline'
-                                mr={3}
-                                onClick={onClose}
-                                data-test-id='clear-filter-button'
-                            >
-                                Очистить фильтр
-                            </Button>
-                            <Button
-                                variant='listCardSolid'
-                                colorScheme='blue'
-                                data-test-id='find-recipe-button'
-                                isDisabled={isDisableNewRecipe}
-                                pointerEvents={isDisableNewRecipe ? 'none' : 'auto'}
-                                onClick={() => {
-                                    if (!isDisableNewRecipe) {
-                                        onClose();
-                                    }
-                                }}
-                            >
-                                Найти рецепт
-                            </Button>
-                        </HStack>
-                    </VStack>
-                </DrawerFooter> */}
             </DrawerContent>
         </Drawer>
     );

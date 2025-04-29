@@ -21,7 +21,7 @@ import { HorizontalCardProps } from '~/components/horizontal-card/types';
 import IconCountWrapper from '~/components/icon-count-wrapper';
 import { filtersSelector } from '~/store/filters-slice';
 import { useAppSelector } from '~/store/hooks';
-import { getCategory } from '~/utils/currentPaths';
+import { getCategory } from '~/utils/current-paths';
 
 const HorizontalCard = ({ card, dataTestIdButton }: HorizontalCardProps) => {
     const navigate = useNavigate();
@@ -48,12 +48,7 @@ const HorizontalCard = ({ card, dataTestIdButton }: HorizontalCardProps) => {
                 hideBelow='xl'
                 isBottomPositioned
             />
-            <Image
-                src={card.image}
-                borderLeftRadius='lg'
-                // h={{ base: '131px', xl: '244px' }}
-                w={{ base: '158px', xl: '346px' }}
-            />
+            <Image src={card.image} borderLeftRadius='lg' w={{ base: '158px', xl: '346px' }} />
             <Stack flex={1} px={{ base: 2, xl: 6 }}>
                 <CardBody px={{ base: 0 }} py={{ base: 2, xl: 0 }} pt={{ base: 2, xl: 5 }}>
                     <Stack gap={{ base: 0, xl: 2 }}>

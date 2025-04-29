@@ -43,10 +43,14 @@ const AuthorBox = () => (
                     <Button
                         variant='listCardSolid'
                         size='listCard'
-                        px={{ xl: 2 }}
-                        py={{ xl: 1 }}
+                        px={{ base: 2 }}
+                        py={{ base: 1 }}
                         leftIcon={
-                            <Image marginInlineEnd={0} src={Subscribe} boxSize={{ base: 3 }} />
+                            <Image
+                                marginInlineEnd={{ base: 1, xl: 0 }}
+                                src={Subscribe}
+                                boxSize={{ base: 3 }}
+                            />
                         }
                     >
                         <Text fontSize='xs'>Подписаться</Text>

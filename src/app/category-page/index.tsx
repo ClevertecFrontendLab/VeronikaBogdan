@@ -9,8 +9,8 @@ import { ALL_CARDS } from '~/constants/grid-cards';
 import { RELEVANT_KITCHEN_CATEGORY } from '~/constants/relevant-kitchen';
 import { filtersSelector } from '~/store/filters-slice';
 import { useAppSelector } from '~/store/hooks';
-import { filterByAllergens } from '~/utils/allergenFilter';
-import { searchTextFilter } from '~/utils/searchTextFilter';
+import { filterByAllergens } from '~/utils/allergen-filter';
+import { searchTextFilter } from '~/utils/search-text-filter';
 
 const CategoryPage = () => {
     const navigate = useNavigate();
@@ -48,13 +48,7 @@ const CategoryPage = () => {
                 index={defaultSubcategory}
                 variant='unstyled'
             >
-                <TabList
-                    overflowX='hidden'
-                    // pl={{ base: '265px', md: 0 }}
-                    // pr={{ md: '130px', xl: 0 }}
-                    w='100%'
-                    justifySelf={{ base: 'center' }}
-                >
+                <TabList overflowX='hidden' w='100%' justifySelf={{ base: 'center' }}>
                     {subcategories.map((tab, tabIndex) => (
                         <Tab
                             key={tab.label}

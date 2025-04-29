@@ -22,7 +22,7 @@ import Badge from '~/components/badge';
 import IconCountWrapper from '~/components/icon-count-wrapper';
 import { NEW_RECIPIES_COUNT } from '~/constants';
 import { ALL_CARDS } from '~/constants/grid-cards';
-import { getCategory, getSingleSubcategory } from '~/utils/currentPaths';
+import { getCategory, getSingleSubcategory } from '~/utils/current-paths';
 
 const NewRecipies = () => {
     const navigate = useNavigate();
@@ -40,7 +40,6 @@ const NewRecipies = () => {
             spacing={{ base: 3, xl: 6 }}
             position='relative'
             overflowX={{ xl: 'hidden', '3xl': 'visible' }}
-            // layerStyle='contentContainer'
             pl={{ base: 4, md: 5, xl: 0 }}
         >
             <Heading variant='blockTitle' size='blockTitle'>

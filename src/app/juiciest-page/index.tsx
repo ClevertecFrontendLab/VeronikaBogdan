@@ -7,8 +7,8 @@ import { ALL_CARDS } from '~/constants/grid-cards';
 import { RELEVANT_KITCHEN_MAIN } from '~/constants/relevant-kitchen';
 import { filtersSelector } from '~/store/filters-slice';
 import { useAppSelector } from '~/store/hooks';
-import { filterByAllergens } from '~/utils/allergenFilter';
-import { searchTextFilter } from '~/utils/searchTextFilter';
+import { filterByAllergens } from '~/utils/allergen-filter';
+import { searchTextFilter } from '~/utils/search-text-filter';
 
 const JuiciestPage = () => {
     const { allergens, searchText } = useAppSelector(filtersSelector);

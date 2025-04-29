@@ -96,7 +96,6 @@ const NavigationMenu = ({ menuRef }: NavigationMenuProps) => {
                                 >
                                     <Image src={category.icon} mr={3} />
                                     <Text>{category.label}</Text>
-                                    {/* <Box ml='auto' pr={{ base: 6, xl: 2.5 }}> */}
                                     <Box ml='auto' pr={{ base: 6, xl: 4 }}>
                                         <Image
                                             src={AccordionIcon}

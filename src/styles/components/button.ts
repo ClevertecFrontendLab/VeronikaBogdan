@@ -23,6 +23,12 @@ const sizes = defineStyle({
         px: { base: 2, md: 2, '3xl': 6 },
         py: { base: 1, md: 1, '3xl': 2.5 },
     },
+    drawerButtons: {
+        fontSize: { base: '14px', '3xl': '18px' },
+        lineHeight: { base: '143%%', '3xl': '156%%' },
+        px: { base: 3, xl: 6 },
+        py: { base: 1.5, xl: 2.5 },
+    },
 });
 
 const variants = defineStyle({

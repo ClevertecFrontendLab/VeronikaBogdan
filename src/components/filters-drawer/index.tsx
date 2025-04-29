@@ -1,5 +1,3 @@
-import './filters-drawer.module.scss';
-
 import {
     Button,
     Checkbox,
@@ -79,7 +77,6 @@ const FiltersDrawer = ({ disclosure }: FiltersDrawer) => {
                 </DrawerHeader>
                 <DrawerBody
                     px={0}
-                    className='filters-drawer'
                     display='flex'
                     flexDir='column'
                     justifyContent='space-between'
@@ -207,6 +204,7 @@ const FiltersDrawer = ({ disclosure }: FiltersDrawer) => {
                         <HStack>
                             <Button
                                 variant='listCardOutline'
+                                size='drawerButtons'
                                 mr={3}
                                 onClick={() => {
                                     // onClose();
@@ -218,7 +216,7 @@ const FiltersDrawer = ({ disclosure }: FiltersDrawer) => {
                             </Button>
                             <Button
                                 variant='listCardSolid'
-                                colorScheme='blue'
+                                size='drawerButtons'
                                 data-test-id='find-recipe-button'
                                 isDisabled={isDisableNewRecipe}
                                 pointerEvents={isDisableNewRecipe ? 'none' : 'auto'}

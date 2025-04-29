@@ -1,5 +1,3 @@
-import './menu.scss';
-
 import {
     Accordion,
     AccordionButton,

@@ -19,6 +19,10 @@ export const menuStyles = {
         _hover: {
             backgroundColor: 'transparent',
         },
+        _focus: {
+            outline: 0,
+            borderColor: 'lime.300',
+        },
         _expanded: {
             backgroundColor: 'white',
             borderColor: 'lime.300',

@@ -189,11 +189,12 @@ const FiltersDrawer = ({ disclosure }: FiltersDrawer) => {
                                 <Tag
                                     key={tagIndex}
                                     size='sm'
-                                    borderRadius='full'
                                     variant='solid'
                                     bg='lime.100'
                                     border='1px solid'
                                     borderColor='lime.400'
+                                    borderRadius='4px'
+                                    color='lime.700'
                                     data-test-id='filter-tag'
                                 >
                                     <TagLabel color='lime.800'>{tag}</TagLabel>

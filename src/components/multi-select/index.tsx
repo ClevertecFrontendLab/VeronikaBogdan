@@ -95,6 +95,7 @@ const MultiSelect = ({
                         data-test-id={dataTestIdList}
                         position='relative'
                         {...menuStyles.list}
+                        minW={{ base: '315px', xl: '410px', '3xl': '383px' }}
                     >
                         <MenuOptionGroup
                             type='checkbox'

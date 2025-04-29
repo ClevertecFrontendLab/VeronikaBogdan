@@ -3,15 +3,15 @@ import { useNavigate } from 'react-router';
 
 import RightArrow from '~/assets/svg/arrow-right-dark.svg';
 import HorizontalCard from '~/components/horizontal-card';
-import JUICIEST_MAIN_PAGE from '~/constants/grid-cards';
+import { ALL_CARDS } from '~/constants/grid-cards';
 
 const Juiciest = () => {
     const navigate = useNavigate();
 
-    const handleNavigateJuiciestPage = () => navigate('/juiciest');
+    const handleNavigateJuiciestPage = () => navigate('/the-juiciest');
 
     return (
-        <Stack spacing={{ base: 2, md: 3, xl: 3 }}>
+        <Stack spacing={{ base: 2, md: 3, xl: 3 }} layerStyle='contentContainer'>
             <Flex justify='space-between'>
                 <Heading variant='blockTitle' size='blockTitle'>
                     Самое сочное
@@ -27,18 +27,10 @@ const Juiciest = () => {
                     Вся подборка
                 </Button>
             </Flex>
-            <Grid
-                templateColumns={{
-                    base: '100%',
-                    md: 'repeat(2, 1fr)',
-                    xl: '100%',
-                    '3xl': 'repeat(2, 1fr)',
-                }}
-                gap={{ base: 2.5, md: 3, xl: 3.5, '3xl': 5 }}
-            >
-                {JUICIEST_MAIN_PAGE.map((card) => (
-                    <GridItem key={card.key}>
-                        <HorizontalCard card={card} />
+            <Grid layerStyle='horizontalCards'>
+                {ALL_CARDS.map((card, cardIndex) => (
+                    <GridItem key={card.id} data-test-id={`food-card-${cardIndex}`}>
+                        <HorizontalCard card={card} dataTestIdButton={`card-link-${cardIndex}`} />
                     </GridItem>
                 ))}
             </Grid>

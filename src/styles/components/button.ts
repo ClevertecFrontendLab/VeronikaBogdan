@@ -17,6 +17,18 @@ const sizes = defineStyle({
         px: { base: 2, '3xl': 3 },
         py: { base: 1.5, xl: 2, '3xl': 1 },
     },
+    recipeButton: {
+        fontSize: { base: 'xs', xl: 'sm', '3xl': 'lg' },
+        lineHeight: { base: '133%', xl: '143%', '3xl': '156%' },
+        px: { base: 2, md: 2, '3xl': 6 },
+        py: { base: 1, md: 1, '3xl': 2.5 },
+    },
+    drawerButtons: {
+        fontSize: { base: '14px', '3xl': '18px' },
+        lineHeight: { base: '143%%', '3xl': '156%%' },
+        px: { base: 3, xl: 6 },
+        py: { base: 1.5, xl: 2.5 },
+    },
 });
 
 const variants = defineStyle({
@@ -32,6 +44,14 @@ const variants = defineStyle({
         fontWeight: 600,
         color: 'white',
         bg: 'black',
+        _disabled: {
+            bg: 'gray.700',
+            '&[type="button"]': {
+                _hover: {
+                    bg: 'gray.700',
+                },
+            },
+        },
     },
     listCardOutline: {
         fontWeight: 600,
@@ -47,6 +67,12 @@ const variants = defineStyle({
         w: 'fit-content',
         alignSelf: 'center',
         mr: { xl: -2 },
+    },
+    recipeButton: {
+        fontWeight: 600,
+        bg: 'lime.400',
+        w: 'fit-content',
+        alignSelf: 'center',
     },
 });
 

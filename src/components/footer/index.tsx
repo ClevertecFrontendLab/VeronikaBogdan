@@ -16,7 +16,7 @@ const Footer = () => (
         bg='lime.50'
         justifyContent='space-around'
     >
-        <GridItem minW='90px'>
+        <GridItem minW='55px'>
             <Stack
                 alignItems='center'
                 pt={2.5}
@@ -33,7 +33,7 @@ const Footer = () => (
                 <Text textStyle='footerActive'>Главная</Text>
             </Stack>
         </GridItem>
-        <GridItem minW='90px'>
+        <GridItem minW='55px'>
             <Stack alignItems='center' pt={2.5}>
                 <IconButton
                     isRound={true}
@@ -45,7 +45,7 @@ const Footer = () => (
                 <Text textStyle='footerInactive'>Поиск</Text>
             </Stack>
         </GridItem>
-        <GridItem minW='90px'>
+        <GridItem minW='55px'>
             <Stack alignItems='center' pt={2.5}>
                 <IconButton
                     isRound={true}
@@ -56,7 +56,7 @@ const Footer = () => (
                 <Text textStyle='footerInactive'>Записать</Text>
             </Stack>
         </GridItem>
-        <GridItem minW='90px'>
+        <GridItem minW='55px'>
             <Stack alignItems='center' pt={2.5}>
                 <Avatar src={Photo} boxSize={10} borderRadius='full' />
                 <Text textStyle='footerInactive'>Мой профиль</Text>

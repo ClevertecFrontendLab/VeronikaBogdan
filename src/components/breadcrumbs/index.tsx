@@ -1,24 +1,62 @@
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react';
+import { useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router';
 import { Link } from 'react-router';
 
-import CATEGORIES, { children } from '~/constants/categories';
+import { ALL_CARDS } from '~/constants/grid-cards';
+import { useAppSelector } from '~/store/hooks';
+import { menuSelector, setBurgerMenuState } from '~/store/menu-slice';
+import { getCategory, getSingleSubcategory, getSubcategories } from '~/utils/current-paths';
 
-const BreadCrubms = () => {
+type BreadCrumbsProps = { hideBelow?: string; hideFrom?: string };
+
+const BreadCrubms = ({ hideBelow, hideFrom }: BreadCrumbsProps) => {
+    const { isBurgerMenu } = useAppSelector(menuSelector);
+    const dispatch = useDispatch();
     const { pathname } = useLocation();
-    const params = useParams();
+    const { category, subcategory, recipeId } = useParams();
+
+    const handleHide = () => {
+        if (isBurgerMenu) {
+            dispatch(setBurgerMenuState());
+        }
+    };
 
     return pathname === '/' ? (
-        <Breadcrumb separator={<ChevronRightIcon />} ml={127} hideBelow='xl'>
+        <Breadcrumb
+            separator={<ChevronRightIcon />}
+            data-test-id='breadcrumbs'
+            ml={{ base: 6, xl: 127 }}
+            mt={{ base: 4, xl: 0 }}
+            mb={{ base: -4, xl: 0 }}
+            hideBelow={hideBelow}
+            hideFrom={hideFrom}
+            listProps={{ flexWrap: 'wrap' }}
+        >
             <BreadcrumbItem isCurrentPage>
                 <BreadcrumbLink>Главная</BreadcrumbLink>
             </BreadcrumbItem>
         </Breadcrumb>
-    ) : pathname === '/juiciest' ? (
-        <Breadcrumb separator={<ChevronRightIcon />} ml={127} hideBelow='xl'>
+    ) : pathname === '/the-juiciest' ? (
+        <Breadcrumb
+            separator={<ChevronRightIcon />}
+            data-test-id='breadcrumbs'
+            ml={{ base: 6, xl: 127 }}
+            mt={{ base: 4, xl: 0 }}
+            mb={{ base: -4, xl: 0 }}
+            hideBelow={hideBelow}
+            hideFrom={hideFrom}
+            listProps={{ flexWrap: 'wrap' }}
+        >
             <BreadcrumbItem>
-                <BreadcrumbLink as={Link} to='/' fontWeight={400} color='blackAlpha.700'>
+                <BreadcrumbLink
+                    as={Link}
+                    to='/'
+                    fontWeight={400}
+                    color='blackAlpha.700'
+                    onClick={handleHide}
+                >
                     Главная
                 </BreadcrumbLink>
             </BreadcrumbItem>
@@ -27,27 +65,57 @@ const BreadCrubms = () => {
             </BreadcrumbItem>
         </Breadcrumb>
     ) : (
-        <Breadcrumb separator={<ChevronRightIcon />} ml={127} hideBelow='xl'>
+        <Breadcrumb
+            separator={<ChevronRightIcon />}
+            data-test-id='breadcrumbs'
+            ml={{ base: 6, xl: 127 }}
+            mt={{ base: 4, xl: 0 }}
+            mb={{ base: -4, xl: 0 }}
+            hideBelow={hideBelow}
+            hideFrom={hideFrom}
+            listProps={{ flexWrap: 'wrap' }}
+        >
             <BreadcrumbItem>
-                <BreadcrumbLink as={Link} to='/' fontWeight={400} color='blackAlpha.700'>
+                <BreadcrumbLink
+                    as={Link}
+                    to='/'
+                    fontWeight={400}
+                    color='blackAlpha.700'
+                    onClick={handleHide}
+                >
                     Главная
                 </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbItem>
                 <BreadcrumbLink
                     as={Link}
-                    to={`/category/${params?.category}`}
+                    to={`/${category}/${getSubcategories(category)[0].path}`}
                     fontWeight={400}
                     color='blackAlpha.700'
+                    onClick={handleHide}
                 >
-                    {CATEGORIES.find((category) => category.path === params?.category)?.label}
+                    {getCategory(category)?.label}
                 </BreadcrumbLink>
             </BreadcrumbItem>
-            <BreadcrumbItem isCurrentPage>
+            <BreadcrumbItem
+                as={recipeId ? Link : undefined}
+                to={`/${category}/${getSingleSubcategory(category, subcategory)?.path}`}
+                isCurrentPage={!recipeId}
+                fontWeight={400}
+                color={recipeId ? 'blackAlpha.700' : 'black'}
+                onClick={() => (recipeId ? handleHide() : '')}
+            >
                 <BreadcrumbLink>
-                    {children.find((category) => category.path === params?.subcategory)?.label}
+                    {getSingleSubcategory(category, subcategory)?.label}
                 </BreadcrumbLink>
             </BreadcrumbItem>
+            {recipeId && (
+                <BreadcrumbItem isCurrentPage={!!recipeId}>
+                    <BreadcrumbLink>
+                        {ALL_CARDS.find((card) => card.id === recipeId)?.title}
+                    </BreadcrumbLink>
+                </BreadcrumbItem>
+            )}
         </Breadcrumb>
     );
 };

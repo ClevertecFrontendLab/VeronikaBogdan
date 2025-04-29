@@ -1,5 +1,3 @@
-import './menu.scss';
-
 import {
     Accordion,
     AccordionButton,
@@ -18,30 +16,50 @@ import {
     useBoolean,
     VStack,
 } from '@chakra-ui/react';
+import { Ref } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 
 import AccordionIcon from '~/assets/svg/accordion-icon.svg';
 import ExitIcon from '~/assets/svg/exit.svg';
+import BreadCrubms from '~/components/breadcrumbs';
 import CATEGORIES from '~/constants/categories';
+import { useAppSelector } from '~/store/hooks';
+import { menuSelector } from '~/store/menu-slice';
 
-const NavigationMenu = () => {
+type NavigationMenuProps = { menuRef?: Ref<HTMLDivElement | null> };
+
+const NavigationMenu = ({ menuRef }: NavigationMenuProps) => {
+    const { isBurgerMenu } = useAppSelector(menuSelector);
+
     const [isExpandedMenu, handleMenu] = useBoolean();
 
     const navigate = useNavigate();
-    const { subcategory } = useParams();
+    const { category, subcategory } = useParams();
 
     const isActiveSubcategory = (value: string) => subcategory === value;
 
+    const defaultCategory = CATEGORIES.findIndex((item) => item.path === category);
+
     return (
         <Flex
-            position='fixed'
+            data-test-id='nav'
+            ref={menuRef || null}
+            position={{ base: 'absolute', xl: 'fixed' }}
             flexDir='column'
             justify='space-between'
-            w='256px'
-            top='80px'
-            h='calc(100vh - 80px)'
-            boxShadow='0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 3px 0 rgba(0, 0, 0, 0.12);'
+            w={{ base: '344px', xl: '256px' }}
+            h={{ base: 'calc(100vh - 145px)', xl: 'calc(100vh - 80px)' }}
+            top={{ base: '64px', xl: '80px' }}
+            right={{ base: '8px', xl: 'auto' }}
+            zIndex={2}
+            backgroundColor='white'
+            borderBottomRadius={{ base: '12px', xl: 0 }}
+            boxShadow={{
+                base: '0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.1);',
+                xl: '0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 3px 0 rgba(0, 0, 0, 0.12);',
+            }}
         >
+            {isBurgerMenu && <BreadCrubms hideFrom='xl' />}
             <Accordion
                 py={2.5}
                 pl={2.5}
@@ -54,6 +72,7 @@ const NavigationMenu = () => {
                         : ''
                 }
                 allowToggle
+                defaultIndex={defaultCategory}
                 onChange={(value) => (value === -1 ? handleMenu.off() : handleMenu.on())}
             >
                 {CATEGORIES.map((category) => (
@@ -70,18 +89,14 @@ const NavigationMenu = () => {
                                     _focus={{ outline: 0 }}
                                     _focusVisible={{ outline: 0 }}
                                     _expanded={{ bg: 'lime.100' }}
-                                    data-test-id={
-                                        category.path === 'vegan-cuisine' ? 'vegan-cuisine' : ''
-                                    }
+                                    data-test-id={category?.testId || category.path}
                                     onClick={() =>
-                                        navigate(
-                                            `category/${category.path}/${category.children[0].path}`,
-                                        )
+                                        navigate(`/${category.path}/${category.children[0].path}`)
                                     }
                                 >
                                     <Image src={category.icon} mr={3} />
                                     <Text>{category.label}</Text>
-                                    <Box ml='auto' pr={2.5}>
+                                    <Box ml='auto' pr={{ base: 6, xl: 4 }}>
                                         <Image
                                             src={AccordionIcon}
                                             h={4}
@@ -93,7 +108,15 @@ const NavigationMenu = () => {
                                 </AccordionButton>
                                 <AccordionPanel p={0}>
                                     {category.children.map((subcategory) => (
-                                        <LinkBox key={subcategory.path} _hover={{ bg: 'lime.50' }}>
+                                        <LinkBox
+                                            key={subcategory.path}
+                                            data-test-id={
+                                                isActiveSubcategory(subcategory.path)
+                                                    ? `${subcategory.path}-active`
+                                                    : ''
+                                            }
+                                            _hover={{ bg: 'lime.50' }}
+                                        >
                                             <HStack
                                                 spacing='11px'
                                                 alignItems='flex-start'
@@ -123,7 +146,7 @@ const NavigationMenu = () => {
                                                 </Center>
                                                 <LinkOverlay
                                                     as={Link}
-                                                    to={`category/${category.path}/${subcategory.path}`}
+                                                    to={`/${category.path}/${subcategory.path}`}
                                                 >
                                                     <Text
                                                         color='black'

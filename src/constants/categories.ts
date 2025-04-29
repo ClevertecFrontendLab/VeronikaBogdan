@@ -12,6 +12,19 @@ import SecondDishes from '~/assets/svg/categories/second-dishes.svg';
 import Snacks from '~/assets/svg/categories/snacks.svg';
 import VeganCuisine from '~/assets/svg/categories/vegan-cuisine.svg';
 
+export type Subcategory = {
+    label: string;
+    path: string;
+};
+
+export type Category = {
+    label: string;
+    path: string;
+    children: Subcategory[];
+    testId?: string;
+    icon?: string;
+};
+
 export const children = [
     {
         label: 'Закуски',
@@ -19,11 +32,11 @@ export const children = [
     },
     {
         label: 'Первые блюда',
-        path: 'first-dishes',
+        path: 'first-dish',
     },
     {
         label: 'Вторые блюда',
-        path: 'second-dishes',
+        path: 'second-dish',
     },
     {
         label: 'Гарниры',
@@ -51,26 +64,51 @@ const CATEGORIES = [
     {
         icon: Salad,
         label: 'Салаты',
-        path: 'salad',
-        children,
+        path: 'salads',
+        children: [
+            { label: 'Мясные салаты', path: 'meat-salads' },
+            { label: 'Рыбные салаты', path: 'fish-salads' },
+            { label: 'Овощные салаты', path: 'vegetable-salads' },
+            { label: 'Теплые салаты', path: 'warm-salads' },
+        ],
     },
     {
         icon: Snacks,
         label: 'Закуски',
         path: 'snacks',
-        children,
+        children: [
+            { label: 'Мясные закуски', path: 'meat-snacks' },
+            { label: 'Рыбные закуски', path: 'fish-snacks' },
+            { label: 'Овощные закуски', path: 'vegetable-snacks' },
+            { label: 'Теплые закуски', path: 'warm-snacks' },
+            { label: 'Бутерброды', path: 'sandwiches' },
+            { label: 'Фастфуд', path: 'fast-food' },
+        ],
     },
     {
         icon: FirstDishes,
         label: 'Первые блюда',
-        path: 'first-dishes',
+        path: 'first-dish',
         children,
     },
     {
         icon: SecondDishes,
         label: 'Вторые блюда',
-        path: 'second-dishes',
-        children,
+        path: 'second-dish',
+        children: [
+            { label: 'Мясные', path: 'meat' },
+            { label: 'Рыбные', path: 'fish' },
+            { label: 'Овощные', path: 'vegetables' },
+            { label: 'Из птицы', path: 'poultry-dish' },
+            { label: 'Из грибов', path: 'mushrooms-dish' },
+            { label: 'Из субпродуктов', path: 'by-products-dish' },
+            { label: 'На пару', path: 'steamed-dish' },
+            { label: 'Пельмени, вареники', path: 'dumplings' },
+            { label: 'Мучные гарниры', path: 'flour-side-dishes' },
+            { label: 'Овощные гарниры', path: 'vegetable-side-dishes' },
+            { label: 'Пицца', path: 'pizza' },
+            { label: 'Суши', path: 'sushi' },
+        ],
     },
     {
         icon: Bakery,
@@ -87,7 +125,8 @@ const CATEGORIES = [
     {
         icon: VeganCuisine,
         label: 'Веганская кухня',
-        path: 'vegan-cuisine',
+        path: 'vegan',
+        testId: 'vegan-cuisine',
         children,
     },
     {
@@ -106,7 +145,16 @@ const CATEGORIES = [
         icon: National,
         label: 'Национальные',
         path: 'national',
-        children,
+        children: [
+            { label: 'Американская кухня', path: 'american' },
+            { label: 'Армянская кухня', path: 'armenian' },
+            { label: 'Греческая кухня', path: 'greek' },
+            { label: 'Грузинская кухня', path: 'georgian' },
+            { label: 'Итальянская кухня', path: 'italian' },
+            { label: 'Испанская кухня', path: 'spanish' },
+            { label: 'Китайская кухня', path: 'chinese' },
+            { label: 'Мексиканская кухня', path: 'mexican' },
+        ],
     },
     {
         icon: Sauces,

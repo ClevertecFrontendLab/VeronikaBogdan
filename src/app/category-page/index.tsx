@@ -1,60 +1,77 @@
 import { Button, Grid, GridItem, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
-import { useMemo, useState } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 import ContentContainer from '~/components/content-container';
 import HorizontalCard from '~/components/horizontal-card';
 import RelevantKitchen from '~/components/relevant-kitchen';
-import { children as subcategories } from '~/constants/categories';
-import { GRID_CARDS_CATEGORY } from '~/constants/grid-cards';
+import CATEGORIES from '~/constants/categories';
+import { ALL_CARDS } from '~/constants/grid-cards';
 import { RELEVANT_KITCHEN_CATEGORY } from '~/constants/relevant-kitchen';
+import { filtersSelector } from '~/store/filters-slice';
+import { useAppSelector } from '~/store/hooks';
+import { filterByAllergens } from '~/utils/allergen-filter';
+import { searchTextFilter } from '~/utils/search-text-filter';
 
 const CategoryPage = () => {
-    const { subcategory } = useParams();
-    const [tabIndex, setTabIndex] = useState(0);
+    const navigate = useNavigate();
+    const { category, subcategory } = useParams();
+    const { allergens, searchText } = useAppSelector(filtersSelector);
 
-    const defaultIndex = useMemo(
-        () => subcategories.findIndex((item) => item.path === subcategory),
-        [subcategory],
+    const subcategories = CATEGORIES.find((item) => item.path === category)?.children || [];
+
+    const defaultSubcategory = subcategories?.findIndex((item) => item.path === subcategory);
+
+    const filteredByCategory = ALL_CARDS.filter((card) => card.category.includes(category || ''));
+    const filteredBySubcategory = filteredByCategory.filter((card) =>
+        card.subcategory.includes(subcategory || ''),
     );
+
+    const filteredByAllergens = filterByAllergens({ cards: filteredBySubcategory, allergens });
+
+    const filteredBySearchText = searchTextFilter({
+        cards: filteredByAllergens,
+        searchText,
+    });
+
+    const cards = filteredBySearchText.length > 0 ? filteredBySearchText : filteredByAllergens;
 
     return (
         <ContentContainer
             title='Веганская кухня'
             description='Интересны не только убеждённым вегетарианцам, но и тем, кто хочет попробовать вегетарианскую диету и готовить вкусные вегетарианские блюда.'
+            notFound={filteredBySearchText.length === 0 || filteredByAllergens.length === 0}
         >
             <Tabs
+                layerStyle='contentContainer'
                 align='center'
                 mt={{ base: 1, '3xl': -3 }}
-                index={defaultIndex}
-                defaultIndex={tabIndex}
-                onChange={setTabIndex}
+                index={defaultSubcategory}
                 variant='unstyled'
             >
-                <TabList
-                    overflowX='hidden'
-                    pl={{ base: '265px', md: 0 }}
-                    pr={{ md: '133px', xl: 0 }}
-                    w={{ base: '109%', md: '105.5%', xl: '100%' }}
-                    justifySelf={{ base: 'center' }}
-                >
-                    {subcategories.map((tab) => (
+                <TabList overflowX='hidden' w='100%' justifySelf={{ base: 'center' }}>
+                    {subcategories.map((tab, tabIndex) => (
                         <Tab
                             key={tab.label}
+                            data-test-id={`tab-${tab.path}-${tabIndex}`}
                             fontSize={{ base: 'sm', xl: 'md' }}
                             lineHeight={{ base: '143%', xl: '150%' }}
                             whiteSpace='nowrap'
                             color='lime.800'
                             border={0}
+                            outline={0}
                             borderBottom='1px solid'
                             borderBottomColor='blackAlpha.200'
                             borderRadius={0}
+                            _hover={{ borderBottomColor: 'lime.600' }}
                             _selected={{
+                                outline: 0,
                                 color: 'lime.600',
                                 borderBottom: '2px solid',
                                 borderBottomColor: 'lime.600',
                             }}
+                            _focus={{ outline: 0 }}
                             p={{ base: '4px 16px' }}
+                            onClick={() => navigate(`/${category}/${tab.path}`)}
                         >
                             {tab.label}
                         </Tab>
@@ -70,27 +87,19 @@ const CategoryPage = () => {
                             display='flex'
                             flexDirection='column'
                         >
-                            <Grid
-                                templateColumns={{
-                                    base: '100%',
-                                    md: 'repeat(2, 1fr)',
-                                    xl: '100%',
-                                    '3xl': 'repeat(2, 1fr)',
-                                }}
-                                gap={{ base: 4, md: 3, xl: 3.5, '3xl': 5 }}
-                            >
-                                {GRID_CARDS_CATEGORY.map((card) => (
-                                    <GridItem key={card.key}>
+                            <Grid layerStyle='horizontalCards'>
+                                {cards.map((card, cardIndex) => (
+                                    <GridItem
+                                        key={card.id}
+                                        data-test-id={
+                                            subcategory === tab.path ? `food-card-${cardIndex}` : ''
+                                        }
+                                    >
                                         <HorizontalCard card={card} />
                                     </GridItem>
                                 ))}
                             </Grid>
-                            <Button
-                                variant='pageSolid'
-                                size='pageActive'
-                                hideFrom='xl'
-                                mt={{ base: 4 }}
-                            >
+                            <Button variant='pageSolid' size='pageActive' mt={{ base: 4 }}>
                                 Загрузить еще
                             </Button>
                         </TabPanel>

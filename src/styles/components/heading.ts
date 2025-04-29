@@ -27,6 +27,10 @@ const sizes = defineStyle({
         lineHeight: { base: '150%', xl: '130%', '3xl': '100%' },
         letterSpacing: { xl: '-0.5px' },
     },
+    filterHeading: {
+        fontSize: 'md',
+        lineHeight: '150%',
+    },
 });
 
 const variants = defineStyle({
@@ -42,6 +46,10 @@ const variants = defineStyle({
     listTitle: {
         color: 'black',
         fontWeight: 500,
+    },
+    labelCheckbox: {
+        color: 'black',
+        fontWeight: 400,
     },
 });
 

@@ -3,7 +3,10 @@ import { extendTheme } from '@chakra-ui/react';
 import dividerTheme from '~/components/navigation-menu/dividerTheme';
 import buttonTheme from '~/styles/components/button';
 import cardTheme from '~/styles/components/card';
+import checkboxTheme from '~/styles/components/checkbox';
+import gridTheme from '~/styles/components/grid';
 import headingTheme from '~/styles/components/heading';
+import menuTheme from '~/styles/components/menu';
 import switchTheme from '~/styles/components/switch';
 import layerStyles from '~/styles/layer-styles';
 import textStyles from '~/styles/text-styles';
@@ -91,8 +94,11 @@ export const theme = extendTheme({
     components: {
         Button: buttonTheme,
         Card: cardTheme,
+        Checkbox: checkboxTheme,
         Divider: dividerTheme,
+        Grid: gridTheme,
         Heading: headingTheme,
+        Menu: menuTheme,
         Switch: switchTheme,
     },
 });

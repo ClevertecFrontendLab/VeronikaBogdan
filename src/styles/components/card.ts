@@ -16,6 +16,21 @@ const baseStyle = definePartsStyle({
     },
 });
 
-export const cardTheme = defineMultiStyleConfig({ baseStyle });
+const variants = {
+    page: definePartsStyle({
+        container: {
+            bg: 'white',
+            border: 0,
+            borderColor: 'blackAlpha.200 !important',
+            borderRadius: 0,
+            boxShadow: 'none',
+            _hover: {
+                boxShadow: 'none',
+            },
+        },
+    }),
+};
+
+export const cardTheme = defineMultiStyleConfig({ baseStyle, variants });
 
 export default cardTheme;

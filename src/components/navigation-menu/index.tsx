@@ -16,13 +16,15 @@ import {
     useBoolean,
     VStack,
 } from '@chakra-ui/react';
-import { Ref } from 'react';
+import { Ref, useMemo } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 
 import AccordionIcon from '~/assets/svg/accordion-icon.svg';
 import ExitIcon from '~/assets/svg/exit.svg';
 import BreadCrubms from '~/components/breadcrumbs';
-import CATEGORIES from '~/constants/categories';
+import Loader from '~/components/loader';
+import { IMAGE_HOST } from '~/constants';
+import { useGetCategoriesQuery } from '~/query/services/categories';
 import { useAppSelector } from '~/store/hooks';
 import { menuSelector } from '~/store/menu-slice';
 
@@ -36,9 +38,16 @@ const NavigationMenu = ({ menuRef }: NavigationMenuProps) => {
     const navigate = useNavigate();
     const { category, subcategory } = useParams();
 
+    const { data, isLoading } = useGetCategoriesQuery();
+
     const isActiveSubcategory = (value: string) => subcategory === value;
 
-    const defaultCategory = CATEGORIES.findIndex((item) => item.path === category);
+    const defaultCategory = useMemo(
+        () => data && data?.categories?.findIndex((item) => item.category === category),
+        [data, category],
+    );
+
+    console.log(defaultCategory);
 
     return (
         <Flex
@@ -59,6 +68,7 @@ const NavigationMenu = ({ menuRef }: NavigationMenuProps) => {
                 xl: '0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 3px 0 rgba(0, 0, 0, 0.12);',
             }}
         >
+            {isLoading && <Loader />}
             {isBurgerMenu && <BreadCrubms hideFrom='xl' />}
             <Accordion
                 py={2.5}
@@ -72,101 +82,143 @@ const NavigationMenu = ({ menuRef }: NavigationMenuProps) => {
                         : ''
                 }
                 allowToggle
-                defaultIndex={defaultCategory}
+                // defaultIndex={defaultCategory}
+                index={defaultCategory}
                 onChange={(value) => (value === -1 ? handleMenu.off() : handleMenu.on())}
             >
-                {CATEGORIES.map((category) => (
-                    <AccordionItem key={category.label} border={0}>
-                        {({ isExpanded }) => (
-                            <>
-                                <AccordionButton
-                                    pl={2}
-                                    pr={0}
-                                    py={3}
-                                    borderRadius={0}
-                                    border={0}
-                                    _hover={{ bg: 'lime.50' }}
-                                    _focus={{ outline: 0 }}
-                                    _focusVisible={{ outline: 0 }}
-                                    _expanded={{ bg: 'lime.100' }}
-                                    data-test-id={category?.testId || category.path}
-                                    onClick={() =>
-                                        navigate(`/${category.path}/${category.children[0].path}`)
-                                    }
-                                >
-                                    <Image src={category.icon} mr={3} />
-                                    <Text>{category.label}</Text>
-                                    <Box ml='auto' pr={{ base: 6, xl: 4 }}>
-                                        <Image
-                                            src={AccordionIcon}
-                                            h={4}
-                                            transform={
-                                                isExpanded ? 'rotate(180deg)' : 'rotate(0deg)'
-                                            }
-                                        />
-                                    </Box>
-                                </AccordionButton>
-                                <AccordionPanel p={0}>
-                                    {category.children.map((subcategory) => (
-                                        <LinkBox
-                                            key={subcategory.path}
-                                            data-test-id={
-                                                isActiveSubcategory(subcategory.path)
-                                                    ? `${subcategory.path}-active`
-                                                    : ''
-                                            }
-                                            _hover={{ bg: 'lime.50' }}
-                                        >
-                                            <HStack
-                                                spacing='11px'
-                                                alignItems='flex-start'
-                                                pl={isActiveSubcategory(subcategory.path) ? 8 : 10}
-                                                py='6px'
+                {data &&
+                    data?.categories?.map((category) => (
+                        <AccordionItem key={category._id} border={0}>
+                            {({ isExpanded }) => (
+                                <>
+                                    <AccordionButton
+                                        pl={2}
+                                        pr={0}
+                                        py={3}
+                                        borderRadius={0}
+                                        border={0}
+                                        _hover={{ bg: 'lime.50' }}
+                                        _focus={{ outline: 0 }}
+                                        _focusVisible={{ outline: 0 }}
+                                        _expanded={{ bg: 'lime.100' }}
+                                        data-test-id={
+                                            category.category === 'vegan'
+                                                ? 'vegan-cuisine'
+                                                : category.category
+                                        }
+                                        onClick={() => {
+                                            const subcategoryMenu = category?.subCategories;
+
+                                            navigate(
+                                                `/${category?.category}/${
+                                                    subcategoryMenu
+                                                        ? subcategoryMenu[0]?.category
+                                                        : ''
+                                                }`,
+                                            );
+                                            // dispatch(setCategory(category?._id));
+                                            // dispatch(
+                                            //     setSubcategory(
+                                            //         subcategoryMenu ? subcategoryMenu[0]?._id : '',
+                                            //     ),
+                                            // );
+                                        }}
+                                    >
+                                        <Image src={`${IMAGE_HOST}${category.icon}`} mr={3} />
+                                        <Text>{category.title}</Text>
+                                        <Box ml='auto' pr={{ base: 6, xl: 4 }}>
+                                            <Image
+                                                src={AccordionIcon}
+                                                h={4}
+                                                transform={
+                                                    isExpanded ? 'rotate(180deg)' : 'rotate(0deg)'
+                                                }
+                                            />
+                                        </Box>
+                                    </AccordionButton>
+                                    <AccordionPanel p={0}>
+                                        {category.subCategories?.map((subcategory) => (
+                                            <LinkBox
+                                                key={subcategory.category}
+                                                data-test-id={
+                                                    isActiveSubcategory(subcategory.category)
+                                                        ? `${subcategory.category}-active`
+                                                        : ''
+                                                }
+                                                _hover={{ bg: 'lime.50' }}
                                             >
-                                                <Center
-                                                    h={
-                                                        isActiveSubcategory(subcategory.path)
-                                                            ? 7
-                                                            : 6
+                                                <HStack
+                                                    spacing='11px'
+                                                    alignItems='flex-start'
+                                                    pl={
+                                                        isActiveSubcategory(subcategory.category)
+                                                            ? 8
+                                                            : 10
                                                     }
+                                                    py='6px'
                                                 >
-                                                    <Divider
-                                                        orientation='vertical'
-                                                        variant={
-                                                            isActiveSubcategory(subcategory.path)
-                                                                ? 'menuActiveDivider'
-                                                                : 'menuInactiveDivider'
-                                                        }
-                                                        mt={
-                                                            isActiveSubcategory(subcategory.path)
-                                                                ? -1
-                                                                : 0
-                                                        }
-                                                    />
-                                                </Center>
-                                                <LinkOverlay
-                                                    as={Link}
-                                                    to={`/${category.path}/${subcategory.path}`}
-                                                >
-                                                    <Text
-                                                        color='black'
-                                                        fontWeight={
-                                                            isActiveSubcategory(subcategory.path)
-                                                                ? 700
-                                                                : 500
+                                                    <Center
+                                                        h={
+                                                            isActiveSubcategory(
+                                                                subcategory.category,
+                                                            )
+                                                                ? 7
+                                                                : 6
                                                         }
                                                     >
-                                                        {subcategory.label}
-                                                    </Text>
-                                                </LinkOverlay>
-                                            </HStack>
-                                        </LinkBox>
-                                    ))}
-                                </AccordionPanel>
-                            </>
-                        )}
-                    </AccordionItem>
-                ))}
+                                                        <Divider
+                                                            orientation='vertical'
+                                                            variant={
+                                                                isActiveSubcategory(
+                                                                    subcategory.category,
+                                                                )
+                                                                    ? 'menuActiveDivider'
+                                                                    : 'menuInactiveDivider'
+                                                            }
+                                                            mt={
+                                                                isActiveSubcategory(
+                                                                    subcategory.category,
+                                                                )
+                                                                    ? -1
+                                                                    : 0
+                                                            }
+                                                        />
+                                                    </Center>
+                                                    <LinkOverlay
+                                                        as={Link}
+                                                        to={`/${category.category}/${subcategory.category}`}
+                                                        onClick={() => {
+                                                            // dispatch(
+                                                            //     setCategory(
+                                                            //         subcategory.rootCategoryId,
+                                                            //     ),
+                                                            // );
+                                                            // dispatch(
+                                                            //     setSubcategory(subcategory._id),
+                                                            // );
+                                                        }}
+                                                    >
+                                                        <Text
+                                                            color='black'
+                                                            fontWeight={
+                                                                isActiveSubcategory(
+                                                                    subcategory.category,
+                                                                )
+                                                                    ? 700
+                                                                    : 500
+                                                            }
+                                                        >
+                                                            {subcategory.title}
+                                                        </Text>
+                                                    </LinkOverlay>
+                                                </HStack>
+                                            </LinkBox>
+                                        ))}
+                                    </AccordionPanel>
+                                </>
+                            )}
+                        </AccordionItem>
+                    ))}
             </Accordion>
             <VStack spacing={3} px={6} pb={8} fontSize='xs' align='left'>
                 <Text fontWeight={500} color='blackAlpha.400'>

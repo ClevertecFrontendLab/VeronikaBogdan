@@ -19,6 +19,8 @@ import Bookmark from '~/assets/svg/bookmark-heart.svg';
 import Badge from '~/components/badge';
 import { HorizontalCardProps } from '~/components/horizontal-card/types';
 import IconCountWrapper from '~/components/icon-count-wrapper';
+import { IMAGE_HOST } from '~/constants';
+import { useGetCategoriesQuery } from '~/query/services/categories';
 import { filtersSelector } from '~/store/filters-slice';
 import { useAppSelector } from '~/store/hooks';
 import { getCategory } from '~/utils/current-paths';
@@ -28,14 +30,18 @@ const HorizontalCard = ({ card, dataTestIdButton }: HorizontalCardProps) => {
 
     const { searchText } = useAppSelector(filtersSelector);
 
+    const { data } = useGetCategoriesQuery();
+
+    console.log(`${IMAGE_HOST}${getCategory(data?.categories, card.category[0])?.icon}`);
+
     return (
         <Card direction='row' h='full'>
             <Stack spacing={2} position='absolute' top={2} left={2}>
                 {card.category.map((category) => (
                     <Badge
                         key={category}
-                        icon={getCategory(category)?.icon}
-                        text={getCategory(category)?.label}
+                        icon={`${IMAGE_HOST}${getCategory(data?.categories, category)?.icon}`}
+                        text={getCategory(data?.all, category)?.title}
                         type='horizontal'
                         hideFrom='xl'
                     />
@@ -65,8 +71,8 @@ const HorizontalCard = ({ card, dataTestIdButton }: HorizontalCardProps) => {
                                 {card.category.map((category) => (
                                     <Badge
                                         key={category}
-                                        icon={getCategory(category)?.icon}
-                                        text={getCategory(category)?.label}
+                                        icon={`${IMAGE_HOST}${getCategory(data?.categories, category)?.icon}`}
+                                        text={getCategory(data?.all, category)?.title}
                                         type='horizontal'
                                         hideBelow='xl'
                                     />

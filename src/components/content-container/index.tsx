@@ -28,7 +28,7 @@ import {
 import { useAppDispatch, useAppSelector } from '~/store/hooks';
 
 type PageHeaderProps = {
-    title: string;
+    title?: string;
     description?: string;
     children: ReactNode;
     notFound: boolean;

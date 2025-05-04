@@ -5,6 +5,8 @@ export type MenuState = typeof initialState;
 
 const initialState = {
     isBurgerMenu: false,
+    category: '',
+    subcategory: '',
 };
 export const menuSlice = createSlice({
     name: 'menu',
@@ -13,9 +15,16 @@ export const menuSlice = createSlice({
         setBurgerMenuState(state) {
             state.isBurgerMenu = !state.isBurgerMenu;
         },
+
+        setCategory(state, { payload }) {
+            state.category = payload;
+        },
+        setSubcategory(state, { payload }) {
+            state.subcategory = payload;
+        },
     },
 });
 export const menuSelector = (state: ApplicationState) => state.menu;
 
-export const { setBurgerMenuState } = menuSlice.actions;
+export const { setBurgerMenuState, setCategory, setSubcategory } = menuSlice.actions;
 export default menuSlice.reducer;

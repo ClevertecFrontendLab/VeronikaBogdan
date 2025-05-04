@@ -5,6 +5,7 @@ import { useLocation, useParams } from 'react-router';
 import { Link } from 'react-router';
 
 import { ALL_CARDS } from '~/constants/grid-cards';
+import { useGetCategoriesQuery } from '~/query/services/categories';
 import { useAppSelector } from '~/store/hooks';
 import { menuSelector, setBurgerMenuState } from '~/store/menu-slice';
 import { getCategory, getSingleSubcategory, getSubcategories } from '~/utils/current-paths';
@@ -16,6 +17,10 @@ const BreadCrubms = ({ hideBelow, hideFrom }: BreadCrumbsProps) => {
     const dispatch = useDispatch();
     const { pathname } = useLocation();
     const { category, subcategory, recipeId } = useParams();
+
+    const { data } = useGetCategoriesQuery();
+
+    const subcategories = getSubcategories(data?.all, category);
 
     const handleHide = () => {
         if (isBurgerMenu) {
@@ -89,24 +94,24 @@ const BreadCrubms = ({ hideBelow, hideFrom }: BreadCrumbsProps) => {
             <BreadcrumbItem>
                 <BreadcrumbLink
                     as={Link}
-                    to={`/${category}/${getSubcategories(category)[0].path}`}
+                    to={`/${category}/${subcategories ? subcategories[0]?.category : ''}`}
                     fontWeight={400}
                     color='blackAlpha.700'
                     onClick={handleHide}
                 >
-                    {getCategory(category)?.label}
+                    {getCategory(data?.all, category)?.title}
                 </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbItem
                 as={recipeId ? Link : undefined}
-                to={`/${category}/${getSingleSubcategory(category, subcategory)?.path}`}
+                to={`/${category}/${getSingleSubcategory(data?.all, category, subcategory)?.category}`}
                 isCurrentPage={!recipeId}
                 fontWeight={400}
                 color={recipeId ? 'blackAlpha.700' : 'black'}
                 onClick={() => (recipeId ? handleHide() : '')}
             >
                 <BreadcrumbLink>
-                    {getSingleSubcategory(category, subcategory)?.label}
+                    {getSingleSubcategory(data?.all, category, subcategory)?.title}
                 </BreadcrumbLink>
             </BreadcrumbItem>
             {recipeId && (

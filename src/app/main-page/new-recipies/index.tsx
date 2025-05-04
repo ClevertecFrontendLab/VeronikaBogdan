@@ -20,12 +20,15 @@ import ArrowLeft from '~/assets/svg/arrow-left.svg';
 import ArrowRight from '~/assets/svg/arrow-right.svg';
 import Badge from '~/components/badge';
 import IconCountWrapper from '~/components/icon-count-wrapper';
-import { NEW_RECIPIES_COUNT } from '~/constants';
+import { IMAGE_HOST, NEW_RECIPIES_COUNT } from '~/constants';
 import { ALL_CARDS } from '~/constants/grid-cards';
+import { useGetCategoriesQuery } from '~/query/services/categories';
 import { getCategory, getSingleSubcategory } from '~/utils/current-paths';
 
 const NewRecipies = () => {
     const navigate = useNavigate();
+
+    const { data } = useGetCategoriesQuery();
 
     const sortedNewRecipiesByDate = [...ALL_CARDS].sort(
         (firstCard, secondCard) => Date.parse(secondCard.date) - Date.parse(firstCard.date),
@@ -94,7 +97,7 @@ const NewRecipies = () => {
                             minW={{ base: '158px', xl: '277px', '3xl': '322px' }}
                             onClick={() =>
                                 navigate(
-                                    `/${getCategory(recipe.category[0])?.path}/${getSingleSubcategory(recipe.category[0], recipe.subcategory[0])?.path}/${recipe.id}`,
+                                    `/${getCategory(data?.all, recipe.category[0])?.category}/${getSingleSubcategory(data?.all, recipe.category[0], recipe.subcategory[0])?.category}/${recipe.id}`,
                                 )
                             }
                         >
@@ -108,8 +111,8 @@ const NewRecipies = () => {
                                 {recipe.category.map((category) => (
                                     <Badge
                                         key={category}
-                                        icon={getCategory(category)?.icon}
-                                        text={getCategory(category)?.label}
+                                        icon={`${IMAGE_HOST}${getCategory(data?.all, category)?.icon}`}
+                                        text={getCategory(data?.all, category)?.title}
                                         type='vertical'
                                         hideFrom='xl'
                                     />
@@ -144,8 +147,8 @@ const NewRecipies = () => {
                                             {recipe.category.map((category) => (
                                                 <Badge
                                                     key={category}
-                                                    icon={getCategory(category)?.icon}
-                                                    text={getCategory(category)?.label}
+                                                    icon={`${IMAGE_HOST}${getCategory(data?.all, category)?.icon}`}
+                                                    text={getCategory(data?.all, category)?.title}
                                                     type='vertical'
                                                     hideBelow='xl'
                                                 />

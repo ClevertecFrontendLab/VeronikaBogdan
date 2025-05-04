@@ -4,9 +4,9 @@ import { useNavigate, useParams } from 'react-router';
 import ContentContainer from '~/components/content-container';
 import HorizontalCard from '~/components/horizontal-card';
 import RelevantKitchen from '~/components/relevant-kitchen';
-import CATEGORIES from '~/constants/categories';
 import { ALL_CARDS } from '~/constants/grid-cards';
 import { RELEVANT_KITCHEN_CATEGORY } from '~/constants/relevant-kitchen';
+import { useGetCategoriesQuery } from '~/query/services/categories';
 import { filtersSelector } from '~/store/filters-slice';
 import { useAppSelector } from '~/store/hooks';
 import { filterByAllergens } from '~/utils/allergen-filter';
@@ -17,9 +17,13 @@ const CategoryPage = () => {
     const { category, subcategory } = useParams();
     const { allergens, searchText } = useAppSelector(filtersSelector);
 
-    const subcategories = CATEGORIES.find((item) => item.path === category)?.children || [];
+    const { data } = useGetCategoriesQuery();
 
-    const defaultSubcategory = subcategories?.findIndex((item) => item.path === subcategory);
+    const selectedCategory = data?.categories.find((item) => item.category === category);
+
+    const subcategories = selectedCategory?.subCategories || [];
+
+    const defaultSubcategory = subcategories?.findIndex((item) => item.category === subcategory);
 
     const filteredByCategory = ALL_CARDS.filter((card) => card.category.includes(category || ''));
     const filteredBySubcategory = filteredByCategory.filter((card) =>
@@ -37,8 +41,8 @@ const CategoryPage = () => {
 
     return (
         <ContentContainer
-            title='Веганская кухня'
-            description='Интересны не только убеждённым вегетарианцам, но и тем, кто хочет попробовать вегетарианскую диету и готовить вкусные вегетарианские блюда.'
+            title={selectedCategory?.title}
+            description={selectedCategory?.description}
             notFound={filteredBySearchText.length === 0 || filteredByAllergens.length === 0}
         >
             <Tabs
@@ -51,8 +55,8 @@ const CategoryPage = () => {
                 <TabList overflowX='hidden' w='100%' justifySelf={{ base: 'center' }}>
                     {subcategories.map((tab, tabIndex) => (
                         <Tab
-                            key={tab.label}
-                            data-test-id={`tab-${tab.path}-${tabIndex}`}
+                            key={tab._id}
+                            data-test-id={`tab-${tab.category}-${tabIndex}`}
                             fontSize={{ base: 'sm', xl: 'md' }}
                             lineHeight={{ base: '143%', xl: '150%' }}
                             whiteSpace='nowrap'
@@ -71,16 +75,16 @@ const CategoryPage = () => {
                             }}
                             _focus={{ outline: 0 }}
                             p={{ base: '4px 16px' }}
-                            onClick={() => navigate(`/${category}/${tab.path}`)}
+                            onClick={() => navigate(`/${category}/${tab.category}`)}
                         >
-                            {tab.label}
+                            {tab.title}
                         </Tab>
                     ))}
                 </TabList>
                 <TabPanels>
                     {subcategories.map((tab) => (
                         <TabPanel
-                            key={tab.label}
+                            key={tab._id}
                             textAlign='left'
                             p={0}
                             pt={{ base: 6 }}
@@ -92,7 +96,9 @@ const CategoryPage = () => {
                                     <GridItem
                                         key={card.id}
                                         data-test-id={
-                                            subcategory === tab.path ? `food-card-${cardIndex}` : ''
+                                            subcategory === tab.category
+                                                ? `food-card-${cardIndex}`
+                                                : ''
                                         }
                                     >
                                         <HorizontalCard card={card} />

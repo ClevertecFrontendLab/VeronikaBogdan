@@ -24,13 +24,17 @@ import HeartEyes from '~/assets/svg/emoji-heart-eyes.svg';
 import Timer from '~/assets/svg/timer.svg';
 import Badge from '~/components/badge';
 import IconCountWrapper from '~/components/icon-count-wrapper';
+import { IMAGE_HOST } from '~/constants';
 import { ALL_CARDS } from '~/constants/grid-cards';
+import { useGetCategoriesQuery } from '~/query/services/categories';
 import { getCategory } from '~/utils/current-paths';
 
 const RecipePage = () => {
     const { recipeId } = useParams();
 
     const card = ALL_CARDS.find((card) => card.id === recipeId);
+
+    const { data } = useGetCategoriesQuery();
 
     return card ? (
         <Stack
@@ -62,8 +66,8 @@ const RecipePage = () => {
                                     {card.category.map((category) => (
                                         <Badge
                                             key={category}
-                                            icon={getCategory(category)?.icon}
-                                            text={getCategory(category)?.label}
+                                            icon={`${IMAGE_HOST}${getCategory(data?.all, category)?.icon}`}
+                                            text={getCategory(data?.all, category)?.title}
                                             type='horizontal'
                                         />
                                     ))}

@@ -35,7 +35,19 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <ChakraProvider theme={theme}>
+        <ChakraProvider
+            theme={theme}
+            toastOptions={{
+                defaultOptions: {
+                    title: 'Ошибка сервера',
+                    description: 'Попробуйте немного позже',
+                    status: 'error',
+                    duration: 120000,
+                    isClosable: true,
+                    position: 'bottom',
+                },
+            }}
+        >
             <Provider store={store}>
                 <RouterProvider router={router} />
             </Provider>

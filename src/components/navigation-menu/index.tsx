@@ -14,9 +14,10 @@ import {
     LinkOverlay,
     Text,
     useBoolean,
+    useToast,
     VStack,
 } from '@chakra-ui/react';
-import { Ref, useMemo } from 'react';
+import { Ref, useEffect, useMemo } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 
 import AccordionIcon from '~/assets/svg/accordion-icon.svg';
@@ -38,7 +39,9 @@ const NavigationMenu = ({ menuRef }: NavigationMenuProps) => {
     const navigate = useNavigate();
     const { category, subcategory } = useParams();
 
-    const { data, isLoading } = useGetCategoriesQuery();
+    const toast = useToast();
+
+    const { data, isLoading, isError } = useGetCategoriesQuery();
 
     const isActiveSubcategory = (value: string) => subcategory === value;
 
@@ -47,7 +50,11 @@ const NavigationMenu = ({ menuRef }: NavigationMenuProps) => {
         [data, category],
     );
 
-    console.log(defaultCategory);
+    useEffect(() => {
+        if (isError) {
+            toast();
+        }
+    }, [isError, toast]);
 
     return (
         <Flex

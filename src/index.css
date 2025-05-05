@@ -40,12 +40,20 @@ button {
     cursor: pointer;
     transition: border-color 0.25s;
 }
-button:hover {
-    border-color: #646cff;
+
+div.chakra-alert {
+    align-items: center;
+    border-radius: 0;
+    background-color: #e53e3e;
+    margin-bottom: 86px;
 }
-button:focus,
-button:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
+
+div.chakra-alert__title {
+    font-weight: 500;
+}
+
+div.chakra-alert__desc {
+    font-weight: 300;
 }
 
 @media (prefers-color-scheme: light) {

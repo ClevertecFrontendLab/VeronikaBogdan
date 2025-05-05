@@ -1,5 +1,5 @@
 import { apiSlice } from '~/query/create-api.ts';
-import { CategoriesResponse, Category } from '~/query/types/categories';
+import { CategoriesResponse, Category, CategoryByIdResponse } from '~/query/types/categories';
 
 export const categoriesApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -12,7 +12,10 @@ export const categoriesApiSlice = apiSlice.injectEndpoints({
                 };
             },
         }),
+        getCategoryById: builder.query<CategoryByIdResponse, string>({
+            query: (id) => `category/${id}`,
+        }),
     }),
 });
 
-export const { useGetCategoriesQuery } = categoriesApiSlice;
+export const { useGetCategoriesQuery, useGetCategoryByIdQuery } = categoriesApiSlice;

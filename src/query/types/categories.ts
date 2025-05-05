@@ -18,3 +18,5 @@ export type CategoriesResponse = {
     all: Category[] | [];
     categories: Category[] | [];
 };
+
+export type CategoryByIdResponse = Category | Subcategory;

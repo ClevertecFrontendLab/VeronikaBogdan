@@ -32,8 +32,6 @@ const HorizontalCard = ({ card, dataTestIdButton }: HorizontalCardProps) => {
 
     const { data } = useGetCategoriesQuery();
 
-    console.log(`${IMAGE_HOST}${getCategory(data?.categories, card.category[0])?.icon}`);
-
     return (
         <Card direction='row' h='full'>
             <Stack spacing={2} position='absolute' top={2} left={2}>

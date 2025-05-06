@@ -23,7 +23,7 @@ import { IMAGE_HOST } from '~/constants';
 import { useGetCategoriesQuery } from '~/query/services/categories';
 import { filtersSelector } from '~/store/filters-slice';
 import { useAppSelector } from '~/store/hooks';
-import { getCategory } from '~/utils/current-paths';
+import { getCategory, getRootCategory } from '~/utils/current-paths';
 
 const HorizontalCard = ({ card, dataTestIdButton }: HorizontalCardProps) => {
     const navigate = useNavigate();
@@ -38,7 +38,7 @@ const HorizontalCard = ({ card, dataTestIdButton }: HorizontalCardProps) => {
                 {card.category.map((category) => (
                     <Badge
                         key={category}
-                        icon={`${IMAGE_HOST}${getCategory(data?.categories, category)?.icon}`}
+                        icon={`${IMAGE_HOST}${getRootCategory(data?.all, category)?.icon}`}
                         text={getCategory(data?.all, category)?.title}
                         type='horizontal'
                         hideFrom='xl'
@@ -69,7 +69,7 @@ const HorizontalCard = ({ card, dataTestIdButton }: HorizontalCardProps) => {
                                 {card.category.map((category) => (
                                     <Badge
                                         key={category}
-                                        icon={`${IMAGE_HOST}${getCategory(data?.categories, category)?.icon}`}
+                                        icon={`${IMAGE_HOST}${getRootCategory(data?.all, category)?.icon}`}
                                         text={getCategory(data?.all, category)?.title}
                                         type='horizontal'
                                         hideBelow='xl'

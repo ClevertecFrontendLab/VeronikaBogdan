@@ -27,7 +27,7 @@ import IconCountWrapper from '~/components/icon-count-wrapper';
 import { IMAGE_HOST } from '~/constants';
 import { ALL_CARDS } from '~/constants/grid-cards';
 import { useGetCategoriesQuery } from '~/query/services/categories';
-import { getCategory } from '~/utils/current-paths';
+import { getCategory, getRootCategory } from '~/utils/current-paths';
 
 const RecipePage = () => {
     const { recipeId } = useParams();
@@ -66,7 +66,7 @@ const RecipePage = () => {
                                     {card.category.map((category) => (
                                         <Badge
                                             key={category}
-                                            icon={`${IMAGE_HOST}${getCategory(data?.all, category)?.icon}`}
+                                            icon={`${IMAGE_HOST}${getRootCategory(data?.all, category)?.icon}`}
                                             text={getCategory(data?.all, category)?.title}
                                             type='horizontal'
                                         />

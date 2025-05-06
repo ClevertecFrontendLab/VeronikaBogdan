@@ -6,6 +6,12 @@ export const getCategory = (categories?: Category[], category?: string) =>
 export const getCategoryById = (categories?: Category[], categoryId?: string) =>
     categories?.find((categoryItem) => categoryItem._id === categoryId);
 
+export const getRootCategory = (categories?: Category[], categoryId?: string) => {
+    const rootCategoryId = getCategoryById(categories, categoryId)?.rootCategoryId;
+
+    return getCategoryById(categories, rootCategoryId);
+};
+
 export const getSubcategories = (categories?: Category[], category?: string) =>
     categories?.find((categoryMenu) => categoryMenu.category === category)?.subCategories || [];
 

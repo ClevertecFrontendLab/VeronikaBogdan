@@ -12,6 +12,7 @@ export type Category = {
     category: string;
     icon: string;
     subCategories?: Subcategory[];
+    rootCategoryId?: string;
 };
 
 export type CategoriesResponse = {

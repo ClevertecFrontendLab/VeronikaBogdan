@@ -10,6 +10,7 @@ import { useGetCategoriesQuery } from '~/query/services/categories';
 import { filtersSelector } from '~/store/filters-slice';
 import { useAppSelector } from '~/store/hooks';
 import { filterByAllergens } from '~/utils/allergen-filter';
+import { getCategory } from '~/utils/current-paths';
 import { searchTextFilter } from '~/utils/search-text-filter';
 
 const CategoryPage = () => {
@@ -19,7 +20,8 @@ const CategoryPage = () => {
 
     const { data } = useGetCategoriesQuery();
 
-    const selectedCategory = data?.categories.find((item) => item.category === category);
+    const selectedCategory = getCategory(data?.categories, category);
+    console.log(selectedCategory);
 
     const subcategories = selectedCategory?.subCategories || [];
 
@@ -105,7 +107,12 @@ const CategoryPage = () => {
                                     </GridItem>
                                 ))}
                             </Grid>
-                            <Button variant='pageSolid' size='pageActive' mt={{ base: 4 }}>
+                            <Button
+                                variant='pageSolid'
+                                size='pageActive'
+                                mt={{ base: 4 }}
+                                data-test-id='load-more-button'
+                            >
                                 Загрузить еще
                             </Button>
                         </TabPanel>

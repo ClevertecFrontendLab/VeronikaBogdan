@@ -1,3 +1,5 @@
+import { Recipe } from '~/query/types/recipies';
+
 type nutritionValue = {
     calories: number;
     proteins: number;
@@ -37,6 +39,7 @@ export type Card = {
 };
 
 export type HorizontalCardProps = {
-    card: Card;
+    // card: Card;
+    card: Recipe;
     dataTestIdButton?: string;
 };

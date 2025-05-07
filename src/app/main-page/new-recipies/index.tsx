@@ -13,7 +13,7 @@ import {
     Text,
     useToast,
 } from '@chakra-ui/react';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -26,7 +26,7 @@ import Loader from '~/components/loader';
 import { IMAGE_HOST } from '~/constants';
 import { useGetCategoriesQuery } from '~/query/services/categories';
 import { useGetRecipesQuery } from '~/query/services/recipies';
-import { getCategoryById, getRootCategory, getSingleSubcategory } from '~/utils/current-paths';
+import { getCategoryById, getRootCategory } from '~/utils/current-paths';
 
 const NewRecipies = () => {
     const navigate = useNavigate();
@@ -43,13 +43,20 @@ const NewRecipies = () => {
         sortOrder: 'desc',
     });
 
+    const sortedNewRecipiesByDate = useMemo(() => {
+        if (recipes) {
+            return recipes?.data.toSorted(
+                (firstCard, secondCard) =>
+                    Date.parse(secondCard.createdAt) - Date.parse(firstCard.createdAt),
+            );
+        }
+    }, [recipes]);
+
     useEffect(() => {
         if (isCategoriesError) {
             toast();
         }
     }, [isCategoriesError, toast]);
-
-    // console.log(recipes?.data[0].categoriesIds[0],getCategoryById(data?.all, category)?);
 
     return (
         recipes && (
@@ -102,7 +109,7 @@ const NewRecipies = () => {
                     }}
                     data-test-id='carousel'
                 >
-                    {recipes?.data?.map((recipe, recipeIndex) => (
+                    {sortedNewRecipiesByDate?.map((recipe, recipeIndex) => (
                         <SwiperSlide key={recipe._id} data-test-id={`carousel-card-${recipeIndex}`}>
                             <Card
                                 position='relative'
@@ -112,7 +119,8 @@ const NewRecipies = () => {
                                 minW={{ base: '158px', xl: '277px', '3xl': '322px' }}
                                 onClick={() =>
                                     navigate(
-                                        `/${getCategoryById(data?.all, recipe.categoriesIds[0])?.category}/${getSingleSubcategory(data?.all, recipe.categoriesIds[0], recipe.categoriesIds[0])?.category}/${recipe.id}`,
+                                        `/${getRootCategory(data?.all, recipe.categoriesIds[0])?.category}/${getCategoryById(data?.all, recipe.categoriesIds[0])?.category}/${recipe._id}`,
+                                        // `/${getCategoryById(data?.all, recipe.categoriesIds[0])?.category}/${getSingleSubcategory(data?.all, recipe.categoriesIds[0], recipe.categoriesIds[0])?.category}/${recipe.id}`,
                                     )
                                 }
                             >

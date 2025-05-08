@@ -31,12 +31,19 @@ type PageHeaderProps = {
     title?: string;
     description?: string;
     children: ReactNode;
-    notFound: boolean;
+    successSearch?: boolean | string;
+    notFound: boolean | string;
 };
 
-const ContentContainer = ({ title, description, children, notFound }: PageHeaderProps) => {
+const ContentContainer = ({
+    title,
+    description,
+    children,
+    successSearch,
+    notFound,
+}: PageHeaderProps) => {
     const dispatch = useAppDispatch();
-    const { searchTextInput } = useAppSelector(filtersSelector);
+    const { searchTextInput, allergens } = useAppSelector(filtersSelector);
 
     const [isSearch, setSearch] = useBoolean();
 
@@ -103,14 +110,30 @@ const ContentContainer = ({ title, description, children, notFound }: PageHeader
                                     colorScheme='blackAlpha'
                                     fontSize={{ base: 'sm', xl: 'lg' }}
                                     h={{ base: 8, xl: 12 }}
-                                    borderColor={notFound ? 'red' : 'blackAlpha.600'}
+                                    borderColor={
+                                        successSearch
+                                            ? 'lime.600'
+                                            : notFound
+                                              ? 'red'
+                                              : 'blackAlpha.600'
+                                    }
                                     placeholder={isSearch ? '' : 'Название или ингредиент...'}
                                     _placeholder={{ color: 'inherit' }}
                                     _focusVisible={{
-                                        borderColor: notFound ? 'red' : 'blackAlpha.600',
+                                        borderColor: successSearch
+                                            ? 'lime.600'
+                                            : notFound
+                                              ? 'red'
+                                              : 'blackAlpha.600',
                                         boxShadow: 'none',
                                     }}
-                                    _hover={{ borderColor: notFound ? 'red' : 'blackAlpha.600' }}
+                                    _hover={{
+                                        borderColor: successSearch
+                                            ? 'lime.600'
+                                            : notFound
+                                              ? 'red'
+                                              : 'blackAlpha.600',
+                                    }}
                                     onFocus={() => {
                                         setSearch.on();
                                     }}
@@ -135,7 +158,11 @@ const ContentContainer = ({ title, description, children, notFound }: PageHeader
                                     pr={{ base: 0, xl: 2 }}
                                     mr={{ base: -0.4, xl: 0 }}
                                     h={{ base: 8, xl: 12 }}
-                                    pointerEvents={searchTextInput.length > 2 ? 'auto' : 'none'}
+                                    pointerEvents={
+                                        searchTextInput.length > 2 || allergens.length > 0
+                                            ? 'auto'
+                                            : 'none'
+                                    }
                                     _hover={{ cursor: 'pointer' }}
                                     onClick={() => {
                                         if (searchTextInput.length > 2) {

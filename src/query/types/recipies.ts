@@ -50,7 +50,7 @@ export type RecipesResponse = {
 export type RecipesParams = {
     page?: number;
     limit?: number;
-    allergens?: string;
+    allergens?: string | null;
     searchString?: string;
     meat?: string;
     garnish?: string;

@@ -6,7 +6,6 @@ import HorizontalCard from '~/components/horizontal-card';
 import Loader from '~/components/loader';
 import RelevantKitchen from '~/components/relevant-kitchen';
 import { ALL_CARDS } from '~/constants/grid-cards';
-import { RELEVANT_KITCHEN_MAIN } from '~/constants/relevant-kitchen';
 import { useGetRecipesQuery } from '~/query/services/recipies';
 import { Recipe } from '~/query/types/recipies';
 import { filtersSelector } from '~/store/filters-slice';
@@ -21,7 +20,7 @@ const JuiciestPage = () => {
 
     const {
         data: recipes,
-        isLoading,
+        isLoading: isJuiciestRecipesLoading,
         isFetching,
     } = useGetRecipesQuery({
         page,
@@ -47,7 +46,7 @@ const JuiciestPage = () => {
             title='Самое сочное'
             notFound={filteredBySearchText.length === 0 || filteredByAllergens.length === 0}
         >
-            {isLoading && <Loader />}
+            {isJuiciestRecipesLoading && <Loader />}
             {recipes && (
                 <>
                     <Grid
@@ -79,7 +78,7 @@ const JuiciestPage = () => {
                     )}
                 </>
             )}
-            <RelevantKitchen data={RELEVANT_KITCHEN_MAIN} />
+            <RelevantKitchen />
         </ContentContainer>
     );
 };

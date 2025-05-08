@@ -1,5 +1,5 @@
 import { apiSlice } from '~/query/create-api.ts';
-import { RecipesParams, RecipesResponse } from '~/query/types/recipies';
+import { RecipesByCategoryParams, RecipesParams, RecipesResponse } from '~/query/types/recipies';
 
 export const recipesApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -9,7 +9,17 @@ export const recipesApiSlice = apiSlice.injectEndpoints({
                 params,
             }),
         }),
+        getRecipesByCategory: builder.query<RecipesResponse, RecipesByCategoryParams>({
+            query: ({ id, params }) => ({
+                url: `recipe/category/${id}`,
+                params,
+            }),
+        }),
     }),
 });
 
-export const { useGetRecipesQuery } = recipesApiSlice;
+export const {
+    useGetRecipesQuery,
+    useGetRecipesByCategoryQuery,
+    useLazyGetRecipesByCategoryQuery,
+} = recipesApiSlice;

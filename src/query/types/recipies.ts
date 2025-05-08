@@ -58,3 +58,8 @@ export type RecipesParams = {
     sortBy?: string;
     sortOrder?: string;
 };
+
+export type RecipesByCategoryParams = {
+    id: string;
+    params: RecipesParams;
+};

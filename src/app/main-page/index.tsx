@@ -8,7 +8,6 @@ import HorizontalCard from '~/components/horizontal-card';
 // import Loader from '~/components/loader';
 import RelevantKitchen from '~/components/relevant-kitchen';
 import { ALL_CARDS } from '~/constants/grid-cards';
-import { RELEVANT_KITCHEN_MAIN } from '~/constants/relevant-kitchen';
 import { filtersSelector } from '~/store/filters-slice';
 import { useAppSelector } from '~/store/hooks';
 import { filterByAllergens } from '~/utils/allergen-filter';
@@ -70,7 +69,7 @@ const MainPage = () => {
                     ))}
                 </Grid>
             )}
-            <RelevantKitchen data={RELEVANT_KITCHEN_MAIN} />
+            <RelevantKitchen />
         </ContentContainer>
     );
 };

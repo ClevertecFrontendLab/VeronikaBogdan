@@ -5,7 +5,6 @@ import ContentContainer from '~/components/content-container';
 import HorizontalCard from '~/components/horizontal-card';
 import RelevantKitchen from '~/components/relevant-kitchen';
 import { ALL_CARDS } from '~/constants/grid-cards';
-import { RELEVANT_KITCHEN_CATEGORY } from '~/constants/relevant-kitchen';
 import { useGetCategoriesQuery } from '~/query/services/categories';
 import { filtersSelector } from '~/store/filters-slice';
 import { useAppSelector } from '~/store/hooks';
@@ -119,7 +118,7 @@ const CategoryPage = () => {
                     ))}
                 </TabPanels>
             </Tabs>
-            <RelevantKitchen data={RELEVANT_KITCHEN_CATEGORY} hideTopBorderFrom='xl' />
+            <RelevantKitchen hideTopBorderFrom='xl' />
         </ContentContainer>
     );
 };

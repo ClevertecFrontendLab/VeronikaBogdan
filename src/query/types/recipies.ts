@@ -6,9 +6,10 @@ export type Step = {
 
 export type NutritionValue = {
     calories: number;
-    protein: number;
     fats: number;
     carbohydrates: number;
+    protein?: number;
+    proteins?: number;
 };
 
 export type Ingredient = {

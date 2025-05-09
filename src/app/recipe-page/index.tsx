@@ -25,14 +25,13 @@ import Timer from '~/assets/svg/timer.svg';
 import Badge from '~/components/badge';
 import IconCountWrapper from '~/components/icon-count-wrapper';
 import { IMAGE_HOST } from '~/constants';
-import { ALL_CARDS } from '~/constants/grid-cards';
 import { useGetCategoriesQuery } from '~/query/services/categories';
-import { getCategory, getRootCategory } from '~/utils/current-paths';
+import { useGetRecipeQuery } from '~/query/services/recipies';
+import { getCategoryById, getRootCategory } from '~/utils/current-paths';
 
 const RecipePage = () => {
     const { recipeId } = useParams();
-
-    const card = ALL_CARDS.find((card) => card.id === recipeId);
+    const { data: card } = useGetRecipeQuery(recipeId);
 
     const { data } = useGetCategoriesQuery();
 
@@ -48,7 +47,7 @@ const RecipePage = () => {
                 layerStyle='contentContainer'
             >
                 <Image
-                    src={card?.image}
+                    src={`${IMAGE_HOST}${card?.image}`}
                     borderRadius='lg'
                     h={{ base: '224px', md: '225px', xl: '411px' }}
                     w={{ base: '100%', md: '230px', xl: '353px', '3xl': '554px' }}
@@ -58,21 +57,17 @@ const RecipePage = () => {
                     <CardBody px={{ base: 0 }} py={{ base: 2, xl: 0 }} pt={0}>
                         <Stack gap={{ base: 0, xl: 2 }}>
                             <Flex justify='space-between' alignItems='flex-start'>
-                                <Stack
-                                    spacing={2}
-                                    flexWrap='wrap'
-                                    direction={{ base: 'column', xl: 'row' }}
-                                >
-                                    {card.category.map((category) => (
+                                <Stack spacing={2} flexWrap='wrap' direction='row'>
+                                    {card.categoriesIds.map((category) => (
                                         <Badge
                                             key={category}
                                             icon={`${IMAGE_HOST}${getRootCategory(data?.all, category)?.icon}`}
-                                            text={getCategory(data?.all, category)?.title}
+                                            text={getCategoryById(data?.all, category)?.title}
                                             type='horizontal'
                                         />
                                     ))}
                                 </Stack>
-                                <HStack w='165px' justifyContent='flex-end'>
+                                <HStack minWidth='165px' justifyContent='flex-end'>
                                     {card?.bookmarks && (
                                         <IconCountWrapper type='favorite' count={card.bookmarks} />
                                     )}
@@ -101,7 +96,7 @@ const RecipePage = () => {
                         p={{ base: 0 }}
                     >
                         <Box alignContent='flex-end'>
-                            <Badge icon={Timer} text={card.time} type='time' />
+                            <Badge icon={Timer} text={`${card.time} минут`} type='time' />
                         </Box>
                         <HStack
                             justify={{ base: 'flex-start', md: 'flex-end' }}
@@ -159,7 +154,7 @@ const RecipePage = () => {
                         />
                         <NutritionBox
                             name='белки'
-                            count={card.nutritionValue.proteins}
+                            count={card.nutritionValue.protein || card.nutritionValue.proteins || 0}
                             unit='грамм'
                             pl={16}
                         />

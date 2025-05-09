@@ -83,7 +83,7 @@ const HorizontalCard = ({ card, dataTestIdButton }: HorizontalCardProps) => {
                                 ))}
                             </Stack>
                             <HStack
-                                w='130px'
+                                minWidth='fit-content'
                                 justifyContent={{ base: 'flex-start', xl: 'flex-end' }}
                             >
                                 {card.bookmarks && (

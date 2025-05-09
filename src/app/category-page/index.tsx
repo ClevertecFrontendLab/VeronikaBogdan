@@ -7,7 +7,7 @@ import HorizontalCard from '~/components/horizontal-card';
 import Loader from '~/components/loader';
 import RelevantKitchen from '~/components/relevant-kitchen';
 import { useGetCategoriesQuery } from '~/query/services/categories';
-import { useGetRecipesByCategoryQuery } from '~/query/services/recipies';
+import { useGetRecipesQuery } from '~/query/services/recipies';
 import { filtersSelector, setRecipes } from '~/store/filters-slice';
 import { useAppDispatch, useAppSelector } from '~/store/hooks';
 import { getCategory } from '~/utils/current-paths';
@@ -29,15 +29,12 @@ const CategoryPage = () => {
     const {
         data: recipes,
         isLoading: isRecipesLoading,
-        // isFetching: isRecipesFetching,
-    } = useGetRecipesByCategoryQuery(
+        isFetching: isRecipesFetching,
+    } = useGetRecipesQuery(
         {
-            id: subcategories[defaultSubcategory]?._id || '',
-            params: {
-                searchString: searchText,
-
-                allergens: allergens.length > 0 ? allergens.join(',') : null,
-            },
+            searchString: searchText,
+            allergens: allergens.length > 0 ? allergens.join(',') : null,
+            subcategoriesIds: subcategories[defaultSubcategory]?._id || '',
         },
         { skip: !data },
     );
@@ -54,85 +51,88 @@ const CategoryPage = () => {
             description={selectedCategory?.description}
             successSearch={recipes ? searchText && recipes?.data?.length > 0 : ''}
             notFound={(searchText || allergens.length > 0) && recipes?.data.length === 0}
+            isLoading={recipes && isRecipesFetching}
         >
             {isRecipesLoading && <Loader />}
-            {data && (
-                <Tabs
-                    layerStyle='contentContainer'
-                    align='center'
-                    mt={{ base: 1, '3xl': -3 }}
-                    index={defaultSubcategory}
-                    variant='unstyled'
-                >
-                    <TabList overflowX='hidden' w='100%' justifySelf={{ base: 'center' }}>
-                        {subcategories.map((tab, tabIndex) => (
-                            <Tab
-                                key={tab._id}
-                                data-test-id={`tab-${tab.category}-${tabIndex}`}
-                                fontSize={{ base: 'sm', xl: 'md' }}
-                                lineHeight={{ base: '143%', xl: '150%' }}
-                                whiteSpace='nowrap'
-                                color='lime.800'
-                                border={0}
-                                outline={0}
-                                borderBottom='1px solid'
-                                borderBottomColor='blackAlpha.200'
-                                borderRadius={0}
-                                _hover={{ borderBottomColor: 'lime.600' }}
-                                _selected={{
-                                    outline: 0,
-                                    color: 'lime.600',
-                                    borderBottom: '2px solid',
-                                    borderBottomColor: 'lime.600',
-                                }}
-                                _focus={{ outline: 0 }}
-                                p={{ base: '4px 16px' }}
-                                onClick={() => navigate(`/${category}/${tab.category}`)}
-                            >
-                                {tab.title}
-                            </Tab>
-                        ))}
-                    </TabList>
-                    <TabPanels>
-                        {subcategories &&
-                            recipes &&
-                            subcategories.map((tab) => (
-                                <TabPanel
+            {data && recipes && (
+                <>
+                    <Tabs
+                        layerStyle='contentContainer'
+                        align='center'
+                        mt={{ base: 1, '3xl': -3 }}
+                        index={defaultSubcategory}
+                        variant='unstyled'
+                    >
+                        <TabList overflowX='hidden' w='100%' justifySelf={{ base: 'center' }}>
+                            {subcategories.map((tab, tabIndex) => (
+                                <Tab
                                     key={tab._id}
-                                    textAlign='left'
-                                    p={0}
-                                    pt={{ base: 6 }}
-                                    display='flex'
-                                    flexDirection='column'
+                                    data-test-id={`tab-${tab.category}-${tabIndex}`}
+                                    fontSize={{ base: 'sm', xl: 'md' }}
+                                    lineHeight={{ base: '143%', xl: '150%' }}
+                                    whiteSpace='nowrap'
+                                    color='lime.800'
+                                    border={0}
+                                    outline={0}
+                                    borderBottom='1px solid'
+                                    borderBottomColor='blackAlpha.200'
+                                    borderRadius={0}
+                                    _hover={{ borderBottomColor: 'lime.600' }}
+                                    _selected={{
+                                        outline: 0,
+                                        color: 'lime.600',
+                                        borderBottom: '2px solid',
+                                        borderBottomColor: 'lime.600',
+                                    }}
+                                    _focus={{ outline: 0 }}
+                                    p={{ base: '4px 16px' }}
+                                    onClick={() => navigate(`/${category}/${tab.category}`)}
                                 >
-                                    <Grid layerStyle='horizontalCards'>
-                                        {currentRecipes.map((card, cardIndex) => (
-                                            <GridItem
-                                                key={card._id}
-                                                data-test-id={
-                                                    subcategory === tab.category
-                                                        ? `food-card-${cardIndex}`
-                                                        : ''
-                                                }
-                                            >
-                                                <HorizontalCard card={card} />
-                                            </GridItem>
-                                        ))}
-                                    </Grid>
-                                    <Button
-                                        variant='pageSolid'
-                                        size='pageActive'
-                                        mt={{ base: 4 }}
-                                        data-test-id='load-more-button'
-                                    >
-                                        Загрузить еще
-                                    </Button>
-                                </TabPanel>
+                                    {tab.title}
+                                </Tab>
                             ))}
-                    </TabPanels>
-                </Tabs>
+                        </TabList>
+                        <TabPanels>
+                            {subcategories &&
+                                recipes &&
+                                subcategories.map((tab) => (
+                                    <TabPanel
+                                        key={tab._id}
+                                        textAlign='left'
+                                        p={0}
+                                        pt={{ base: 6 }}
+                                        display='flex'
+                                        flexDirection='column'
+                                    >
+                                        <Grid layerStyle='horizontalCards'>
+                                            {currentRecipes.map((card, cardIndex) => (
+                                                <GridItem
+                                                    key={card._id}
+                                                    data-test-id={
+                                                        subcategory === tab.category
+                                                            ? `food-card-${cardIndex}`
+                                                            : ''
+                                                    }
+                                                >
+                                                    <HorizontalCard card={card} />
+                                                </GridItem>
+                                            ))}
+                                        </Grid>
+                                        <Button
+                                            variant='pageSolid'
+                                            size='pageActive'
+                                            mt={{ base: 4 }}
+                                            data-test-id='load-more-button'
+                                        >
+                                            Загрузить еще
+                                        </Button>
+                                    </TabPanel>
+                                ))}
+                        </TabPanels>
+                    </Tabs>
+                    <RelevantKitchen hideTopBorderFrom='xl' />
+                </>
             )}
-            <RelevantKitchen hideTopBorderFrom='xl' />
         </ContentContainer>
     );
 };

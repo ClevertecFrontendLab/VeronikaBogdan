@@ -12,12 +12,14 @@ import {
     Text,
     useBoolean,
     useDisclosure,
+    useMediaQuery,
 } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 import FilterIcon from '~/assets/svg/filter-icon.svg';
 import AllergenMenu from '~/components/allergen-menu';
 import FiltersDrawer from '~/components/filters-drawer';
+import Loader from '~/components/loader';
 import {
     clearFilters,
     filtersSelector,
@@ -33,6 +35,7 @@ type PageHeaderProps = {
     children: ReactNode;
     successSearch?: boolean | string;
     notFound: boolean | string;
+    isLoading?: boolean;
 };
 
 const ContentContainer = ({
@@ -41,6 +44,7 @@ const ContentContainer = ({
     children,
     successSearch,
     notFound,
+    isLoading,
 }: PageHeaderProps) => {
     const dispatch = useAppDispatch();
     const { searchTextInput, allergens } = useAppSelector(filtersSelector);
@@ -48,6 +52,8 @@ const ContentContainer = ({
     const [isSearch, setSearch] = useBoolean();
 
     const filtersDrawerDisclosure = useDisclosure();
+
+    const [isLargerThan1440] = useMediaQuery('(min-width: 1440px)');
 
     return (
         <Stack
@@ -64,7 +70,7 @@ const ContentContainer = ({
                     pt={{ base: 4, xl: 5, '3xl': 1 }}
                     pb={{ base: 4, xl: 8, '3xl': 8 }}
                     boxShadow={
-                        isSearch
+                        isSearch || isLoading
                             ? '0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 20px 25px -5px rgba(0, 0, 0, 0.1)'
                             : ''
                     }
@@ -81,103 +87,120 @@ const ContentContainer = ({
                             </Text>
                         )}
                     </Stack>
-                    <Stack spacing={4} w={{ base: '100%', md: 'auto' }}>
-                        <HStack
-                            spacing={3}
-                            w={{ base: '100%', md: '448px', xl: '518px' }}
-                            mt={{ base: '-4px', xl: description ? '2' : '-4px' }}
-                        >
-                            <IconButton
-                                data-test-id='filter-button'
-                                variant='outline'
-                                colorScheme='blackAlpha'
-                                aria-label='Фильтры'
-                                p={{ base: 0, xl: '11px' }}
-                                h={{ base: 8, xl: 12 }}
-                                minW={{ base: 8, xl: 'auto' }}
-                                icon={<Image src={FilterIcon} h={{ base: 4, xl: 7 }} />}
-                                onClick={() => {
-                                    filtersDrawerDisclosure.onOpen();
-                                    dispatch(toggleFindRecipe(false));
-                                    dispatch(clearFilters());
-                                }}
+                    <Stack spacing={4} w={{ base: '100%', md: 'auto' }} position='relative'>
+                        {isLoading ? (
+                            <Loader
+                                layerStyle='none'
+                                padding={6}
+                                dataTestId='loader-search-block'
                             />
-                            <InputGroup>
-                                <Input
-                                    type='search'
-                                    data-test-id='search-input'
-                                    color='lime.800'
-                                    colorScheme='blackAlpha'
-                                    fontSize={{ base: 'sm', xl: 'lg' }}
-                                    h={{ base: 8, xl: 12 }}
-                                    borderColor={
-                                        successSearch
-                                            ? 'lime.600'
-                                            : notFound
-                                              ? 'red'
-                                              : 'blackAlpha.600'
-                                    }
-                                    placeholder={isSearch ? '' : 'Название или ингредиент...'}
-                                    _placeholder={{ color: 'inherit' }}
-                                    _focusVisible={{
-                                        borderColor: successSearch
-                                            ? 'lime.600'
-                                            : notFound
-                                              ? 'red'
-                                              : 'blackAlpha.600',
-                                        boxShadow: 'none',
-                                    }}
-                                    _hover={{
-                                        borderColor: successSearch
-                                            ? 'lime.600'
-                                            : notFound
-                                              ? 'red'
-                                              : 'blackAlpha.600',
-                                    }}
-                                    onFocus={() => {
-                                        setSearch.on();
-                                    }}
-                                    onBlur={() => {
-                                        setSearch.off();
-                                    }}
-                                    value={searchTextInput}
-                                    onChange={({ target }) => {
-                                        dispatch(setSearchTextInput(target.value));
-
-                                        if (!target.value) {
-                                            dispatch(setSearchText());
-                                        }
-                                    }}
-                                    onKeyDown={({ code }) => {
-                                        if (code === 'Enter' && searchTextInput.length > 2) {
-                                            dispatch(setSearchText());
-                                        }
-                                    }}
-                                />
-                                <InputRightElement
-                                    pr={{ base: 0, xl: 2 }}
-                                    mr={{ base: -0.4, xl: 0 }}
-                                    h={{ base: 8, xl: 12 }}
-                                    pointerEvents={
-                                        searchTextInput.length > 2 || allergens.length > 0
-                                            ? 'auto'
-                                            : 'none'
-                                    }
-                                    _hover={{ cursor: 'pointer' }}
-                                    onClick={() => {
-                                        if (searchTextInput.length > 2) {
-                                            dispatch(setSearchText());
-                                        }
-                                    }}
-                                    data-test-id='search-button'
+                        ) : (
+                            <>
+                                <HStack
+                                    spacing={3}
+                                    w={{ base: '100%', md: '448px', xl: '518px' }}
+                                    mt={{ base: '-4px', xl: description ? '2' : '-4px' }}
                                 >
-                                    <SearchIcon boxSize={{ base: '16px', xl: '20px' }} />
-                                </InputRightElement>
-                            </InputGroup>
-                        </HStack>
-                        <HStack hideBelow='xl' spacing={4}>
-                            <AllergenMenu />
-                        </HStack>
+                                    <IconButton
+                                        data-test-id='filter-button'
+                                        variant='outline'
+                                        colorScheme='blackAlpha'
+                                        aria-label='Фильтры'
+                                        p={{ base: 0, xl: '11px' }}
+                                        h={{ base: 8, xl: 12 }}
+                                        minW={{ base: 8, xl: 'auto' }}
+                                        icon={<Image src={FilterIcon} h={{ base: 4, xl: 7 }} />}
+                                        onClick={() => {
+                                            filtersDrawerDisclosure.onOpen();
+                                            dispatch(toggleFindRecipe(false));
+                                            dispatch(clearFilters());
+                                        }}
+                                    />
+                                    <InputGroup>
+                                        <Input
+                                            type='search'
+                                            data-test-id='search-input'
+                                            color='lime.800'
+                                            colorScheme='blackAlpha'
+                                            fontSize={{ base: 'sm', xl: 'lg' }}
+                                            h={{ base: 8, xl: 12 }}
+                                            borderColor={
+                                                successSearch
+                                                    ? 'lime.600'
+                                                    : notFound
+                                                      ? 'red'
+                                                      : 'blackAlpha.600'
+                                            }
+                                            placeholder={
+                                                isSearch ? '' : 'Название или ингредиент...'
+                                            }
+                                            _placeholder={{ color: 'inherit' }}
+                                            _focusVisible={{
+                                                borderColor: successSearch
+                                                    ? 'lime.600'
+                                                    : notFound
+                                                      ? 'red'
+                                                      : 'blackAlpha.600',
+                                                boxShadow: 'none',
+                                            }}
+                                            _hover={{
+                                                borderColor: successSearch
+                                                    ? 'lime.600'
+                                                    : notFound
+                                                      ? 'red'
+                                                      : 'blackAlpha.600',
+                                            }}
+                                            onFocus={() => {
+                                                setSearch.on();
+                                            }}
+                                            onBlur={() => {
+                                                setSearch.off();
+                                            }}
+                                            value={searchTextInput}
+                                            onChange={({ target }) => {
+                                                dispatch(setSearchTextInput(target.value));
+
+                                                if (!target.value) {
+                                                    dispatch(setSearchText());
+                                                }
+                                            }}
+                                            onKeyDown={({ code }) => {
+                                                if (
+                                                    code === 'Enter' &&
+                                                    searchTextInput.length > 2
+                                                ) {
+                                                    dispatch(setSearchText());
+                                                }
+                                            }}
+                                        />
+                                        <InputRightElement
+                                            pr={{ base: 0, xl: 2 }}
+                                            mr={{ base: -0.4, xl: 0 }}
+                                            h={{ base: 8, xl: 12 }}
+                                            pointerEvents={
+                                                searchTextInput.length > 2 || allergens.length > 0
+                                                    ? 'auto'
+                                                    : 'none'
+                                            }
+                                            _hover={{ cursor: 'pointer' }}
+                                            onClick={() => {
+                                                if (searchTextInput.length > 2) {
+                                                    dispatch(setSearchText());
+                                                }
+                                            }}
+                                            data-test-id='search-button'
+                                        >
+                                            <SearchIcon boxSize={{ base: '16px', xl: '20px' }} />
+                                        </InputRightElement>
+                                    </InputGroup>
+                                </HStack>
+                                {isLargerThan1440 && (
+                                    <HStack hideBelow='xl' spacing={4}>
+                                        <AllergenMenu />
+                                    </HStack>
+                                )}
+                            </>
+                        )}
                     </Stack>
                 </Stack>
             </Center>

@@ -31,6 +31,7 @@ const router = createBrowserRouter([
             { path: 'the-juiciest', Component: JuiciestPage },
         ],
     },
+    { path: '/not-found', Component: App },
 ]);
 
 createRoot(document.getElementById('root')!).render(

@@ -31,7 +31,7 @@ const MainPage = () => {
     const {
         data: recipes,
         isLoading: isRecipesLoading,
-        // isFetching: isRecipesFetching,
+        isFetching: isRecipesFetching,
     } = useGetRecipesQuery({
         searchString: searchText,
         allergens: allergens.length > 0 ? allergens.join(',') : null,
@@ -47,6 +47,7 @@ const MainPage = () => {
             title='Приятного аппетита!'
             successSearch={recipes ? searchText && recipes?.data?.length > 0 : ''}
             notFound={(searchText || allergens.length > 0) && recipes?.data.length === 0}
+            isLoading={recipes && isRecipesFetching}
         >
             {isRecipesLoading && <Loader />}
             {recipes && (

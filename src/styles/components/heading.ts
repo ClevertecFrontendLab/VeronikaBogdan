@@ -51,6 +51,12 @@ const variants = defineStyle({
         color: 'black',
         fontWeight: 400,
     },
+    errorHeading: {
+        fontSize: '2xl',
+        fontWeight: 700,
+        lineHeight: '133%',
+        textAlign: 'center',
+    },
 });
 
 const headingTheme = defineStyleConfig({

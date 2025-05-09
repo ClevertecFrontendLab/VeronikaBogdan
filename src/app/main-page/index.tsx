@@ -47,7 +47,7 @@ const MainPage = () => {
             title='Приятного аппетита!'
             successSearch={recipes ? searchText && recipes?.data?.length > 0 : ''}
             notFound={(searchText || allergens.length > 0) && recipes?.data.length === 0}
-            isLoading={recipes && isRecipesFetching}
+            isLoading={recipes && allergens.length === 0 && isRecipesFetching}
         >
             {isRecipesLoading && <Loader />}
             {recipes && (

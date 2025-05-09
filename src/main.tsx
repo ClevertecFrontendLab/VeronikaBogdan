@@ -8,6 +8,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router';
 
 import App from '~/app/App.tsx';
 import CategoryPage from '~/app/category-page';
+import ErrorPage from '~/app/error-page';
 import JuiciestPage from '~/app/juiciest-page';
 import MainPage from '~/app/main-page';
 import RecipePage from '~/app/recipe-page';
@@ -29,9 +30,9 @@ const router = createBrowserRouter([
                 Component: RecipePage,
             },
             { path: 'the-juiciest', Component: JuiciestPage },
+            { path: '/not-found', Component: ErrorPage },
         ],
     },
-    { path: '/not-found', Component: App },
 ]);
 
 createRoot(document.getElementById('root')!).render(

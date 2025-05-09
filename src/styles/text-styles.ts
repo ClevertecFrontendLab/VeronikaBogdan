@@ -36,6 +36,13 @@ const textStyles = {
         color: 'lime.600',
         textTransform: 'uppercase',
     },
+    errorDescription: {
+        fontSize: 'md',
+        lineHeight: '150%',
+        fontWeight: 400,
+        color: 'blackAlpha.700',
+        textAlign: 'center',
+    },
 };
 
 export default textStyles;

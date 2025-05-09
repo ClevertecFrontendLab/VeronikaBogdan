@@ -81,7 +81,7 @@ export const filtersSlice = createSlice({
         },
 
         setRecipes(state, { payload }: PayloadAction<Recipe[]>) {
-            if (state.firstLoadedRecipes.length === 0) {
+            if (state?.firstLoadedRecipes?.length === 0) {
                 state.firstLoadedRecipes = payload;
             }
 

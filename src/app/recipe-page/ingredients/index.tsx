@@ -57,8 +57,8 @@ const Ingredients = ({ ingredients, portions }: IngredientsProps) => {
                     >
                         <Text textStyle='text'>{ingredient.title}</Text>
                         <Box display='flex' gap='2px'>
-                            {+ingredient.count === 0 ? (
-                                <Text textStyle='text'>по вкусу</Text>
+                            {ingredient.count === 'по вкусу' ? (
+                                <Text textStyle='text'>{ingredient.count}</Text>
                             ) : (
                                 <>
                                     <Text

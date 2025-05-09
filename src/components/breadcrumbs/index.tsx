@@ -4,8 +4,8 @@ import { useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router';
 import { Link } from 'react-router';
 
-import { ALL_CARDS } from '~/constants/grid-cards';
 import { useGetCategoriesQuery } from '~/query/services/categories';
+import { useGetRecipeQuery } from '~/query/services/recipies';
 import { useAppSelector } from '~/store/hooks';
 import { menuSelector, setBurgerMenuState } from '~/store/menu-slice';
 import { getCategory, getSingleSubcategory, getSubcategories } from '~/utils/current-paths';
@@ -19,6 +19,7 @@ const BreadCrubms = ({ hideBelow, hideFrom }: BreadCrumbsProps) => {
     const { category, subcategory, recipeId } = useParams();
 
     const { data } = useGetCategoriesQuery();
+    const { data: recipe } = useGetRecipeQuery(recipeId, { skip: !recipeId });
 
     const subcategories = getSubcategories(data?.all, category);
 
@@ -116,9 +117,7 @@ const BreadCrubms = ({ hideBelow, hideFrom }: BreadCrumbsProps) => {
             </BreadcrumbItem>
             {recipeId && (
                 <BreadcrumbItem isCurrentPage={!!recipeId}>
-                    <BreadcrumbLink>
-                        {ALL_CARDS.find((card) => card.id === recipeId)?.title}
-                    </BreadcrumbLink>
+                    <BreadcrumbLink>{recipe?.title}</BreadcrumbLink>
                 </BreadcrumbItem>
             )}
         </Breadcrumb>

@@ -4,7 +4,6 @@ import { useNavigate, useParams } from 'react-router';
 
 import ContentContainer from '~/components/content-container';
 import HorizontalCard from '~/components/horizontal-card';
-import Loader from '~/components/loader';
 import RelevantKitchen from '~/components/relevant-kitchen';
 import { useGetCategoriesQuery } from '~/query/services/categories';
 import { useGetRecipesQuery } from '~/query/services/recipies';
@@ -26,11 +25,13 @@ const CategoryPage = () => {
 
     const defaultSubcategory = subcategories?.findIndex((item) => item.category === subcategory);
 
-    const {
-        data: recipes,
-        isLoading: isRecipesLoading,
-        isFetching: isRecipesFetching,
-    } = useGetRecipesQuery(
+    useEffect(() => {
+        if (data && (!selectedCategory?.category || defaultSubcategory === -1)) {
+            navigate('/not-found');
+        }
+    }, [navigate, data, selectedCategory?.category, defaultSubcategory]);
+
+    const { data: recipes, isFetching: isRecipesFetching } = useGetRecipesQuery(
         {
             searchString: searchText,
             allergens: allergens.length > 0 ? allergens.join(',') : null,
@@ -51,10 +52,9 @@ const CategoryPage = () => {
             description={selectedCategory?.description}
             successSearch={recipes ? searchText && recipes?.data?.length > 0 : ''}
             notFound={(searchText || allergens.length > 0) && recipes?.data.length === 0}
-            isLoading={recipes && isRecipesFetching}
+            isLoading={recipes && allergens.length === 0 && isRecipesFetching}
         >
-            {isRecipesLoading && <Loader />}
-            {data && recipes && (
+            {data && (
                 <>
                     <Tabs
                         layerStyle='contentContainer'

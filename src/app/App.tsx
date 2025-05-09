@@ -2,7 +2,7 @@ import './App.css';
 
 import { Box, Grid, GridItem, useMediaQuery, useOutsideClick } from '@chakra-ui/react';
 import { useRef } from 'react';
-import { Outlet } from 'react-router';
+import { Outlet, useLocation } from 'react-router';
 
 import Footer from '~/components/footer';
 import Header from '~/components/header';
@@ -15,6 +15,8 @@ const App = () => {
     const dispatch = useAppDispatch();
     const [isLargerThan1440] = useMediaQuery('(min-width: 1440px)');
     const { isBurgerMenu } = useAppSelector(menuSelector);
+
+    const { pathname } = useLocation();
 
     const headerRef = useRef(null);
     const menuRef = useRef(null);
@@ -31,6 +33,8 @@ const App = () => {
             }
         },
     });
+
+    const isErrorPage = pathname === '/not-found';
 
     return (
         <>
@@ -51,19 +55,19 @@ const App = () => {
                 columnGap={6}
             >
                 <GridItem area='header'>
-                    <Header ref={headerRef} />
+                    <Header ref={headerRef} isError={isErrorPage} />
                 </GridItem>
                 <GridItem area='nav-menu' hideBelow='xl'>
-                    {isLargerThan1440 && <NavigationMenu />}
+                    {isLargerThan1440 && !isErrorPage && <NavigationMenu />}
                 </GridItem>
                 <GridItem area='main'>
                     <Outlet />
                 </GridItem>
                 <GridItem area='sidebar' hideBelow='xl' justifyItems={{ xl: 'end' }}>
-                    <Sidebar />
+                    {!isErrorPage && <Sidebar />}
                 </GridItem>
                 <GridItem area='footer' hideFrom='xl'>
-                    <Footer />
+                    {!isErrorPage && <Footer />}
                 </GridItem>
             </Grid>
             {isBurgerMenu && (

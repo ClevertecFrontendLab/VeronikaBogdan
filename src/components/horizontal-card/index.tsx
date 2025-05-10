@@ -14,41 +14,52 @@ import {
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
 
-import RecommendationWoman from '~/assets/png/recommendation1.png';
+// import RecommendationWoman from '~/assets/png/recommendation1.png';
 import Bookmark from '~/assets/svg/bookmark-heart.svg';
 import Badge from '~/components/badge';
-import { HorizontalCardProps } from '~/components/horizontal-card/types';
 import IconCountWrapper from '~/components/icon-count-wrapper';
+import { IMAGE_HOST } from '~/constants';
+import { useGetCategoriesQuery } from '~/query/services/categories';
+import { Recipe } from '~/query/types/recipies';
 import { filtersSelector } from '~/store/filters-slice';
 import { useAppSelector } from '~/store/hooks';
-import { getCategory } from '~/utils/current-paths';
+import { getCategoryById, getRootCategory } from '~/utils/current-paths';
+
+type HorizontalCardProps = { card: Recipe; dataTestIdButton?: string };
 
 const HorizontalCard = ({ card, dataTestIdButton }: HorizontalCardProps) => {
     const navigate = useNavigate();
 
     const { searchText } = useAppSelector(filtersSelector);
 
+    const { data } = useGetCategoriesQuery();
+
     return (
         <Card direction='row' h='full'>
             <Stack spacing={2} position='absolute' top={2} left={2}>
-                {card.category.map((category) => (
+                {card.categoriesIds.map((category) => (
                     <Badge
                         key={category}
-                        icon={getCategory(category)?.icon}
-                        text={getCategory(category)?.label}
+                        icon={`${IMAGE_HOST}${getRootCategory(data?.all, category)?.icon}`}
+                        text={getCategoryById(data?.all, category)?.title}
                         type='horizontal'
                         hideFrom='xl'
                     />
                 ))}
             </Stack>
-            <Badge
+            {/* <Badge
                 icon={RecommendationWoman}
                 text='Елена Высоцкая рекомендует'
                 type='vertical'
                 hideBelow='xl'
                 isBottomPositioned
+            /> */}
+            <Image
+                src={`${IMAGE_HOST}${card.image}`}
+                borderLeftRadius='lg'
+                w={{ base: '158px', xl: '346px' }}
+                alt={card.title}
             />
-            <Image src={card.image} borderLeftRadius='lg' w={{ base: '158px', xl: '346px' }} />
             <Stack flex={1} px={{ base: 2, xl: 6 }}>
                 <CardBody px={{ base: 0 }} py={{ base: 2, xl: 0 }} pt={{ base: 2, xl: 5 }}>
                     <Stack gap={{ base: 0, xl: 2 }}>
@@ -62,18 +73,18 @@ const HorizontalCard = ({ card, dataTestIdButton }: HorizontalCardProps) => {
                                 flexWrap='wrap'
                                 direction={{ xl: 'row', '3xl': 'column' }}
                             >
-                                {card.category.map((category) => (
+                                {card.categoriesIds.map((category) => (
                                     <Badge
                                         key={category}
-                                        icon={getCategory(category)?.icon}
-                                        text={getCategory(category)?.label}
+                                        icon={`${IMAGE_HOST}${getRootCategory(data?.all, category)?.icon}`}
+                                        text={getCategoryById(data?.all, category)?.title}
                                         type='horizontal'
                                         hideBelow='xl'
                                     />
                                 ))}
                             </Stack>
                             <HStack
-                                w='130px'
+                                minWidth='fit-content'
                                 justifyContent={{ base: 'flex-start', xl: 'flex-end' }}
                             >
                                 {card.bookmarks && (
@@ -118,8 +129,14 @@ const HorizontalCard = ({ card, dataTestIdButton }: HorizontalCardProps) => {
                         variant='listCardSolid'
                         size='listCard'
                         onClick={() =>
-                            navigate(`/${card.category[0]}/${card.subcategory[0]}/${card.id}`)
+                            navigate(
+                                `/${getRootCategory(data?.all, card.categoriesIds[0])?.category}/${getCategoryById(data?.all, card.categoriesIds[0])?.category}/${card._id}`,
+                                // `/${getCategoryById(data?.all, recipe.categoriesIds[0])?.category}/${getSingleSubcategory(data?.all, recipe.categoriesIds[0], recipe.categoriesIds[0])?.category}/${recipe.id}`,
+                            )
                         }
+                        // onClick={() =>
+                        //     navigate(`/${card.category[0]}/${card.subcategory[0]}/${card.id}`)
+                        // }
                     >
                         Готовить
                     </Button>

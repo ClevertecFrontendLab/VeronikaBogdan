@@ -1,8 +1,9 @@
 import { Card, CardBody, Heading, Image, Stack, Tag, Text } from '@chakra-ui/react';
 
-import { step } from '~/components/horizontal-card/types';
+import { IMAGE_HOST } from '~/constants';
+import { Step } from '~/query/types/recipies';
 
-type StepsProps = { steps: step[] };
+type StepsProps = { steps: Step[] };
 
 const Steps = ({ steps }: StepsProps) => (
     <Stack layerStyle='recipeContainer' spacing={{ base: 5 }}>
@@ -13,7 +14,7 @@ const Steps = ({ steps }: StepsProps) => (
             <Card key={step.stepNumber} direction='row'>
                 {step?.image && (
                     <Image
-                        src={step?.image}
+                        src={`${IMAGE_HOST}${step?.image}`}
                         borderLeftRadius='lg'
                         w={{ base: '158px', xl: '345px' }}
                         objectFit='cover'

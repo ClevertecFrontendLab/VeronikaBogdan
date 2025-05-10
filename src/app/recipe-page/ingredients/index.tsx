@@ -12,9 +12,9 @@ import {
 } from '@chakra-ui/react';
 import { useState } from 'react';
 
-import { ingredient } from '~/components/horizontal-card/types';
+import { Ingredient } from '~/query/types/recipies';
 
-type IngredientsProps = { ingredients: ingredient[]; portions: number };
+type IngredientsProps = { ingredients: Ingredient[]; portions: number };
 
 const Ingredients = ({ ingredients, portions }: IngredientsProps) => {
     const [portion, setPortion] = useState(portions);
@@ -57,10 +57,19 @@ const Ingredients = ({ ingredients, portions }: IngredientsProps) => {
                     >
                         <Text textStyle='text'>{ingredient.title}</Text>
                         <Box display='flex' gap='2px'>
-                            <Text textStyle='text' data-test-id={`ingredient-quantity-${index}`}>
-                                {(+ingredient.count * portion) / portions}
-                            </Text>{' '}
-                            <Text textStyle='text'>{ingredient.measureUnit}</Text>
+                            {ingredient.count === 'по вкусу' ? (
+                                <Text textStyle='text'>{ingredient.count}</Text>
+                            ) : (
+                                <>
+                                    <Text
+                                        textStyle='text'
+                                        data-test-id={`ingredient-quantity-${index}`}
+                                    >
+                                        {(+ingredient.count * portion) / portions}
+                                    </Text>{' '}
+                                    <Text textStyle='text'>{ingredient.measureUnit}</Text>
+                                </>
+                            )}
                         </Box>
                     </Flex>
                 ))}

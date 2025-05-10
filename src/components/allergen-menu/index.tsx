@@ -20,7 +20,7 @@ import { ALLERGENS } from '~/constants/labels';
 import {
     addOtherAllergen,
     filtersSelector,
-    setAllergens,
+    setAllergensInput,
     setOtherAllergen,
     toggleAllergens,
 } from '~/store/filters-slice';
@@ -30,7 +30,7 @@ import { menuStyles } from '~/styles/components/menu';
 const AllergenMenu = () => {
     const dispatch = useAppDispatch();
 
-    const { isAllergens, allergens, otherAllergen } = useAppSelector(filtersSelector);
+    const { isAllergens, allergensInput, otherAllergen } = useAppSelector(filtersSelector);
 
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -41,7 +41,7 @@ const AllergenMenu = () => {
 
     useEffect(() => {
         focusInput();
-    }, [inputRef, allergens]);
+    }, [inputRef, allergensInput]);
 
     return (
         <>
@@ -64,12 +64,12 @@ const AllergenMenu = () => {
                             isDisabled={!isAllergens}
                             data-test-id='allergens-menu-button'
                             rightIcon={isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
-                            borderColor={allergens.length > 0 ? 'lime.300' : 'blackAlpha.200'}
+                            borderColor={allergensInput.length > 0 ? 'lime.300' : 'blackAlpha.200'}
                             {...menuStyles.button}
                             {...menuStyles.page}
                         >
-                            {allergens.length > 0
-                                ? allergens.map((allergen, allergenIndex) => (
+                            {allergensInput.length > 0
+                                ? allergensInput.map((allergen, allergenIndex) => (
                                       <Tag
                                           key={allergenIndex}
                                           fontSize='xs'
@@ -91,8 +91,8 @@ const AllergenMenu = () => {
                         >
                             <MenuOptionGroup
                                 type='checkbox'
-                                value={allergens}
-                                onChange={(values) => dispatch(setAllergens(values))}
+                                value={allergensInput}
+                                onChange={(values) => dispatch(setAllergensInput(values))}
                             >
                                 {ALLERGENS.map((allergen, allergenIndex) => (
                                     <MenuItemOption
@@ -113,10 +113,10 @@ const AllergenMenu = () => {
                                             '& > span:first-of-type': {
                                                 borderRadius: '2px',
                                                 border: '3px solid',
-                                                borderColor: allergens.includes(allergen)
+                                                borderColor: allergensInput.includes(allergen)
                                                     ? 'lime.400'
                                                     : 'lime.150',
-                                                backgroundColor: allergens.includes(allergen)
+                                                backgroundColor: allergensInput.includes(allergen)
                                                     ? 'lime.400'
                                                     : '',
                                                 opacity: 1,
@@ -126,7 +126,7 @@ const AllergenMenu = () => {
                                                 ml: 1,
                                             },
                                             '& svg': {
-                                                opacity: allergens.includes(allergen) ? 1 : 0,
+                                                opacity: allergensInput.includes(allergen) ? 1 : 0,
                                             },
                                         }}
                                         value={allergen}

@@ -11,9 +11,9 @@ import ProfileNotifications from '~/components/profile-notifications';
 import { useAppDispatch, useAppSelector } from '~/store/hooks';
 import { menuSelector, setBurgerMenuState } from '~/store/menu-slice';
 
-type HeaderProps = { ref?: Ref<HTMLDivElement | null> };
+type HeaderProps = { isError: boolean; ref?: Ref<HTMLDivElement | null> };
 
-const Header = ({ ref }: HeaderProps) => {
+const Header = ({ ref, isError }: HeaderProps) => {
     const dispatch = useAppDispatch();
     const { isBurgerMenu } = useAppSelector(menuSelector);
     const [isLargerThan1440] = useMediaQuery('(min-width: 1440px)');
@@ -36,25 +36,27 @@ const Header = ({ ref }: HeaderProps) => {
                 <Image src={LogoIcon} />
                 <Image src={LogoText} hideBelow='md' />
             </Flex>
-            {isLargerThan1440 && <BreadCrubms />}
+            {isLargerThan1440 && !isError && <BreadCrubms />}
             <Spacer />
-            <Grid
-                hideBelow='xl'
-                templateColumns='48px 1fr'
-                templateRows='repeat(2, 1fr)'
-                columnGap={3}
-                alignItems='center'
-            >
-                <GridItem rowSpan={2} colSpan={1}>
-                    <Avatar name='Екатерина Константинопольская' src={Photo} />
-                </GridItem>
-                <GridItem fontSize='lg' fontWeight='medium'>
-                    Екатерина Константинопольская
-                </GridItem>
-                <GridItem fontSize='sm' color='blackAlpha.700'>
-                    @bake_and_pie
-                </GridItem>
-            </Grid>
+            {!isError && (
+                <Grid
+                    hideBelow='xl'
+                    templateColumns='48px 1fr'
+                    templateRows='repeat(2, 1fr)'
+                    columnGap={3}
+                    alignItems='center'
+                >
+                    <GridItem rowSpan={2} colSpan={1}>
+                        <Avatar name='Екатерина Константинопольская' src={Photo} />
+                    </GridItem>
+                    <GridItem fontSize='lg' fontWeight='medium'>
+                        Екатерина Константинопольская
+                    </GridItem>
+                    <GridItem fontSize='sm' color='blackAlpha.700'>
+                        @bake_and_pie
+                    </GridItem>
+                </Grid>
+            )}
             {!isBurgerMenu && <ProfileNotifications type='header' />}
             <Image
                 src={isBurgerMenu ? CloseMenuIcon : MenuIcon}

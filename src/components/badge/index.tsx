@@ -2,7 +2,7 @@ import { HStack, Image, Text } from '@chakra-ui/react';
 
 type BadgeProps = {
     icon?: string;
-    text?: string;
+    text?: string | number;
     type?: string;
     hideBelow?: string;
     hideFrom?: string;

@@ -1,16 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { ApplicationState } from './configure-store';
+import { Recipe } from '~/query/types/recipies';
+import { ApplicationState } from '~/store/configure-store';
 
 export type FiltersState = typeof initialState;
+
+type FilterPayloadProps = { name: string; value: string[] | boolean };
 
 const initialState = {
     searchText: '',
     searchTextInput: '',
 
     isAllergens: false,
-    allergens: [] as string[],
     otherAllergen: '',
+    allergens: [] as string[],
+    allergensInput: [] as string[],
 
     isFindRecipe: false,
     filters: {
@@ -22,7 +26,12 @@ const initialState = {
         newAllergen: '',
         allergens: [] as string[],
     },
+
+    firstLoadedRecipes: [] as Recipe[],
+    currentRecipes: [] as Recipe[],
+    previousRecipes: [] as Recipe[],
 };
+
 export const filtersSlice = createSlice({
     name: 'filters',
     initialState,
@@ -39,20 +48,26 @@ export const filtersSlice = createSlice({
 
             if (!state.isAllergens) {
                 state.allergens = initialState.allergens;
+                state.allergensInput = initialState.allergensInput;
             }
         },
-        setAllergens(state, { payload }) {
+        setAllergensInput(state, { payload }) {
+            state.allergensInput = payload;
             state.allergens = payload;
+        },
+        setAllergens(state) {
+            state.allergens = state.allergensInput;
         },
         setOtherAllergen(state, { payload }) {
             state.otherAllergen = payload;
         },
         addOtherAllergen(state) {
             state.allergens.push(state.otherAllergen);
+            state.allergensInput.push(state.otherAllergen);
             state.otherAllergen = initialState.otherAllergen;
         },
 
-        setFilters(state, { payload }: PayloadAction<{ name: string; value: string[] | boolean }>) {
+        setFilters(state, { payload }: PayloadAction<FilterPayloadProps>) {
             const { name, value } = payload;
 
             state.filters[name] = value;
@@ -74,6 +89,15 @@ export const filtersSlice = createSlice({
                     .flat();
             }
         },
+
+        setRecipes(state, { payload }: PayloadAction<Recipe[]>) {
+            if (state?.firstLoadedRecipes?.length === 0) {
+                state.firstLoadedRecipes = payload;
+            }
+
+            state.previousRecipes = state.currentRecipes;
+            state.currentRecipes = payload.length > 0 ? payload : state.firstLoadedRecipes;
+        },
     },
 });
 export const filtersSelector = (state: ApplicationState) => state.filters;
@@ -84,6 +108,7 @@ export const {
 
     toggleAllergens,
     setAllergens,
+    setAllergensInput,
     setOtherAllergen,
     addOtherAllergen,
 
@@ -92,5 +117,7 @@ export const {
     clearFilters,
 
     toggleFindRecipe,
+
+    setRecipes,
 } = filtersSlice.actions;
 export default filtersSlice.reducer;

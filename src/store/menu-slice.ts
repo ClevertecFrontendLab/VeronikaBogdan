@@ -5,6 +5,8 @@ export type MenuState = typeof initialState;
 
 const initialState = {
     isBurgerMenu: false,
+    category: '',
+    subcategory: '',
 };
 export const menuSlice = createSlice({
     name: 'menu',

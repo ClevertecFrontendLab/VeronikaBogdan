@@ -52,6 +52,7 @@ const RecipePage = () => {
                     h={{ base: '224px', md: '225px', xl: '411px' }}
                     w={{ base: '100%', md: '230px', xl: '353px', '3xl': '554px' }}
                     objectFit='cover'
+                    alt={card?.title}
                 />
                 <Stack flex={1} pl={{ base: 0, md: 5, xl: 6 }} pt={{ base: 4, md: 0 }}>
                     <CardBody px={{ base: 0 }} py={{ base: 2, xl: 0 }} pt={0}>

@@ -58,12 +58,7 @@ const MultiSelect = ({
     const style = isSearchBox ? menuStyles.page : {};
 
     return (
-        <Menu
-            closeOnSelect={false}
-            onOpen={() => focusInput()}
-            variant='searchBox'
-            placement='auto'
-        >
+        <Menu closeOnSelect={false} onOpen={() => focusInput()} variant='searchBox' isLazy={true}>
             {({ isOpen }) => (
                 <>
                     <MenuButton

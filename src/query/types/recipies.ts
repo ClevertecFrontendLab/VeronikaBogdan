@@ -49,6 +49,7 @@ export type RecipesResponse = {
 };
 
 export type RecipesParams = {
+    id?: string;
     page?: number;
     limit?: number;
     allergens?: string | null;
@@ -60,7 +61,4 @@ export type RecipesParams = {
     sortOrder?: string;
 };
 
-export type RecipesByCategoryParams = {
-    id: string;
-    params: RecipesParams;
-};
+export type RecipeParam = string | undefined;

@@ -16,9 +16,10 @@ import { useMemo } from 'react';
 
 import Badge from '~/components/badge';
 import IconCountWrapper from '~/components/icon-count-wrapper';
-import { IMAGE_HOST } from '~/constants';
+import { IMAGE_HOST, RELEVANT_KITCHEN_LIMIT } from '~/constants';
+import useErrorToast from '~/hooks/use-error-toast';
 import { useGetCategoriesQuery } from '~/query/services/categories';
-import { useGetRecipesByCategoryQuery } from '~/query/services/recipies';
+import { useGetRecipesQuery } from '~/query/services/recipies';
 import { getRootCategory } from '~/utils/current-paths';
 import { getRandomInteger } from '~/utils/random-integer';
 
@@ -34,13 +35,15 @@ const RelevantKitchen = ({ hideTopBorderFrom = '' }: RelevantKitchenProps) => {
         }
     }, [categories]);
 
-    const { data: recipes } = useGetRecipesByCategoryQuery(
+    const { data: recipes, isError } = useGetRecipesQuery(
         {
             id: randomCategory?._id || '',
-            params: { limit: 5 },
+            limit: RELEVANT_KITCHEN_LIMIT,
         },
         { skip: !randomCategory?._id },
     );
+
+    useErrorToast(isError);
 
     return (
         <Box layerStyle='contentContainer'>

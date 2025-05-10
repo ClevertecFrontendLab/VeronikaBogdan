@@ -12,13 +12,17 @@ import { useNavigate } from 'react-router';
 
 import RightArrow from '~/assets/svg/arrow-right-dark.svg';
 import HorizontalCard from '~/components/horizontal-card';
+import { DESC_SORT_PARAM, LIKES_SORT_PARAM } from '~/constants';
 import { useGetRecipesQuery } from '~/query/services/recipies';
 
 const Juiciest = () => {
     const [isTablet] = useMediaQuery('(min-width: 768px) and (max-width: 1399px)');
     const navigate = useNavigate();
 
-    const { data: recipes } = useGetRecipesQuery({ sortBy: 'likes', sortOrder: 'desc' });
+    const { data: recipes } = useGetRecipesQuery({
+        sortBy: LIKES_SORT_PARAM,
+        sortOrder: DESC_SORT_PARAM,
+    });
 
     const handleNavigateJuiciestPage = () => navigate('/the-juiciest');
 

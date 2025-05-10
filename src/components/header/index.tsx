@@ -11,7 +11,7 @@ import ProfileNotifications from '~/components/profile-notifications';
 import { useAppDispatch, useAppSelector } from '~/store/hooks';
 import { menuSelector, setBurgerMenuState } from '~/store/menu-slice';
 
-type HeaderProps = { ref?: Ref<HTMLDivElement | null>; isError: boolean };
+type HeaderProps = { isError: boolean; ref?: Ref<HTMLDivElement | null> };
 
 const Header = ({ ref, isError }: HeaderProps) => {
     const dispatch = useAppDispatch();

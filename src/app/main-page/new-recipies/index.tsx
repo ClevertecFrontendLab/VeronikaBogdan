@@ -11,9 +11,8 @@ import {
     Image,
     Stack,
     Text,
-    useToast,
 } from '@chakra-ui/react';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -23,14 +22,19 @@ import ArrowRight from '~/assets/svg/arrow-right.svg';
 import Badge from '~/components/badge';
 import IconCountWrapper from '~/components/icon-count-wrapper';
 import Loader from '~/components/loader';
-import { IMAGE_HOST } from '~/constants';
+import {
+    CREATED_AT_SORT_PARAM,
+    DESC_SORT_PARAM,
+    IMAGE_HOST,
+    NEW_RECIPIES_COUNT,
+} from '~/constants';
+import useErrorToast from '~/hooks/use-error-toast';
 import { useGetCategoriesQuery } from '~/query/services/categories';
 import { useGetRecipesQuery } from '~/query/services/recipies';
 import { getCategoryById, getRootCategory } from '~/utils/current-paths';
 
 const NewRecipies = () => {
     const navigate = useNavigate();
-    const toast = useToast();
 
     const {
         data,
@@ -38,9 +42,9 @@ const NewRecipies = () => {
         isError: isCategoriesError,
     } = useGetCategoriesQuery();
     const { data: recipes } = useGetRecipesQuery({
-        limit: 10,
-        sortBy: 'createdAt',
-        sortOrder: 'desc',
+        limit: NEW_RECIPIES_COUNT,
+        sortBy: CREATED_AT_SORT_PARAM,
+        sortOrder: DESC_SORT_PARAM,
     });
 
     const sortedNewRecipiesByDate = useMemo(() => {
@@ -52,11 +56,7 @@ const NewRecipies = () => {
         }
     }, [recipes]);
 
-    useEffect(() => {
-        if (isCategoriesError) {
-            toast();
-        }
-    }, [isCategoriesError, toast]);
+    useErrorToast(isCategoriesError);
 
     return (
         recipes && (
@@ -120,7 +120,6 @@ const NewRecipies = () => {
                                 onClick={() =>
                                     navigate(
                                         `/${getRootCategory(data?.all, recipe.categoriesIds[0])?.category}/${getCategoryById(data?.all, recipe.categoriesIds[0])?.category}/${recipe._id}`,
-                                        // `/${getCategoryById(data?.all, recipe.categoriesIds[0])?.category}/${getSingleSubcategory(data?.all, recipe.categoriesIds[0], recipe.categoriesIds[0])?.category}/${recipe.id}`,
                                     )
                                 }
                             >
@@ -145,6 +144,7 @@ const NewRecipies = () => {
                                     src={`${IMAGE_HOST}/${recipe.image}`}
                                     borderTopRadius='lg'
                                     h={{ base: '128px', xl: '230px' }}
+                                    alt={recipe.title}
                                 />
                                 <CardBody
                                     p={{ base: 2, xl: 3, '3xl': 4 }}

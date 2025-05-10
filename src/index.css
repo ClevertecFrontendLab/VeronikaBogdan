@@ -41,21 +41,6 @@ button {
     transition: border-color 0.25s;
 }
 
-div.chakra-alert {
-    align-items: center;
-    border-radius: 0;
-    background-color: #e53e3e;
-    margin-bottom: 86px;
-}
-
-div.chakra-alert__title {
-    font-weight: 500;
-}
-
-div.chakra-alert__desc {
-    font-weight: 300;
-}
-
 @media (prefers-color-scheme: light) {
     :root {
         color: #213547;

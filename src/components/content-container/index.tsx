@@ -20,9 +20,11 @@ import FilterIcon from '~/assets/svg/filter-icon.svg';
 import AllergenMenu from '~/components/allergen-menu';
 import FiltersDrawer from '~/components/filters-drawer';
 import Loader from '~/components/loader';
+import { RecipesParams } from '~/query/types/recipies';
 import {
     clearFilters,
     filtersSelector,
+    setAllergens,
     setSearchText,
     setSearchTextInput,
     toggleFindRecipe,
@@ -30,12 +32,13 @@ import {
 import { useAppDispatch, useAppSelector } from '~/store/hooks';
 
 type PageHeaderProps = {
+    children: ReactNode;
     title?: string;
     description?: string;
-    children: ReactNode;
     successSearch?: boolean | string;
-    notFound: boolean | string;
+    notFound?: boolean | string;
     isLoading?: boolean;
+    searchParams?: RecipesParams;
 };
 
 const ContentContainer = ({
@@ -47,13 +50,21 @@ const ContentContainer = ({
     isLoading,
 }: PageHeaderProps) => {
     const dispatch = useAppDispatch();
-    const { searchTextInput, allergens } = useAppSelector(filtersSelector);
+    const { searchTextInput, allergensInput } = useAppSelector(filtersSelector);
 
     const [isSearch, setSearch] = useBoolean();
 
     const filtersDrawerDisclosure = useDisclosure();
 
     const [isLargerThan1440] = useMediaQuery('(min-width: 1440px)');
+
+    const handleSearch = () => {
+        if (searchTextInput.length > 2) {
+            dispatch(setSearchText());
+        }
+
+        dispatch(setAllergens());
+    };
 
     return (
         <Stack
@@ -78,13 +89,26 @@ const ContentContainer = ({
                     layerStyle='contentContainer'
                 >
                     <Stack spacing={{ base: 3, xl: 2 }}>
-                        <Heading variant='pageTitle' size='pageTitle'>
-                            {title}
-                        </Heading>
-                        {description && (
-                            <Text textStyle='blockDescription' align='center' maxW={727}>
-                                {description}
-                            </Text>
+                        {notFound ? (
+                            <>
+                                <Text fontWeight={500} textAlign='center'>
+                                    По вашему запросу ничего не найдено.
+                                </Text>
+                                <Text fontWeight={500} textAlign='center'>
+                                    Попробуйте другой запрос
+                                </Text>
+                            </>
+                        ) : (
+                            <>
+                                <Heading variant='pageTitle' size='pageTitle'>
+                                    {title}
+                                </Heading>
+                                {description && (
+                                    <Text textStyle='blockDescription' align='center' maxW={727}>
+                                        {description}
+                                    </Text>
+                                )}
+                            </>
                         )}
                     </Stack>
                     <Stack spacing={4} w={{ base: '100%', md: 'auto' }} position='relative'>
@@ -165,11 +189,8 @@ const ContentContainer = ({
                                                 }
                                             }}
                                             onKeyDown={({ code }) => {
-                                                if (
-                                                    code === 'Enter' &&
-                                                    searchTextInput.length > 2
-                                                ) {
-                                                    dispatch(setSearchText());
+                                                if (code === 'Enter') {
+                                                    handleSearch();
                                                 }
                                             }}
                                         />
@@ -178,16 +199,13 @@ const ContentContainer = ({
                                             mr={{ base: -0.4, xl: 0 }}
                                             h={{ base: 8, xl: 12 }}
                                             pointerEvents={
-                                                searchTextInput.length > 2 || allergens.length > 0
+                                                searchTextInput.length > 2 ||
+                                                allergensInput.length > 0
                                                     ? 'auto'
                                                     : 'none'
                                             }
                                             _hover={{ cursor: 'pointer' }}
-                                            onClick={() => {
-                                                if (searchTextInput.length > 2) {
-                                                    dispatch(setSearchText());
-                                                }
-                                            }}
+                                            onClick={handleSearch}
                                             data-test-id='search-button'
                                         >
                                             <SearchIcon boxSize={{ base: '16px', xl: '20px' }} />

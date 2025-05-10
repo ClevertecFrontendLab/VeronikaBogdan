@@ -5,13 +5,16 @@ import { ApplicationState } from '~/store/configure-store';
 
 export type FiltersState = typeof initialState;
 
+type FilterPayloadProps = { name: string; value: string[] | boolean };
+
 const initialState = {
     searchText: '',
     searchTextInput: '',
 
     isAllergens: false,
-    allergens: [] as string[],
     otherAllergen: '',
+    allergens: [] as string[],
+    allergensInput: [] as string[],
 
     isFindRecipe: false,
     filters: {
@@ -28,6 +31,7 @@ const initialState = {
     currentRecipes: [] as Recipe[],
     previousRecipes: [] as Recipe[],
 };
+
 export const filtersSlice = createSlice({
     name: 'filters',
     initialState,
@@ -44,20 +48,26 @@ export const filtersSlice = createSlice({
 
             if (!state.isAllergens) {
                 state.allergens = initialState.allergens;
+                state.allergensInput = initialState.allergensInput;
             }
         },
-        setAllergens(state, { payload }) {
+        setAllergensInput(state, { payload }) {
+            state.allergensInput = payload;
             state.allergens = payload;
+        },
+        setAllergens(state) {
+            state.allergens = state.allergensInput;
         },
         setOtherAllergen(state, { payload }) {
             state.otherAllergen = payload;
         },
         addOtherAllergen(state) {
             state.allergens.push(state.otherAllergen);
+            state.allergensInput.push(state.otherAllergen);
             state.otherAllergen = initialState.otherAllergen;
         },
 
-        setFilters(state, { payload }: PayloadAction<{ name: string; value: string[] | boolean }>) {
+        setFilters(state, { payload }: PayloadAction<FilterPayloadProps>) {
             const { name, value } = payload;
 
             state.filters[name] = value;
@@ -98,6 +108,7 @@ export const {
 
     toggleAllergens,
     setAllergens,
+    setAllergensInput,
     setOtherAllergen,
     addOtherAllergen,
 

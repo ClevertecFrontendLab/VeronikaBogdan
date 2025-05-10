@@ -14,10 +14,9 @@ import {
     LinkOverlay,
     Text,
     useBoolean,
-    useToast,
     VStack,
 } from '@chakra-ui/react';
-import { Ref, useEffect, useMemo } from 'react';
+import { Ref, useMemo } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 
 import AccordionIcon from '~/assets/svg/accordion-icon.svg';
@@ -25,6 +24,7 @@ import ExitIcon from '~/assets/svg/exit.svg';
 import BreadCrubms from '~/components/breadcrumbs';
 import Loader from '~/components/loader';
 import { IMAGE_HOST } from '~/constants';
+import useErrorToast from '~/hooks/use-error-toast';
 import { useGetCategoriesQuery } from '~/query/services/categories';
 import { useAppSelector } from '~/store/hooks';
 import { menuSelector } from '~/store/menu-slice';
@@ -39,8 +39,6 @@ const NavigationMenu = ({ menuRef }: NavigationMenuProps) => {
     const navigate = useNavigate();
     const { category, subcategory } = useParams();
 
-    const toast = useToast();
-
     const { data, isLoading, isError } = useGetCategoriesQuery();
 
     const isActiveSubcategory = (value: string) => subcategory === value;
@@ -50,11 +48,7 @@ const NavigationMenu = ({ menuRef }: NavigationMenuProps) => {
         [data, category],
     );
 
-    useEffect(() => {
-        if (isError) {
-            toast();
-        }
-    }, [isError, toast]);
+    useErrorToast(isError);
 
     return (
         <Flex
@@ -89,7 +83,6 @@ const NavigationMenu = ({ menuRef }: NavigationMenuProps) => {
                         : ''
                 }
                 allowToggle
-                // defaultIndex={defaultCategory}
                 index={defaultCategory}
                 onChange={(value) => (value === -1 ? handleMenu.off() : handleMenu.on())}
             >
@@ -123,12 +116,6 @@ const NavigationMenu = ({ menuRef }: NavigationMenuProps) => {
                                                         : ''
                                                 }`,
                                             );
-                                            // dispatch(setCategory(category?._id));
-                                            // dispatch(
-                                            //     setSubcategory(
-                                            //         subcategoryMenu ? subcategoryMenu[0]?._id : '',
-                                            //     ),
-                                            // );
                                         }}
                                     >
                                         <Image src={`${IMAGE_HOST}${category.icon}`} mr={3} />

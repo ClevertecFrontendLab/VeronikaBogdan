@@ -12,6 +12,7 @@ import ErrorPage from '~/app/error-page';
 import JuiciestPage from '~/app/juiciest-page';
 import MainPage from '~/app/main-page';
 import RecipePage from '~/app/recipe-page';
+import Alert from '~/components/alert';
 import { store } from '~/store/configure-store.ts';
 import { theme } from '~/styles/theme';
 
@@ -42,11 +43,20 @@ createRoot(document.getElementById('root')!).render(
             toastOptions={{
                 defaultOptions: {
                     title: 'Ошибка сервера',
-                    description: 'Попробуйте немного позже',
+                    description: 'Попробуйте поискать снова попозже',
                     status: 'error',
                     duration: 120000,
                     isClosable: true,
                     position: 'bottom',
+                    render: ({ title, description, status, isClosable, onClose }) => (
+                        <Alert
+                            title={title}
+                            description={description}
+                            status={status}
+                            isClosable={isClosable}
+                            onClose={onClose}
+                        />
+                    ),
                 },
             }}
         >

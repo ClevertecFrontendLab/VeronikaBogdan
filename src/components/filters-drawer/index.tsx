@@ -21,8 +21,8 @@ import {
 } from '@chakra-ui/react';
 
 import MultiSelect from '~/components/multi-select';
-import CATEGORIES from '~/constants/categories';
 import { ALLERGENS, AUTHORS, MEAT, SIDE } from '~/constants/labels';
+import { useGetCategoriesQuery } from '~/query/services/categories';
 import {
     addNewAllergen,
     clearFilters,
@@ -37,6 +37,8 @@ type FiltersDrawer = { disclosure: { isOpen: boolean; onClose: () => void } };
 const FiltersDrawer = ({ disclosure }: FiltersDrawer) => {
     const dispatch = useAppDispatch();
     const { filters } = useAppSelector(filtersSelector);
+
+    const { data: categories } = useGetCategoriesQuery();
 
     const { isOpen, onClose } = disclosure;
 
@@ -85,7 +87,8 @@ const FiltersDrawer = ({ disclosure }: FiltersDrawer) => {
                     <Stack spacing={{ base: 4, xl: 6 }}>
                         <MultiSelect
                             placeholder='Категория'
-                            options={CATEGORIES.map((category) => category.label)}
+                            options={categories?.categories.map((category) => category.title) || []}
+                            // options={ALLERGENS}
                             selectedItems={filters?.categories || []}
                             selectItems={(items: string[] | string) =>
                                 dispatch(setFilters({ name: 'categories', value: items }))

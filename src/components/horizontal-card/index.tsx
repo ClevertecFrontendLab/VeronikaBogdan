@@ -58,6 +58,7 @@ const HorizontalCard = ({ card, dataTestIdButton }: HorizontalCardProps) => {
                 src={`${IMAGE_HOST}${card.image}`}
                 borderLeftRadius='lg'
                 w={{ base: '158px', xl: '346px' }}
+                alt={card.title}
             />
             <Stack flex={1} px={{ base: 2, xl: 6 }}>
                 <CardBody px={{ base: 0 }} py={{ base: 2, xl: 0 }} pt={{ base: 2, xl: 5 }}>

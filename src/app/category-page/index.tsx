@@ -5,14 +5,14 @@ import { useNavigate, useParams } from 'react-router';
 import ContentContainer from '~/components/content-container';
 import HorizontalCard from '~/components/horizontal-card';
 import RelevantKitchen from '~/components/relevant-kitchen';
+import useUpdateRecipes from '~/hooks/use-update-recipes';
 import { useGetCategoriesQuery } from '~/query/services/categories';
 import { useGetRecipesQuery } from '~/query/services/recipies';
-import { filtersSelector, setRecipes } from '~/store/filters-slice';
-import { useAppDispatch, useAppSelector } from '~/store/hooks';
+import { filtersSelector } from '~/store/filters-slice';
+import { useAppSelector } from '~/store/hooks';
 import { getCategory } from '~/utils/current-paths';
 
 const CategoryPage = () => {
-    const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const { category, subcategory } = useParams();
     const { allergens, searchText, currentRecipes } = useAppSelector(filtersSelector);
@@ -31,20 +31,18 @@ const CategoryPage = () => {
         }
     }, [navigate, data, selectedCategory?.category, defaultSubcategory]);
 
-    const { data: recipes, isFetching: isRecipesFetching } = useGetRecipesQuery(
-        {
-            searchString: searchText,
-            allergens: allergens.length > 0 ? allergens.join(',') : null,
-            subcategoriesIds: subcategories[defaultSubcategory]?._id || '',
-        },
-        { skip: !data },
-    );
+    const recipesParams = {
+        id: searchText || allergens.length > 0 ? '' : subcategories[defaultSubcategory]?._id,
+        searchString: searchText,
+        allergens: allergens.length > 0 ? allergens.join(',') : null,
+        subcategoriesIds: subcategories.map((subcategory) => subcategory._id).join(',') || '',
+    };
 
-    useEffect(() => {
-        if (recipes) {
-            dispatch(setRecipes(recipes.data));
-        }
-    }, [dispatch, recipes, recipes?.data]);
+    const { data: recipes, isFetching: isRecipesFetching } = useGetRecipesQuery(recipesParams, {
+        skip: !data,
+    });
+
+    useUpdateRecipes(recipes);
 
     return (
         <ContentContainer
@@ -118,14 +116,16 @@ const CategoryPage = () => {
                                                 </GridItem>
                                             ))}
                                         </Grid>
-                                        <Button
-                                            variant='pageSolid'
-                                            size='pageActive'
-                                            mt={{ base: 4 }}
-                                            data-test-id='load-more-button'
-                                        >
-                                            Загрузить еще
-                                        </Button>
+                                        {recipes.meta.page < recipes.meta.totalPages && (
+                                            <Button
+                                                variant='pageSolid'
+                                                size='pageActive'
+                                                mt={{ base: 4 }}
+                                                data-test-id='load-more-button'
+                                            >
+                                                Загрузить еще
+                                            </Button>
+                                        )}
                                     </TabPanel>
                                 ))}
                         </TabPanels>

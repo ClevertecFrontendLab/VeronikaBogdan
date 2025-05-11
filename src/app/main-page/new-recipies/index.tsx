@@ -28,7 +28,8 @@ import {
     IMAGE_HOST,
     NEW_RECIPIES_COUNT,
 } from '~/constants';
-import useErrorToast from '~/hooks/use-error-toast';
+import { SERVER_ERROR } from '~/constants/toast-texts';
+import useToast from '~/hooks/use-error-toast';
 import { useGetCategoriesQuery } from '~/query/services/categories';
 import { useGetRecipesQuery } from '~/query/services/recipies';
 import { getCategoryById, getRootCategory } from '~/utils/current-paths';
@@ -56,7 +57,7 @@ const NewRecipies = () => {
         }
     }, [recipes]);
 
-    useErrorToast(isCategoriesError);
+    useToast({ isLoaded: isCategoriesError, status: 'error', toastType: SERVER_ERROR });
 
     return (
         recipes && (

@@ -24,7 +24,8 @@ import ExitIcon from '~/assets/svg/exit.svg';
 import BreadCrubms from '~/components/breadcrumbs';
 import Loader from '~/components/loader';
 import { IMAGE_HOST } from '~/constants';
-import useErrorToast from '~/hooks/use-error-toast';
+import { SERVER_ERROR } from '~/constants/toast-texts';
+import useToast from '~/hooks/use-error-toast';
 import { useGetCategoriesQuery } from '~/query/services/categories';
 import { useAppSelector } from '~/store/hooks';
 import { menuSelector } from '~/store/menu-slice';
@@ -48,7 +49,7 @@ const NavigationMenu = ({ menuRef }: NavigationMenuProps) => {
         [data, category],
     );
 
-    useErrorToast(isError);
+    useToast({ isLoaded: isError, status: 'error', toastType: SERVER_ERROR });
 
     return (
         <Flex

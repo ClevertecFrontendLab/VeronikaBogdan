@@ -42,9 +42,6 @@ createRoot(document.getElementById('root')!).render(
             theme={theme}
             toastOptions={{
                 defaultOptions: {
-                    title: 'Ошибка сервера',
-                    description: 'Попробуйте поискать снова попозже',
-                    status: 'error',
                     duration: 120000,
                     isClosable: true,
                     position: 'bottom',

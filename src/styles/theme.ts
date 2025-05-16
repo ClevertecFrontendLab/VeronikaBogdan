@@ -6,8 +6,10 @@ import cardTheme from '~/styles/components/card';
 import checkboxTheme from '~/styles/components/checkbox';
 import gridTheme from '~/styles/components/grid';
 import headingTheme from '~/styles/components/heading';
+import inputTheme from '~/styles/components/input';
 import menuTheme from '~/styles/components/menu';
 import switchTheme from '~/styles/components/switch';
+import tabsTheme from '~/styles/components/tabs';
 import layerStyles from '~/styles/layer-styles';
 import textStyles from '~/styles/text-styles';
 
@@ -35,6 +37,8 @@ const colors = {
         300: '#c4ff61',
         400: '#b1ff2e',
         600: '#2db100',
+        650: '#29813f',
+        700: '#207e00',
         800: '#134b00',
     },
     white: '#fff',
@@ -83,6 +87,19 @@ const radii = {
     '3xl': '24px',
 };
 
+const components = {
+    Button: buttonTheme,
+    Card: cardTheme,
+    Checkbox: checkboxTheme,
+    Divider: dividerTheme,
+    Grid: gridTheme,
+    Heading: headingTheme,
+    Input: inputTheme,
+    Menu: menuTheme,
+    Tabs: tabsTheme,
+    Switch: switchTheme,
+};
+
 export const theme = extendTheme({
     breakpoints,
     fonts,
@@ -91,14 +108,5 @@ export const theme = extendTheme({
     textStyles,
     layerStyles,
     radii,
-    components: {
-        Button: buttonTheme,
-        Card: cardTheme,
-        Checkbox: checkboxTheme,
-        Divider: dividerTheme,
-        Grid: gridTheme,
-        Heading: headingTheme,
-        Menu: menuTheme,
-        Switch: switchTheme,
-    },
+    components,
 });

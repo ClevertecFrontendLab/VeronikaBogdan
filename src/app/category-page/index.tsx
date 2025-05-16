@@ -69,21 +69,6 @@ const CategoryPage = () => {
                                     fontSize={{ base: 'sm', xl: 'md' }}
                                     lineHeight={{ base: '143%', xl: '150%' }}
                                     whiteSpace='nowrap'
-                                    color='lime.800'
-                                    border={0}
-                                    outline={0}
-                                    borderBottom='1px solid'
-                                    borderBottomColor='blackAlpha.200'
-                                    borderRadius={0}
-                                    _hover={{ borderBottomColor: 'lime.600' }}
-                                    _selected={{
-                                        outline: 0,
-                                        color: 'lime.600',
-                                        borderBottom: '2px solid',
-                                        borderBottomColor: 'lime.600',
-                                    }}
-                                    _focus={{ outline: 0 }}
-                                    p={{ base: '4px 16px' }}
                                     onClick={() => navigate(`/${category}/${tab.category}`)}
                                 >
                                     {tab.title}

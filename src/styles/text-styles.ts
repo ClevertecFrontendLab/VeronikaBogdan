@@ -22,6 +22,10 @@ const textStyles = {
         textAlign: 'center',
         color: 'blackAlpha.700',
     },
+    smallText: {
+        fontSize: 'xs',
+        lineHeight: '133%',
+    },
     filterHeader: {
         fontSize: '2xl',
         fontWeight: 700,

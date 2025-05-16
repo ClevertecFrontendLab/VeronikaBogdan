@@ -29,6 +29,12 @@ const sizes = defineStyle({
         px: { base: 3, xl: 6 },
         py: { base: 1.5, xl: 2.5 },
     },
+    auth: {
+        fontSize: '18px',
+        lineHeight: '156%%',
+        px: 6,
+        py: 2.5,
+    },
 });
 
 const variants = defineStyle({

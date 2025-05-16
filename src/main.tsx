@@ -7,31 +7,43 @@ import { Provider } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 
 import App from '~/app/App.tsx';
+import AuthorizationPage from '~/app/authorization-page';
+import Login from '~/app/authorization-page/login';
+import SignUp from '~/app/authorization-page/signup';
 import CategoryPage from '~/app/category-page';
 import ErrorPage from '~/app/error-page';
 import JuiciestPage from '~/app/juiciest-page';
 import MainPage from '~/app/main-page';
 import RecipePage from '~/app/recipe-page';
 import Alert from '~/components/alert';
+import { ROUTES } from '~/constants/routes';
 import { store } from '~/store/configure-store.ts';
 import { theme } from '~/styles/theme';
 
 const router = createBrowserRouter([
     {
-        path: '/',
+        path: ROUTES.main,
         Component: App,
         children: [
             { index: true, Component: MainPage },
             {
-                path: ':category/:subcategory',
+                path: ROUTES.category,
                 Component: CategoryPage,
             },
             {
-                path: ':category/:subcategory/:recipeId',
+                path: ROUTES.recipe,
                 Component: RecipePage,
             },
-            { path: 'the-juiciest', Component: JuiciestPage },
-            { path: '/not-found', Component: ErrorPage },
+            { path: ROUTES.theJuiciest, Component: JuiciestPage },
+            { path: ROUTES.notFound, Component: ErrorPage },
+        ],
+    },
+    {
+        path: ROUTES.authorization,
+        Component: AuthorizationPage,
+        children: [
+            { path: ROUTES.login, Component: Login },
+            { path: ROUTES.signup, Component: SignUp },
         ],
     },
 ]);
@@ -42,7 +54,7 @@ createRoot(document.getElementById('root')!).render(
             theme={theme}
             toastOptions={{
                 defaultOptions: {
-                    duration: 120000,
+                    duration: 15000,
                     isClosable: true,
                     position: 'bottom',
                     render: ({ title, description, status, isClosable, onClose }) => (

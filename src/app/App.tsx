@@ -2,12 +2,13 @@ import './App.css';
 
 import { Box, Grid, GridItem, useMediaQuery, useOutsideClick } from '@chakra-ui/react';
 import { useRef } from 'react';
-import { Outlet, useLocation } from 'react-router';
+import { Navigate, Outlet, useLocation } from 'react-router';
 
 import Footer from '~/components/footer';
 import Header from '~/components/header';
 import NavigationMenu from '~/components/navigation-menu';
 import Sidebar from '~/components/sidebar';
+import { ROUTES } from '~/constants/routes';
 import { useAppDispatch, useAppSelector } from '~/store/hooks';
 import { menuSelector, setBurgerMenuState } from '~/store/menu-slice';
 
@@ -35,6 +36,11 @@ const App = () => {
     });
 
     const isErrorPage = pathname === '/not-found';
+
+    const condition = true;
+    if (condition) {
+        return <Navigate to={`${ROUTES.authorization}/${ROUTES.login}`} />;
+    }
 
     return (
         <>

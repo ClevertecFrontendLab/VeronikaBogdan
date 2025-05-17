@@ -7,4 +7,5 @@ export const ROUTES = {
     authorization: 'authorization',
     login: 'login',
     signup: 'signup',
+    verification: 'verification',
 };

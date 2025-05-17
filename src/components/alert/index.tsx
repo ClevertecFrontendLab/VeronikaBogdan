@@ -14,6 +14,7 @@ type AlertProps = {
     status?: 'error' | 'info' | 'warning' | 'success' | 'loading' | undefined;
     isClosable?: boolean;
     onClose?: () => void;
+    dataTestId?: string;
 };
 
 const Alert = ({ title, description, status, isClosable, onClose }: AlertProps) => (

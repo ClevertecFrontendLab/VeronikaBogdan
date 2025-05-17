@@ -20,6 +20,15 @@ import { ROUTES } from '~/constants/routes';
 import { store } from '~/store/configure-store.ts';
 import { theme } from '~/styles/theme';
 
+type ToastRenderProps = {
+    title: string;
+    description: string;
+    status: 'info' | 'warning' | 'success' | 'error' | 'loading';
+    isClosable: boolean;
+    onClose: () => void;
+    dataTestId?: string;
+};
+
 const router = createBrowserRouter([
     {
         path: ROUTES.main,
@@ -44,6 +53,7 @@ const router = createBrowserRouter([
         children: [
             { path: ROUTES.login, Component: Login },
             { path: ROUTES.signup, Component: SignUp },
+            { path: ROUTES.verification, Component: SignUp },
         ],
     },
 ]);
@@ -57,13 +67,21 @@ createRoot(document.getElementById('root')!).render(
                     duration: 15000,
                     isClosable: true,
                     position: 'bottom',
-                    render: ({ title, description, status, isClosable, onClose }) => (
+                    render: ({
+                        title,
+                        description,
+                        status,
+                        isClosable,
+                        onClose,
+                        dataTestId,
+                    }: ToastRenderProps) => (
                         <Alert
                             title={title}
                             description={description}
                             status={status}
                             isClosable={isClosable}
                             onClose={onClose}
+                            dataTestId={dataTestId}
                         />
                     ),
                 },

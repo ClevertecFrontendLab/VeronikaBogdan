@@ -13,7 +13,6 @@ export const postsApiSlice = apiSlice
             getPosts: builder.query<void, void>({
                 query: () => ({
                     url: ApiEndpoints.POSTS,
-                    // url: 'category',
                     method: 'GET',
                     apiGroupName: ApiGroupNames.POSTS,
                     name: EndpointNames.GET_POSTS,

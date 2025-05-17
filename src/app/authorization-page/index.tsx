@@ -10,6 +10,7 @@ import {
     Tabs,
     Text,
 } from '@chakra-ui/react';
+import { useState } from 'react';
 import { Navigate, Outlet, useLocation, useNavigate } from 'react-router';
 
 import StartingImage from '~/assets/png/starting-image.png';
@@ -28,6 +29,8 @@ const AuthorizationPage = () => {
 
     const isLoginPage = pathname.includes(ROUTES.login);
     const isSignupPage = pathname.includes(ROUTES.signup);
+
+    const [tabIndex, setTabIndex] = useState(+isSignupPage);
 
     if (!(isLoginPage || isSignupPage)) {
         return <Navigate to={ROUTES.login} />;
@@ -51,18 +54,24 @@ const AuthorizationPage = () => {
                         <Image src={LogoIcon} w={{ base: 10, xl: 16 }} h={{ base: 10, xl: 16 }} />
                         <Image src={LogoText} w={{ base: 32, xl: 48 }} />
                     </Flex>
-                    <Tabs variant='auth' size='auth' defaultIndex={+isSignupPage}>
+                    <Tabs variant='auth' size='auth' defaultIndex={+isSignupPage} index={tabIndex}>
                         <TabList mb={10}>
-                            {TABS_INFO.map((tab) => (
-                                <Tab key={tab.title} onClick={() => navigate(tab.path)}>
+                            {TABS_INFO.map((tab, tabListIndex) => (
+                                <Tab
+                                    key={tab.title}
+                                    onClick={() => {
+                                        navigate(tab.path);
+                                        setTabIndex(tabListIndex);
+                                    }}
+                                >
                                     {tab.title}
                                 </Tab>
                             ))}
                         </TabList>
                         <TabPanels>
-                            {TABS_INFO.map((tab, tabIndex) => (
+                            {TABS_INFO.map((tab, panelIndex) => (
                                 <TabPanel key={tab.title} p={0}>
-                                    {+isSignupPage === tabIndex && <Outlet />}
+                                    {tabIndex === panelIndex && <Outlet />}
                                 </TabPanel>
                             ))}
                         </TabPanels>

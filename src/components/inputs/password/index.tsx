@@ -54,6 +54,7 @@ const Password = ({ title, dataTestId, name, error, options, helper }: PasswordP
                 />
                 <InputRightElement width='2.5rem'>
                     <Button
+                        data-test-id='password-visibility-button'
                         backgroundColor='inherit'
                         _hover={{ backgroundColor: 'inherit' }}
                         onMouseDown={toggleEye.on}

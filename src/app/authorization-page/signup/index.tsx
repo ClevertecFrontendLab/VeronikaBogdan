@@ -10,11 +10,14 @@ import {
     Progress,
     Stack,
     Text,
+    useToast as useChakraToast,
 } from '@chakra-ui/react';
 import { useLayoutEffect, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 
 import Password from '~/components/inputs/password';
+import Loader from '~/components/loader';
+import { SERVER_ERROR, TOASTS } from '~/constants/toast-texts';
 import {
     CONFIRMED_REQUIRED,
     EMAIL_REQUIRED,
@@ -31,6 +34,7 @@ import {
     validateByMinLength,
     validatePasswordByMinLength,
 } from '~/constants/validation';
+import { useSaveSignupMutation } from '~/query/services/auth';
 import { SignUpForm } from '~/query/types/auth';
 
 const titleSteps = ['Личная информация', 'Логин и пароль'];
@@ -50,11 +54,15 @@ const SignUp = () => {
         setValue,
         getValues,
         getFieldState,
+        reset,
         formState: { errors },
     } = methods;
+    const toast = useChakraToast();
 
     const [step, setStep] = useState(firstStep);
     const [progressValues, setProgress] = useState<string[]>([]);
+
+    const [saveSignup, { isLoading }] = useSaveSignupMutation();
 
     const isFirstStep = step === firstStep;
     const isSecondStep = step === secondStep;
@@ -96,15 +104,36 @@ const SignUp = () => {
         }
 
         if (isSecondStep) {
-            setStep(firstStep);
-        }
+            saveSignup(data)
+                .unwrap()
+                .then((event) => {
+                    console.log(event);
 
-        console.log(data);
+                    reset();
+                    setStep(firstStep);
+                })
+                .catch((error) => {
+                    console.log(error);
+
+                    // if (error.status === 401) {
+                    //     toast({ status: 'error', ...TOASTS[INCORRECT_LOGIN_PASSWORD_ERROR] });
+                    // }
+
+                    // if (error.status === 403) {
+                    //     toast({ status: 'error', ...TOASTS[EMAIL_VERIFIED_ERROR] });
+                    // }
+
+                    if (Math.floor(error.status) === 5) {
+                        toast({ status: 'error', ...TOASTS[SERVER_ERROR] });
+                    }
+                });
+        }
     };
 
     return (
         <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)} data-test-id='sign-up-form'>
+                {isLoading && <Loader />}
                 <Stack gap={6} fontSize='md' lineHeight='150%'>
                     <Box>
                         <Text>

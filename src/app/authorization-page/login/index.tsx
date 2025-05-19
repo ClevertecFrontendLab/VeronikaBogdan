@@ -7,19 +7,22 @@ import {
     Stack,
     useToast as useChakraToast,
 } from '@chakra-ui/react';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 
+import AuthModal from '~/components/auth-modal';
 import Password from '~/components/inputs/password';
 import Loader from '~/components/loader';
+import { SIGN_IN_ERROR_MODAL } from '~/constants';
 import {
     EMAIL_VERIFIED_ERROR,
     INCORRECT_LOGIN_PASSWORD_ERROR,
-    SERVER_ERROR,
     TOASTS,
 } from '~/constants/toast-texts';
 import { LOGIN_REQUIRED, PASSWORD_REQUIRED, validateByMaxLength } from '~/constants/validation';
 import { useSaveLoginMutation } from '~/query/services/auth';
 import { LoginForm } from '~/query/types/auth';
+import { setAuthModal, setDataTestIdModal, setLoginData } from '~/store/auth-modal-slice';
+import { useAppDispatch } from '~/store/hooks';
 
 const Login = () => {
     const methods = useForm<LoginForm>({
@@ -34,29 +37,32 @@ const Login = () => {
         formState: { errors },
     } = methods;
 
-    const toast = useChakraToast();
-
     const [saveLogin, { isLoading }] = useSaveLoginMutation();
+
+    const dispatch = useAppDispatch();
+    const toast = useChakraToast();
 
     const handleTrim = ({ target }) => setValue(target.name, target.value.trim());
 
-    const onSubmit: SubmitHandler<LoginForm> = (data) => {
+    const onSubmit = (data: LoginForm) => {
         saveLogin(data)
             .unwrap()
             .then((event) => console.log(event))
             .catch((error) => {
+                console.log(error);
+
                 if (error.status === 401) {
                     toast({ status: 'error', ...TOASTS[INCORRECT_LOGIN_PASSWORD_ERROR] });
                     return;
                 }
-
                 if (error.status === 403) {
                     toast({ status: 'error', ...TOASTS[EMAIL_VERIFIED_ERROR] });
                     return;
                 }
-
-                if (Math.floor(error.status) === 5) {
-                    toast({ status: 'error', ...TOASTS[SERVER_ERROR] });
+                if (Math.floor(error.status / 100) === 5) {
+                    dispatch(setAuthModal(true));
+                    dispatch(setLoginData(data));
+                    dispatch(setDataTestIdModal(SIGN_IN_ERROR_MODAL));
                     return;
                 }
             });
@@ -107,6 +113,7 @@ const Login = () => {
                     </Button>
                 </Stack>
             </form>
+            <AuthModal onSubmit={onSubmit} />
         </FormProvider>
     );
 };

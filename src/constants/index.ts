@@ -8,3 +8,9 @@ export const RELEVANT_KITCHEN_LIMIT = 5;
 export const CREATED_AT_SORT_PARAM = 'createdAt';
 export const LIKES_SORT_PARAM = 'likes';
 export const DESC_SORT_PARAM = 'desc';
+
+export const SIGN_IN_ERROR_MODAL = 'sign-in-error-modal';
+export const SIGN_UP_SUCCESS_MODAL = 'sign-up-success-modal';
+export const EMAIL_VERIFICATION_FAILED_MODAL = 'email-verification-failed-modal';
+export const VERIFICATION_CODE_MODAL = 'verification-code-modal';
+export const RESET_CREDENTIALS_MODAL = 'reset-credentials-modal';

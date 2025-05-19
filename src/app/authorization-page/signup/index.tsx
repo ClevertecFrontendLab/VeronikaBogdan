@@ -14,9 +14,13 @@ import {
 } from '@chakra-ui/react';
 import { useLayoutEffect, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router';
 
+import AuthModal from '~/components/auth-modal';
 import Password from '~/components/inputs/password';
 import Loader from '~/components/loader';
+import { SIGN_UP_SUCCESS_MODAL } from '~/constants';
+import { ROUTES } from '~/constants/routes';
 import { SERVER_ERROR, TOASTS } from '~/constants/toast-texts';
 import {
     CONFIRMED_REQUIRED,
@@ -36,6 +40,8 @@ import {
 } from '~/constants/validation';
 import { useSaveSignupMutation } from '~/query/services/auth';
 import { SignUpForm } from '~/query/types/auth';
+import { setAuthModal, setDataTestIdModal, setEmail } from '~/store/auth-modal-slice';
+import { useAppDispatch } from '~/store/hooks';
 
 const titleSteps = ['Личная информация', 'Логин и пароль'];
 const firstStep = 1;
@@ -63,6 +69,9 @@ const SignUp = () => {
     const [progressValues, setProgress] = useState<string[]>([]);
 
     const [saveSignup, { isLoading }] = useSaveSignupMutation();
+
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const isFirstStep = step === firstStep;
     const isSecondStep = step === secondStep;
@@ -111,19 +120,19 @@ const SignUp = () => {
 
                     reset();
                     setStep(firstStep);
+                    setProgress([]);
+                    navigate(ROUTES.login);
+
+                    dispatch(setAuthModal(true));
+                    dispatch(setEmail(data.email));
+                    dispatch(setDataTestIdModal(SIGN_UP_SUCCESS_MODAL));
                 })
                 .catch((error) => {
-                    console.log(error);
+                    if (error.status === 400) {
+                        toast({ status: 'error', title: error.data.message });
+                    }
 
-                    // if (error.status === 401) {
-                    //     toast({ status: 'error', ...TOASTS[INCORRECT_LOGIN_PASSWORD_ERROR] });
-                    // }
-
-                    // if (error.status === 403) {
-                    //     toast({ status: 'error', ...TOASTS[EMAIL_VERIFIED_ERROR] });
-                    // }
-
-                    if (Math.floor(error.status) === 5) {
+                    if (Math.floor(error.status / 100) === 5) {
                         toast({ status: 'error', ...TOASTS[SERVER_ERROR] });
                     }
                 });
@@ -282,6 +291,7 @@ const SignUp = () => {
                     </Button>
                 </Stack>
             </form>
+            <AuthModal />
         </FormProvider>
     );
 };

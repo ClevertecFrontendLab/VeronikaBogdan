@@ -16,6 +16,7 @@ import { Navigate, Outlet, useLocation, useNavigate } from 'react-router';
 import StartingImage from '~/assets/png/starting-image.png';
 import LogoIcon from '~/assets/svg/logo-icon.svg';
 import LogoText from '~/assets/svg/logo-text.svg';
+// import AuthModal from '~/components/auth-modal';
 import { ROUTES } from '~/constants/routes';
 
 const TABS_INFO = [
@@ -102,6 +103,7 @@ const AuthorizationPage = () => {
                     &ndash; Лучший сервис для ваших кулинарных побед
                 </Text>
             </GridItem>
+            {/* <AuthModal /> */}
         </Grid>
     );
 };

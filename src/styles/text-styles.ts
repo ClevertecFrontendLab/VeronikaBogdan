@@ -47,6 +47,13 @@ const textStyles = {
         color: 'blackAlpha.700',
         textAlign: 'center',
     },
+    modalHelper: {
+        fontSize: 'sm',
+        lineHeight: '133%',
+        fontWeight: 400,
+        color: 'blackAlpha.600',
+        textAlign: 'center',
+    },
 };
 
 export default textStyles;

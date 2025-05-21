@@ -9,15 +9,20 @@ import {
     TabPanels,
     Tabs,
     Text,
+    useToast as useChakraToast,
 } from '@chakra-ui/react';
-import { useState } from 'react';
-import { Navigate, Outlet, useLocation, useNavigate } from 'react-router';
+import { useEffect, useState } from 'react';
+import { Navigate, Outlet, useLocation, useNavigate, useSearchParams } from 'react-router';
 
 import StartingImage from '~/assets/png/starting-image.png';
 import LogoIcon from '~/assets/svg/logo-icon.svg';
 import LogoText from '~/assets/svg/logo-text.svg';
+import { EMAIL_VERIFICATION_FAILED_MODAL } from '~/constants';
 // import AuthModal from '~/components/auth-modal';
 import { ROUTES } from '~/constants/routes';
+import { EMAIL_VERIFIED_SUCCESS, TOASTS } from '~/constants/toast-texts';
+import { setAuthModal, setDataTestIdModal } from '~/store/auth-modal-slice';
+import { useAppDispatch } from '~/store/hooks';
 
 const TABS_INFO = [
     { title: 'Вход на сайт', path: ROUTES.login },
@@ -25,13 +30,31 @@ const TABS_INFO = [
 ];
 
 const AuthorizationPage = () => {
+    const dispatch = useAppDispatch();
+    const toast = useChakraToast();
     const { pathname } = useLocation();
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
 
     const isLoginPage = pathname.includes(ROUTES.login);
     const isSignupPage = pathname.includes(ROUTES.signup);
+    const isVerificationPage = pathname.includes(ROUTES.verification);
+    const isEmailVerified = searchParams.get('emailVerified') === 'true';
 
     const [tabIndex, setTabIndex] = useState(+isSignupPage);
+
+    useEffect(() => {
+        if (isVerificationPage) {
+            if (isEmailVerified) {
+                navigate(`/${ROUTES.authorization}/${ROUTES.login}`);
+                toast({ status: 'success', ...TOASTS[EMAIL_VERIFIED_SUCCESS] });
+            } else {
+                navigate(`/${ROUTES.authorization}/${ROUTES.signup}`);
+                dispatch(setAuthModal(true));
+                dispatch(setDataTestIdModal(EMAIL_VERIFICATION_FAILED_MODAL));
+            }
+        }
+    }, [dispatch, isEmailVerified, isVerificationPage, navigate, toast]);
 
     if (!(isLoginPage || isSignupPage)) {
         return <Navigate to={ROUTES.login} />;

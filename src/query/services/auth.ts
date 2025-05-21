@@ -9,7 +9,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 method: 'POST',
                 body,
             }),
-            transformErrorResponse: (res) => ({ data: res.data, status: 500 }),
+            // transformErrorResponse: (res) => ({ data: res.data, status: 500 }),
         }),
         saveSignup: builder.mutation<AuthResponse, SignUpParams>({
             query: (body) => ({

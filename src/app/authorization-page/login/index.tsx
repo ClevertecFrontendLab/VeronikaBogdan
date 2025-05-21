@@ -8,11 +8,13 @@ import {
     useToast as useChakraToast,
 } from '@chakra-ui/react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router';
 
 import AuthModal from '~/components/auth-modal';
 import Password from '~/components/inputs/password';
 import Loader from '~/components/loader';
 import { SIGN_IN_ERROR_MODAL } from '~/constants';
+import { ROUTES } from '~/constants/routes';
 import {
     EMAIL_VERIFIED_ERROR,
     INCORRECT_LOGIN_PASSWORD_ERROR,
@@ -33,7 +35,7 @@ const Login = () => {
         register,
         handleSubmit,
         setValue,
-
+        reset,
         formState: { errors },
     } = methods;
 
@@ -41,13 +43,18 @@ const Login = () => {
 
     const dispatch = useAppDispatch();
     const toast = useChakraToast();
+    const navigate = useNavigate();
 
     const handleTrim = ({ target }) => setValue(target.name, target.value.trim());
 
     const onSubmit = (data: LoginForm) => {
         saveLogin(data)
             .unwrap()
-            .then((event) => console.log(event))
+            .then((event) => {
+                console.log(event);
+                reset();
+                navigate(ROUTES.main);
+            })
             .catch((error) => {
                 console.log(error);
 

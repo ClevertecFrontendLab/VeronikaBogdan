@@ -53,9 +53,9 @@ const router = createBrowserRouter([
         children: [
             { path: ROUTES.login, Component: Login },
             { path: ROUTES.signup, Component: SignUp },
-            { path: ROUTES.verification, Component: SignUp },
         ],
     },
+    { path: ROUTES.verification, Component: AuthorizationPage },
 ]);
 
 createRoot(document.getElementById('root')!).render(

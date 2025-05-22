@@ -4,6 +4,7 @@ import {
     FormErrorMessage,
     FormLabel,
     Input,
+    Spacer,
     Stack,
     useToast as useChakraToast,
 } from '@chakra-ui/react';
@@ -13,7 +14,7 @@ import { useNavigate } from 'react-router';
 import AuthModal from '~/components/auth-modal';
 import Password from '~/components/inputs/password';
 import Loader from '~/components/loader';
-import { SIGN_IN_ERROR_MODAL } from '~/constants';
+import { SEND_EMAIL_MODAL, SIGN_IN_ERROR_MODAL } from '~/constants';
 import { ROUTES } from '~/constants/routes';
 import {
     EMAIL_VERIFIED_ERROR,
@@ -25,6 +26,7 @@ import { useSaveLoginMutation } from '~/query/services/auth';
 import { LoginForm } from '~/query/types/auth';
 import { setAuthModal, setDataTestIdModal, setLoginData } from '~/store/auth-modal-slice';
 import { useAppDispatch } from '~/store/hooks';
+import { handleTrim } from '~/utils/trim-handler';
 
 const Login = () => {
     const methods = useForm<LoginForm>({
@@ -45,18 +47,15 @@ const Login = () => {
     const toast = useChakraToast();
     const navigate = useNavigate();
 
-    const handleTrim = ({ target }) => setValue(target.name, target.value.trim());
-
     const onSubmit = (data: LoginForm) => {
         saveLogin(data)
             .unwrap()
-            .then((event) => {
-                console.log(event);
+            .then(() => {
                 reset();
                 navigate(ROUTES.main);
             })
             .catch((error) => {
-                console.log(error);
+                toast.closeAll();
 
                 if (error.status === 401) {
                     toast({ status: 'error', ...TOASTS[INCORRECT_LOGIN_PASSWORD_ERROR] });
@@ -75,6 +74,11 @@ const Login = () => {
             });
     };
 
+    const handleForgotPassword = () => {
+        dispatch(setAuthModal(true));
+        dispatch(setDataTestIdModal(SEND_EMAIL_MODAL));
+    };
+
     return (
         <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)} data-test-id='sign-in-form'>
@@ -90,7 +94,7 @@ const Login = () => {
                             {...register('login', {
                                 required: LOGIN_REQUIRED,
                                 maxLength: validateByMaxLength,
-                                onBlur: handleTrim,
+                                onBlur: (event) => handleTrim(event, setValue),
                             })}
                         />
                         {errors.login && (
@@ -106,18 +110,29 @@ const Login = () => {
                         options={{
                             required: PASSWORD_REQUIRED,
                             maxLength: validateByMaxLength,
-                            onBlur: handleTrim,
+                            onBlur: (event) => handleTrim(event, setValue),
                         }}
                         error={errors?.password?.message}
                     />
-                    <Button
-                        type='submit'
-                        variant='listCardSolid'
-                        size='auth'
-                        data-test-id='submit-button'
-                    >
-                        Войти
-                    </Button>
+                    <Spacer minH='84px' />
+                    <Stack gap={4}>
+                        <Button
+                            type='submit'
+                            variant='listCardSolid'
+                            size='auth'
+                            data-test-id='submit-button'
+                        >
+                            Войти
+                        </Button>
+                        <Button
+                            variant='link'
+                            color='black'
+                            data-test-id='forgot-password'
+                            onClick={handleForgotPassword}
+                        >
+                            Забыли логин или пароль?
+                        </Button>
+                    </Stack>
                 </Stack>
             </form>
             <AuthModal onSubmit={onSubmit} />

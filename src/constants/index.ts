@@ -12,5 +12,6 @@ export const DESC_SORT_PARAM = 'desc';
 export const SIGN_IN_ERROR_MODAL = 'sign-in-error-modal';
 export const SIGN_UP_SUCCESS_MODAL = 'sign-up-success-modal';
 export const EMAIL_VERIFICATION_FAILED_MODAL = 'email-verification-failed-modal';
+export const SEND_EMAIL_MODAL = 'send-email-modal';
 export const VERIFICATION_CODE_MODAL = 'verification-code-modal';
 export const RESET_CREDENTIALS_MODAL = 'reset-credentials-modal';

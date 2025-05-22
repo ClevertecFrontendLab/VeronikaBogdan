@@ -13,6 +13,22 @@ export type LoginForm = {
     password: string;
 };
 
+export type SendEmailForm = {
+    email: string;
+};
+
+export type VerifiedOtpCodeForm = {
+    email: string;
+    otpToken: string;
+};
+
+export type ResetPasswordForm = {
+    email: string;
+    login: string;
+    password: string;
+    passwordConfirm: string;
+};
+
 export type SuccessBodyResponse = {
     statusText: string;
     message: string;

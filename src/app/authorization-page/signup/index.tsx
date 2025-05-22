@@ -42,6 +42,7 @@ import { useSaveSignupMutation } from '~/query/services/auth';
 import { SignUpForm } from '~/query/types/auth';
 import { setAuthModal, setDataTestIdModal, setEmail } from '~/store/auth-modal-slice';
 import { useAppDispatch } from '~/store/hooks';
+import { handleTrim } from '~/utils/trim-handler';
 
 const titleSteps = ['Личная информация', 'Логин и пароль'];
 const firstStep = 1;
@@ -77,8 +78,6 @@ const SignUp = () => {
     const isSecondStep = step === secondStep;
 
     const progress = +((100 / 6) * progressValues.length).toFixed();
-
-    const handleTrim = ({ target }) => setValue(target.name, target.value.trim());
 
     const handleProgress = (name) => {
         if (
@@ -128,6 +127,8 @@ const SignUp = () => {
                     dispatch(setDataTestIdModal(SIGN_UP_SUCCESS_MODAL));
                 })
                 .catch((error) => {
+                    toast.closeAll();
+
                     if (error.status === 400) {
                         toast({ status: 'error', title: error.data.message });
                     }
@@ -174,7 +175,7 @@ const SignUp = () => {
                                         required: FIRSTNAME_REQUIRED,
                                         maxLength: validateByMaxLength,
                                         validate: { validateByLetters },
-                                        onBlur: handleTrim,
+                                        onBlur: (event) => handleTrim(event, setValue),
                                     })}
                                 />
                                 {errors.firstName && (
@@ -194,7 +195,7 @@ const SignUp = () => {
                                         required: LASTNAME_REQUIRED,
                                         maxLength: validateByMaxLength,
                                         validate: { validateByLetters },
-                                        onBlur: handleTrim,
+                                        onBlur: (event) => handleTrim(event, setValue),
                                     })}
                                 />
                                 {errors.lastName && (
@@ -214,7 +215,7 @@ const SignUp = () => {
                                         required: EMAIL_REQUIRED,
                                         maxLength: validateByMaxLength,
                                         validate: { hasEmail },
-                                        onBlur: handleTrim,
+                                        onBlur: (event) => handleTrim(event, setValue),
                                     })}
                                 />
                                 {errors.email && (
@@ -239,7 +240,7 @@ const SignUp = () => {
                                         minLength: validateByMinLength,
                                         maxLength: validateByMaxLength,
                                         validate: { hasLogin },
-                                        onBlur: handleTrim,
+                                        onBlur: (event) => handleTrim(event, setValue),
                                     })}
                                 />
                                 <FormHelperText textStyle='smallText'>
@@ -260,7 +261,7 @@ const SignUp = () => {
                                     minLength: validatePasswordByMinLength,
                                     maxLength: validateByMaxLength,
                                     validate: { hasPassword },
-                                    onBlur: handleTrim,
+                                    onBlur: (event) => handleTrim(event, setValue),
                                 }}
                                 helper='Пароль не менее 8 символов, с заглавной буквой и цифрой'
                                 error={errors?.password?.message}
@@ -275,7 +276,7 @@ const SignUp = () => {
                                         hasPassword: (password: string) =>
                                             hasConfirmedPassword(password, getValues('password')),
                                     },
-                                    onBlur: handleTrim,
+                                    onBlur: (event) => handleTrim(event, setValue),
                                 }}
                                 error={errors.confirmed?.message}
                             />

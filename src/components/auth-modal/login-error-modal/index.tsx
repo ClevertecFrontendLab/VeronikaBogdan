@@ -1,8 +1,9 @@
 import { Button, Heading, Image, Stack, Text } from '@chakra-ui/react';
 
 import Picture from '~/assets/png/login-error.png';
+import { LoginForm } from '~/query/types/auth';
 
-type LoginErrorModalProps = { onSubmit?: () => void };
+type LoginErrorModalProps = { onSubmit?: (data?: LoginForm) => void };
 
 const LoginErrorModal = ({ onSubmit }: LoginErrorModalProps) => {
     const handleRepeat = () => {

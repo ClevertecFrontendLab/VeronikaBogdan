@@ -16,7 +16,7 @@ import {
     VERIFICATION_CODE_MODAL,
 } from '~/constants';
 import { LoginForm } from '~/query/types/auth';
-import { authModalSelector, setAuthModal, setEmail } from '~/store/auth-modal-slice';
+import { authModalSelector, resetState } from '~/store/auth-modal-slice';
 import { useAppDispatch, useAppSelector } from '~/store/hooks';
 
 import EmailModal from './email-modal';
@@ -33,10 +33,7 @@ const AuthModal = ({ onSubmit }: AuthModalProps) => {
 
     const { isModal, dataTestIdModal } = useAppSelector(authModalSelector);
 
-    const handleClose = () => {
-        dispatch(setAuthModal(false));
-        dispatch(setEmail(''));
-    };
+    const handleClose = () => dispatch(resetState());
 
     return (
         <Modal onClose={handleClose} isOpen={isModal} size={{ base: 'xs', xl: 'sm' }} isCentered>

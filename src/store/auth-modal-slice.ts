@@ -29,9 +29,17 @@ export const authModalSlice = createSlice({
         setEmail(state, { payload }) {
             state.email = payload;
         },
+
+        resetState(state) {
+            state.isModal = initialState.isModal;
+            state.dataTestIdModal = initialState.dataTestIdModal;
+            state.email = initialState.email;
+            // state.loginData = initialState.loginData;
+        },
     },
 });
 export const authModalSelector = (state: ApplicationState) => state.authModal;
 
-export const { setAuthModal, setDataTestIdModal, setLoginData, setEmail } = authModalSlice.actions;
+export const { setAuthModal, setDataTestIdModal, setLoginData, setEmail, resetState } =
+    authModalSlice.actions;
 export default authModalSlice.reducer;

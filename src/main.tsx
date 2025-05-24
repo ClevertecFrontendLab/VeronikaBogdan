@@ -4,7 +4,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { createBrowserRouter, RouterProvider } from 'react-router';
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router';
 
 import App from '~/app/App.tsx';
 import AuthorizationPage from '~/app/authorization-page';
@@ -57,6 +57,7 @@ const router = createBrowserRouter([
         ],
     },
     { path: ROUTES.verification, Component: AuthorizationPage },
+    { path: ROUTES.anyRoute, element: <Navigate to={ROUTES.authorization} /> },
 ]);
 
 createRoot(document.getElementById('root')!).render(

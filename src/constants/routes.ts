@@ -8,4 +8,5 @@ export const ROUTES = {
     login: 'login',
     signup: 'signup',
     verification: 'verification',
+    anyRoute: '*',
 };

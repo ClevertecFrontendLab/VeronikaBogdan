@@ -52,7 +52,7 @@ const fields = ['firstName', 'lastName', 'email', 'login', 'password', 'confirme
 
 const SignUp = () => {
     const methods = useForm<SignUpForm>({
-        // criteriaMode: 'all',
+        criteriaMode: 'all',
         mode: 'all',
     });
     const {
@@ -114,9 +114,7 @@ const SignUp = () => {
         if (isSecondStep) {
             saveSignup(data)
                 .unwrap()
-                .then((event) => {
-                    console.log(event);
-
+                .then(() => {
                     reset();
                     setStep(firstStep);
                     setProgress([]);
@@ -130,11 +128,17 @@ const SignUp = () => {
                     toast.closeAll();
 
                     if (error.status === 400) {
-                        toast({ status: 'error', title: error.data.message });
+                        toast({
+                            status: 'error',
+                            title: error.data.message,
+                        });
                     }
 
                     if (Math.floor(error.status / 100) === 5) {
-                        toast({ status: 'error', ...TOASTS[SERVER_ERROR] });
+                        toast({
+                            status: 'error',
+                            ...TOASTS[SERVER_ERROR],
+                        });
                     }
                 });
         }

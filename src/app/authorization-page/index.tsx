@@ -17,8 +17,7 @@ import { Navigate, Outlet, useLocation, useNavigate, useSearchParams } from 'rea
 import StartingImage from '~/assets/png/starting-image.png';
 import LogoIcon from '~/assets/svg/logo-icon.svg';
 import LogoText from '~/assets/svg/logo-text.svg';
-import { EMAIL_VERIFICATION_FAILED_MODAL } from '~/constants';
-// import AuthModal from '~/components/auth-modal';
+import { EMAIL_VERIFICATION_FAILED_MODAL, JWT_TOKEN_NAME } from '~/constants';
 import { ROUTES } from '~/constants/routes';
 import { EMAIL_VERIFIED_SUCCESS, TOASTS } from '~/constants/toast-texts';
 import { setAuthModal, setDataTestIdModal } from '~/store/auth-modal-slice';
@@ -36,7 +35,6 @@ const AuthorizationPage = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
 
-    const isLoginPage = pathname.includes(ROUTES.login);
     const isSignupPage = pathname.includes(ROUTES.signup);
     const isVerificationPage = pathname.includes(ROUTES.verification);
     const isEmailVerified = searchParams.get('emailVerified') === 'true';
@@ -47,7 +45,10 @@ const AuthorizationPage = () => {
         if (isVerificationPage) {
             if (isEmailVerified) {
                 navigate(`/${ROUTES.authorization}/${ROUTES.login}`);
-                toast({ status: 'success', ...TOASTS[EMAIL_VERIFIED_SUCCESS] });
+                toast({
+                    status: 'success',
+                    ...TOASTS[EMAIL_VERIFIED_SUCCESS],
+                });
             } else {
                 navigate(`/${ROUTES.authorization}/${ROUTES.signup}`);
                 dispatch(setAuthModal(true));
@@ -56,8 +57,8 @@ const AuthorizationPage = () => {
         }
     }, [dispatch, isEmailVerified, isVerificationPage, navigate, toast]);
 
-    if (!(isLoginPage || isSignupPage)) {
-        return <Navigate to={ROUTES.login} />;
+    if (localStorage.getItem(JWT_TOKEN_NAME)) {
+        return <Navigate to={ROUTES.main} />;
     }
 
     return (
@@ -104,10 +105,8 @@ const AuthorizationPage = () => {
                 <Text
                     textStyle='smallText'
                     fontWeight={600}
-                    // position='absolute'
-                    // bottom={0}
                     pt={{ base: 2, xl: 7 }}
-                    py={{ base: 0, xl: 7 }}
+                    py={{ base: 0 }}
                     px={2}
                 >
                     Все права защищены, ученический файл, ©Клевер Технолоджи, 2025
@@ -126,7 +125,6 @@ const AuthorizationPage = () => {
                     &ndash; Лучший сервис для ваших кулинарных побед
                 </Text>
             </GridItem>
-            {/* <AuthModal /> */}
         </Grid>
     );
 };

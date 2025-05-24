@@ -1,6 +1,10 @@
 export const HOST = 'https://marathon-api.clevertec.ru/';
 export const IMAGE_HOST = 'https://training-api.clevertec.ru';
 
+export const JWT_TOKEN_NAME = 'jwtToken';
+export const JWT_TOKEN = localStorage.getItem(JWT_TOKEN_NAME);
+export const IS_JWT_TOKEN = JWT_TOKEN && JWT_TOKEN !== null;
+
 export const NEW_RECIPIES_COUNT = 10;
 export const FIRST_PAGE = 1;
 export const DEFAULT_RECIPE_LIMIT = 8;

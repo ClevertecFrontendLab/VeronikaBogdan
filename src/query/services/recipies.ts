@@ -1,3 +1,4 @@
+import { JWT_TOKEN_NAME } from '~/constants';
 import { apiSlice } from '~/query/create-api.ts';
 import { Recipe, RecipeParam, RecipesParams, RecipesResponse } from '~/query/types/recipies';
 
@@ -7,10 +8,18 @@ export const recipesApiSlice = apiSlice.injectEndpoints({
             query: ({ id, ...params }) => ({
                 url: `recipe${id ? `/category/${id}` : ''}`,
                 params,
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem(JWT_TOKEN_NAME)}`,
+                },
             }),
         }),
         getRecipe: builder.query<Recipe, RecipeParam>({
-            query: (id) => `recipe/${id}`,
+            query: (id) => ({
+                url: `recipe/${id}`,
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem(JWT_TOKEN_NAME)}`,
+                },
+            }),
         }),
     }),
 });

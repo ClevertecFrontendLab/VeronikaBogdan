@@ -88,7 +88,6 @@ const FiltersDrawer = ({ disclosure }: FiltersDrawer) => {
                         <MultiSelect
                             placeholder='Категория'
                             options={categories?.categories.map((category) => category.title) || []}
-                            // options={ALLERGENS}
                             selectedItems={filters?.categories || []}
                             selectItems={(items: string[] | string) =>
                                 dispatch(setFilters({ name: 'categories', value: items }))

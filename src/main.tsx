@@ -27,6 +27,7 @@ type ToastRenderProps = {
     isClosable: boolean;
     onClose: () => void;
     dataTestId?: string;
+    position?: string;
 };
 
 const router = createBrowserRouter([
@@ -64,7 +65,7 @@ createRoot(document.getElementById('root')!).render(
             theme={theme}
             toastOptions={{
                 defaultOptions: {
-                    duration: 15000,
+                    duration: 1500000,
                     isClosable: true,
                     position: 'bottom',
                     render: ({
@@ -74,6 +75,7 @@ createRoot(document.getElementById('root')!).render(
                         isClosable,
                         onClose,
                         dataTestId,
+                        position,
                     }: ToastRenderProps) => (
                         <Alert
                             title={title}
@@ -82,6 +84,7 @@ createRoot(document.getElementById('root')!).render(
                             isClosable={isClosable}
                             onClose={onClose}
                             dataTestId={dataTestId}
+                            position={position}
                         />
                     ),
                 },

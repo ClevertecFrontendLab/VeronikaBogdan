@@ -24,7 +24,7 @@ import ExitIcon from '~/assets/svg/exit.svg';
 import BreadCrubms from '~/components/breadcrumbs';
 import Loader from '~/components/loader';
 import { IMAGE_HOST } from '~/constants';
-import { SERVER_ERROR } from '~/constants/toast-texts';
+import { SEARCH_ERROR } from '~/constants/toast-texts';
 import useToast from '~/hooks/use-error-toast';
 import { useGetCategoriesQuery } from '~/query/services/categories';
 import { useAppSelector } from '~/store/hooks';
@@ -49,7 +49,7 @@ const NavigationMenu = ({ menuRef }: NavigationMenuProps) => {
         [data, category],
     );
 
-    useToast({ isLoaded: isError, status: 'error', toastType: SERVER_ERROR });
+    useToast({ isLoaded: isError, status: 'error', toastType: SEARCH_ERROR });
 
     return (
         <Flex
@@ -182,16 +182,6 @@ const NavigationMenu = ({ menuRef }: NavigationMenuProps) => {
                                                     <LinkOverlay
                                                         as={Link}
                                                         to={`/${category.category}/${subcategory.category}`}
-                                                        onClick={() => {
-                                                            // dispatch(
-                                                            //     setCategory(
-                                                            //         subcategory.rootCategoryId,
-                                                            //     ),
-                                                            // );
-                                                            // dispatch(
-                                                            //     setSubcategory(subcategory._id),
-                                                            // );
-                                                        }}
                                                     >
                                                         <Text
                                                             color='black'

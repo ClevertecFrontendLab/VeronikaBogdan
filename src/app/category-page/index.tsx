@@ -4,7 +4,9 @@ import { useNavigate, useParams } from 'react-router';
 
 import ContentContainer from '~/components/content-container';
 import HorizontalCard from '~/components/horizontal-card';
+import Loader from '~/components/loader';
 import RelevantKitchen from '~/components/relevant-kitchen';
+import { ROUTES } from '~/constants/routes';
 import useUpdateRecipes from '~/hooks/use-update-recipes';
 import { useGetCategoriesQuery } from '~/query/services/categories';
 import { useGetRecipesQuery } from '~/query/services/recipies';
@@ -15,7 +17,8 @@ import { getCategory } from '~/utils/current-paths';
 const CategoryPage = () => {
     const navigate = useNavigate();
     const { category, subcategory } = useParams();
-    const { allergens, searchText, currentRecipes } = useAppSelector(filtersSelector);
+    const { allergens, searchText, searchTextInput, currentRecipes } =
+        useAppSelector(filtersSelector);
 
     const { data } = useGetCategoriesQuery();
 
@@ -27,15 +30,15 @@ const CategoryPage = () => {
 
     useEffect(() => {
         if (data && (!selectedCategory?.category || defaultSubcategory === -1)) {
-            navigate('/not-found');
+            navigate(ROUTES.notFound);
         }
     }, [navigate, data, selectedCategory?.category, defaultSubcategory]);
 
     const recipesParams = {
-        id: searchText || allergens.length > 0 ? '' : subcategories[defaultSubcategory]?._id,
+        id: searchText || allergens?.length > 0 ? '' : subcategories[defaultSubcategory]?._id,
         searchString: searchText,
-        allergens: allergens.length > 0 ? allergens.join(',') : null,
-        subcategoriesIds: subcategories.map((subcategory) => subcategory._id).join(',') || '',
+        allergens: allergens?.length > 0 ? allergens.join(',') : null,
+        subcategoriesIds: subcategories?.map((subcategory) => subcategory._id).join(',') || '',
     };
 
     const { data: recipes, isFetching: isRecipesFetching } = useGetRecipesQuery(recipesParams, {
@@ -49,9 +52,10 @@ const CategoryPage = () => {
             title={selectedCategory?.title}
             description={selectedCategory?.description}
             successSearch={recipes ? searchText && recipes?.data?.length > 0 : ''}
-            notFound={(searchText || allergens.length > 0) && recipes?.data.length === 0}
-            isLoading={recipes && allergens.length === 0 && isRecipesFetching}
+            notFound={(searchText || allergens?.length > 0) && recipes?.data?.length === 0}
+            isLoading={recipes && searchText === searchTextInput && searchText && isRecipesFetching}
         >
+            {isRecipesFetching && <Loader />}
             {data && (
                 <>
                     <Tabs
@@ -62,7 +66,7 @@ const CategoryPage = () => {
                         variant='unstyled'
                     >
                         <TabList overflowX='hidden' w='100%' justifySelf={{ base: 'center' }}>
-                            {subcategories.map((tab, tabIndex) => (
+                            {subcategories?.map((tab, tabIndex) => (
                                 <Tab
                                     key={tab._id}
                                     data-test-id={`tab-${tab.category}-${tabIndex}`}
@@ -78,7 +82,7 @@ const CategoryPage = () => {
                         <TabPanels>
                             {subcategories &&
                                 recipes &&
-                                subcategories.map((tab) => (
+                                subcategories?.map((tab) => (
                                     <TabPanel
                                         key={tab._id}
                                         textAlign='left'
@@ -88,7 +92,7 @@ const CategoryPage = () => {
                                         flexDirection='column'
                                     >
                                         <Grid layerStyle='horizontalCards'>
-                                            {currentRecipes.map((card, cardIndex) => (
+                                            {currentRecipes?.map((card, cardIndex) => (
                                                 <GridItem
                                                     key={card._id}
                                                     data-test-id={
@@ -101,7 +105,7 @@ const CategoryPage = () => {
                                                 </GridItem>
                                             ))}
                                         </Grid>
-                                        {recipes.meta.page < recipes.meta.totalPages && (
+                                        {recipes?.meta?.page < recipes?.meta?.totalPages && (
                                             <Button
                                                 variant='pageSolid'
                                                 size='pageActive'

@@ -1,3 +1,4 @@
+import { JWT_TOKEN_NAME } from '~/constants';
 import { apiSlice } from '~/query/create-api.ts';
 import {
     AuthResponse,
@@ -16,6 +17,15 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 method: 'POST',
                 body,
             }),
+            async onQueryStarted(_, { queryFulfilled }) {
+                const { meta } = await queryFulfilled;
+
+                const response = meta?.response as Response;
+
+                const authAccessHeader = response.headers.get('Authentication-Access');
+
+                localStorage.setItem(JWT_TOKEN_NAME, String(authAccessHeader));
+            },
         }),
         saveSignup: builder.mutation<AuthResponse, SignUpParams>({
             query: (body) => ({

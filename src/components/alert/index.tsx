@@ -15,6 +15,7 @@ type AlertProps = {
     isClosable?: boolean;
     onClose?: () => void;
     dataTestId?: string;
+    position?: string;
 };
 
 const Alert = ({ title, description, status, isClosable, onClose }: AlertProps) => (

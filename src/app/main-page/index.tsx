@@ -17,7 +17,7 @@ const MainPage = () => {
 
     const recipeSearchParams = {
         searchString: searchText,
-        allergens: allergens.length > 0 ? allergens.join(',') : null,
+        allergens: allergens?.length > 0 ? allergens.join(',') : null,
     };
 
     const {
@@ -26,7 +26,7 @@ const MainPage = () => {
         isFetching: isRecipesFetching,
     } = useGetRecipesQuery(recipeSearchParams);
 
-    const clearedSearch = (currentRecipes.length === 0 || !searchText) && allergens.length === 0;
+    const clearedSearch = (currentRecipes?.length === 0 || !searchText) && allergens?.length === 0;
 
     useUpdateRecipes(recipes);
 
@@ -34,8 +34,8 @@ const MainPage = () => {
         <ContentContainer
             title='Приятного аппетита!'
             successSearch={recipes ? searchText && recipes?.data?.length > 0 : ''}
-            notFound={(searchText || allergens.length > 0) && recipes?.data.length === 0}
-            isLoading={recipes && allergens.length === 0 && isRecipesFetching}
+            notFound={(searchText || allergens?.length > 0) && recipes?.data?.length === 0}
+            isLoading={recipes && allergens?.length === 0 && isRecipesFetching}
             searchParams={recipeSearchParams}
         >
             {isRecipesLoading && <Loader />}
@@ -58,7 +58,7 @@ const MainPage = () => {
                             }}
                             gap={{ base: 4, md: 3, xl: 3.5, '3xl': 5 }}
                         >
-                            {currentRecipes.map((card, cardIndex) => (
+                            {currentRecipes?.map((card, cardIndex) => (
                                 <GridItem key={card._id} data-test-id={`food-card-${cardIndex}`}>
                                     <HorizontalCard card={card} />
                                 </GridItem>

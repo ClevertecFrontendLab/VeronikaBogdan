@@ -34,7 +34,6 @@ export const authModalSlice = createSlice({
             state.isModal = initialState.isModal;
             state.dataTestIdModal = initialState.dataTestIdModal;
             state.email = initialState.email;
-            // state.loginData = initialState.loginData;
         },
     },
 });

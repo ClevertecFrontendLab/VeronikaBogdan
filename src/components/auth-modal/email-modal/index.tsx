@@ -31,7 +31,7 @@ const EmailModal = () => {
         reset,
         formState: { errors },
     } = useForm<SendEmailForm>({
-        // criteriaMode: 'all',
+        criteriaMode: 'all',
         mode: 'all',
     });
     const toast = useChakraToast();
@@ -53,7 +53,10 @@ const EmailModal = () => {
                 reset();
                 toast.closeAll();
                 if (error.status === 403) {
-                    toast({ status: 'error', ...TOASTS[VERIFICATION_CODE_ERROR] });
+                    toast({
+                        status: 'error',
+                        ...TOASTS[VERIFICATION_CODE_ERROR],
+                    });
                 }
                 if (Math.floor(error.status / 100) === 5) {
                     toast({ status: 'error', ...TOASTS[SERVER_ERROR] });

@@ -30,7 +30,7 @@ import { handleTrim } from '~/utils/trim-handler';
 
 const Login = () => {
     const methods = useForm<LoginForm>({
-        // criteriaMode: 'all',
+        criteriaMode: 'all',
         mode: 'all',
     });
     const {
@@ -58,11 +58,17 @@ const Login = () => {
                 toast.closeAll();
 
                 if (error.status === 401) {
-                    toast({ status: 'error', ...TOASTS[INCORRECT_LOGIN_PASSWORD_ERROR] });
+                    toast({
+                        status: 'error',
+                        ...TOASTS[INCORRECT_LOGIN_PASSWORD_ERROR],
+                    });
                     return;
                 }
                 if (error.status === 403) {
-                    toast({ status: 'error', ...TOASTS[EMAIL_VERIFIED_ERROR] });
+                    toast({
+                        status: 'error',
+                        ...TOASTS[EMAIL_VERIFIED_ERROR],
+                    });
                     return;
                 }
                 if (Math.floor(error.status / 100) === 5) {

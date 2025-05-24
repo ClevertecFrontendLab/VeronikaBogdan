@@ -8,6 +8,7 @@ import Footer from '~/components/footer';
 import Header from '~/components/header';
 import NavigationMenu from '~/components/navigation-menu';
 import Sidebar from '~/components/sidebar';
+import { JWT_TOKEN_NAME } from '~/constants';
 import { ROUTES } from '~/constants/routes';
 import { useAppDispatch, useAppSelector } from '~/store/hooks';
 import { menuSelector, setBurgerMenuState } from '~/store/menu-slice';
@@ -35,10 +36,9 @@ const App = () => {
         },
     });
 
-    const isErrorPage = pathname === '/not-found';
+    const isErrorPage = pathname === ROUTES.notFound;
 
-    const condition = true;
-    if (condition) {
+    if (!localStorage.getItem(JWT_TOKEN_NAME)) {
         return <Navigate to={`${ROUTES.authorization}/${ROUTES.login}`} />;
     }
 

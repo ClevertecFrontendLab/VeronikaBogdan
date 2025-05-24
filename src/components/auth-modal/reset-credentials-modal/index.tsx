@@ -64,7 +64,10 @@ const ResetCredentialsModal = () => {
                 reset();
                 navigate(ROUTES.login);
                 dispatch(resetState());
-                toast({ status: 'success', ...TOASTS[RESTORE_CREDENTIALS_SUCCESS] });
+                toast({
+                    status: 'success',
+                    ...TOASTS[RESTORE_CREDENTIALS_SUCCESS],
+                });
             })
             .catch((error) => {
                 toast.closeAll();

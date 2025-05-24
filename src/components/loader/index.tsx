@@ -8,10 +8,10 @@ const Loader = ({ dataTestId, layerStyle, padding }: LoaderProps) => (
         height='full'
         layerStyle={layerStyle || 'blur'}
         left={0}
-        zIndex={10}
         display='flex'
         justifyContent='center'
         alignItems='center'
+        zIndex={2000}
     >
         <Box
             data-test-id={dataTestId || 'app-loader'}

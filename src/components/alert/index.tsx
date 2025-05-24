@@ -14,12 +14,14 @@ type AlertProps = {
     status?: 'error' | 'info' | 'warning' | 'success' | 'loading' | undefined;
     isClosable?: boolean;
     onClose?: () => void;
+    dataTestId?: string;
+    position?: string;
 };
 
 const Alert = ({ title, description, status, isClosable, onClose }: AlertProps) => (
     <ChakraAlert
         status={status}
-        bg='red.500'
+        bg={status === 'success' ? 'green.500' : 'red.500'}
         w={{ base: '328px', xl: '400px' }}
         data-test-id='error-notification'
         mb='85px'

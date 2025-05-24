@@ -17,7 +17,8 @@ import { useMemo } from 'react';
 import Badge from '~/components/badge';
 import IconCountWrapper from '~/components/icon-count-wrapper';
 import { IMAGE_HOST, RELEVANT_KITCHEN_LIMIT } from '~/constants';
-import useErrorToast from '~/hooks/use-error-toast';
+import { SEARCH_ERROR } from '~/constants/toast-texts';
+import useToast from '~/hooks/use-error-toast';
 import { useGetCategoriesQuery } from '~/query/services/categories';
 import { useGetRecipesQuery } from '~/query/services/recipies';
 import { getRootCategory } from '~/utils/current-paths';
@@ -43,7 +44,7 @@ const RelevantKitchen = ({ hideTopBorderFrom = '' }: RelevantKitchenProps) => {
         { skip: !randomCategory?._id },
     );
 
-    useErrorToast(isError);
+    useToast({ isLoaded: isError, status: 'error', toastType: SEARCH_ERROR });
 
     return (
         <Box layerStyle='contentContainer'>

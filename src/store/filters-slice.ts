@@ -96,7 +96,7 @@ export const filtersSlice = createSlice({
             }
 
             state.previousRecipes = state.currentRecipes;
-            state.currentRecipes = payload.length > 0 ? payload : state.firstLoadedRecipes;
+            state.currentRecipes = payload?.length > 0 ? payload : state.firstLoadedRecipes;
         },
     },
 });

@@ -22,6 +22,10 @@ const textStyles = {
         textAlign: 'center',
         color: 'blackAlpha.700',
     },
+    smallText: {
+        fontSize: 'xs',
+        lineHeight: '133%',
+    },
     filterHeader: {
         fontSize: '2xl',
         fontWeight: 700,
@@ -41,6 +45,13 @@ const textStyles = {
         lineHeight: '150%',
         fontWeight: 400,
         color: 'blackAlpha.700',
+        textAlign: 'center',
+    },
+    modalHelper: {
+        fontSize: 'sm',
+        lineHeight: '133%',
+        fontWeight: 400,
+        color: 'blackAlpha.600',
         textAlign: 'center',
     },
 };

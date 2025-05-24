@@ -12,7 +12,6 @@ import {
     Stack,
     Text,
 } from '@chakra-ui/react';
-import { useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -28,7 +27,8 @@ import {
     IMAGE_HOST,
     NEW_RECIPIES_COUNT,
 } from '~/constants';
-import useErrorToast from '~/hooks/use-error-toast';
+import { SEARCH_ERROR } from '~/constants/toast-texts';
+import useToast from '~/hooks/use-error-toast';
 import { useGetCategoriesQuery } from '~/query/services/categories';
 import { useGetRecipesQuery } from '~/query/services/recipies';
 import { getCategoryById, getRootCategory } from '~/utils/current-paths';
@@ -47,16 +47,7 @@ const NewRecipies = () => {
         sortOrder: DESC_SORT_PARAM,
     });
 
-    const sortedNewRecipiesByDate = useMemo(() => {
-        if (recipes) {
-            return recipes?.data.toSorted(
-                (firstCard, secondCard) =>
-                    Date.parse(secondCard.createdAt) - Date.parse(firstCard.createdAt),
-            );
-        }
-    }, [recipes]);
-
-    useErrorToast(isCategoriesError);
+    useToast({ isLoaded: isCategoriesError, status: 'error', toastType: SEARCH_ERROR });
 
     return (
         recipes && (
@@ -109,7 +100,7 @@ const NewRecipies = () => {
                     }}
                     data-test-id='carousel'
                 >
-                    {sortedNewRecipiesByDate?.map((recipe, recipeIndex) => (
+                    {recipes?.data?.map((recipe, recipeIndex) => (
                         <SwiperSlide key={recipe._id} data-test-id={`carousel-card-${recipeIndex}`}>
                             <Card
                                 position='relative'

@@ -1,14 +1,30 @@
-import { useToast } from '@chakra-ui/react';
-import { useEffect } from 'react';
+import { useToast as useChakraToast } from '@chakra-ui/react';
+import { useEffect, useMemo } from 'react';
 
-const useErrorToast = (isError: boolean) => {
-    const toast = useToast();
+import { TOASTS } from '~/constants/toast-texts';
 
-    useEffect(() => {
-        if (isError) {
-            toast();
-        }
-    }, [isError, toast]);
+type ToastProps = {
+    isLoaded: boolean;
+    status: 'info' | 'warning' | 'success' | 'error' | 'loading';
+    toastType: string;
 };
 
-export default useErrorToast;
+const useToast = ({ isLoaded, status, toastType }: ToastProps) => {
+    const toast = useChakraToast();
+
+    const options = useMemo(
+        () => ({
+            status,
+            ...TOASTS[toastType as keyof typeof TOASTS],
+        }),
+        [status, toastType],
+    );
+
+    useEffect(() => {
+        if (isLoaded) {
+            toast(options);
+        }
+    }, [isLoaded, toast, options]);
+};
+
+export default useToast;

@@ -65,7 +65,7 @@ createRoot(document.getElementById('root')!).render(
             theme={theme}
             toastOptions={{
                 defaultOptions: {
-                    duration: 1500000,
+                    duration: 15000,
                     isClosable: true,
                     position: 'bottom',
                     render: ({

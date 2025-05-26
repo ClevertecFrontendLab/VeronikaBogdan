@@ -1,6 +1,12 @@
 import { JWT_TOKEN_NAME } from '~/constants';
 import { apiSlice } from '~/query/create-api.ts';
-import { Recipe, RecipeParam, RecipesParams, RecipesResponse } from '~/query/types/recipies';
+import {
+    Measure,
+    Recipe,
+    RecipeParam,
+    RecipesParams,
+    RecipesResponse,
+} from '~/query/types/recipies';
 
 export const recipesApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -21,7 +27,16 @@ export const recipesApiSlice = apiSlice.injectEndpoints({
                 },
             }),
         }),
+        getMeasureUnits: builder.query<string[], void>({
+            query: () => ({
+                url: 'measure-units',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem(JWT_TOKEN_NAME)}`,
+                },
+            }),
+            transformResponse: (data: Measure[]) => data?.map((unit) => unit.name),
+        }),
     }),
 });
 
-export const { useGetRecipesQuery, useGetRecipeQuery } = recipesApiSlice;
+export const { useGetRecipesQuery, useGetRecipeQuery, useGetMeasureUnitsQuery } = recipesApiSlice;

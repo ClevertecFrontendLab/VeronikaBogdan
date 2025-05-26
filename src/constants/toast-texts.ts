@@ -1,5 +1,6 @@
 export const SERVER_ERROR = 'SERVER_ERROR';
 export const SEARCH_ERROR = 'SEARCH_ERROR';
+export const MEASURE_UNIT_ERROR = 'MEASURE_UNIT_ERROR';
 export const INCORRECT_LOGIN_PASSWORD_ERROR = 'INCORRECT_LOGIN_PASSWORD_ERROR';
 export const EMAIL_VERIFIED_ERROR = 'EMAIL_VERIFIED_ERROR';
 export const VERIFICATION_CODE_ERROR = 'VERIFICATION_CODE_ERROR';
@@ -16,6 +17,10 @@ const ERROR_TOASTS = {
     [SEARCH_ERROR]: {
         title: 'Ошибка сервера',
         description: 'Попробуйте поискать снова попозже',
+    },
+    [MEASURE_UNIT_ERROR]: {
+        title: 'Ошибка получения единиц измерения',
+        description: 'Обновите страницу или попробуйте позже',
     },
     [INCORRECT_LOGIN_PASSWORD_ERROR]: {
         title: 'Неверный логин или пароль',

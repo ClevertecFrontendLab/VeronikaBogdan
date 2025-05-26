@@ -54,6 +54,12 @@ const textStyles = {
         color: 'blackAlpha.600',
         textAlign: 'center',
     },
+    newRecipeName: {
+        fontSize: { base: 'sm', xl: 'md' },
+        fontWeight: 600,
+        lineHeight: { base: '143%', xl: '150%' },
+        color: 'black',
+    },
 };
 
 export default textStyles;

@@ -14,6 +14,7 @@ export const categoriesApiSlice = apiSlice.injectEndpoints({
             transformResponse: (data: Category[]) => ({
                 all: data,
                 categories: data.filter((item) => item?.subCategories),
+                uniqueSubcategories: data.filter((item) => item?.rootCategoryId),
             }),
         }),
         getCategoryById: builder.query<CategoryByIdResponse, string>({

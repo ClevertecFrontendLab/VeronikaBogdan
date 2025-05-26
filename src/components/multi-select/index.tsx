@@ -15,8 +15,10 @@ import { useEffect, useRef } from 'react';
 
 import { menuStyles } from '~/styles/components/menu';
 
+type Option = { label: string; value: string } | string;
+
 type MultiSelectProps = {
-    options: string[];
+    options: Option[];
     placeholder: string;
     selectedItems: string[] | string;
     selectItems: (value: string[] | string) => void;
@@ -46,6 +48,11 @@ const MultiSelect = ({
 }: MultiSelectProps) => {
     const inputRef = useRef<HTMLInputElement>(null);
 
+    const getOption = (option: Option) =>
+        typeof option === 'object'
+            ? { label: option.label, value: option.value }
+            : { label: option, value: option };
+
     const focusInput = () =>
         setTimeout(() => {
             inputRef.current?.focus();
@@ -58,7 +65,13 @@ const MultiSelect = ({
     const style = isSearchBox ? menuStyles.page : {};
 
     return (
-        <Menu closeOnSelect={false} onOpen={() => focusInput()} variant='searchBox' isLazy={true}>
+        <Menu
+            closeOnSelect={false}
+            onOpen={() => focusInput()}
+            variant='searchBox'
+            isLazy={true}
+            matchWidth={true}
+        >
             {({ isOpen }) => (
                 <>
                     <MenuButton
@@ -82,6 +95,7 @@ const MultiSelect = ({
                                       backgroundColor='transparent'
                                   >
                                       {item}
+                                      {/* {options.find((option) => getOption(option).value)} */}
                                   </Tag>
                               ))
                             : placeholder}
@@ -89,8 +103,10 @@ const MultiSelect = ({
                     <MenuList
                         data-test-id={dataTestIdList}
                         position='relative'
+                        minWidth='full'
+                        height='600px'
+                        overflowY='auto'
                         {...menuStyles.list}
-                        minW={{ base: '315px', xl: '410px', '3xl': '383px' }}
                     >
                         <MenuOptionGroup
                             type='checkbox'
@@ -99,7 +115,8 @@ const MultiSelect = ({
                         >
                             {options.map((option, optionIndex) => (
                                 <MenuItemOption
-                                    key={option}
+                                    key={getOption(option).value}
+                                    // key={option}
                                     fontSize='sm'
                                     borderRadius={0}
                                     border={0}
@@ -118,10 +135,14 @@ const MultiSelect = ({
                                         '& > span:first-of-type': {
                                             borderRadius: '2px',
                                             border: '3px solid',
-                                            borderColor: selectedItems.includes(option)
+                                            borderColor: selectedItems.includes(
+                                                getOption(option).value,
+                                            )
                                                 ? 'lime.400'
                                                 : 'lime.150',
-                                            backgroundColor: selectedItems.includes(option)
+                                            backgroundColor: selectedItems.includes(
+                                                getOption(option).value,
+                                            )
                                                 ? 'lime.400'
                                                 : '',
                                             opacity: 1,
@@ -131,17 +152,19 @@ const MultiSelect = ({
                                             ml: 1,
                                         },
                                         '& svg': {
-                                            opacity: selectedItems.includes(option) ? 1 : 0,
+                                            opacity: selectedItems.includes(getOption(option).value)
+                                                ? 1
+                                                : 0,
                                         },
                                     }}
-                                    value={option}
+                                    value={getOption(option).value}
                                     data-test-id={
                                         isAllergen
                                             ? `allergen-${optionIndex}`
-                                            : `checkbox-${option.toLowerCase()}`
+                                            : `checkbox-${getOption(option).label.toLowerCase()}`
                                     }
                                 >
-                                    {option}
+                                    {getOption(option).label}
                                 </MenuItemOption>
                             ))}
                         </MenuOptionGroup>

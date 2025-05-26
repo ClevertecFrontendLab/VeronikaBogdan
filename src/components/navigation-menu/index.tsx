@@ -24,6 +24,7 @@ import ExitIcon from '~/assets/svg/exit.svg';
 import BreadCrubms from '~/components/breadcrumbs';
 import Loader from '~/components/loader';
 import { IMAGE_HOST } from '~/constants';
+import { ROUTES } from '~/constants/routes';
 import { SEARCH_ERROR } from '~/constants/toast-texts';
 import useToast from '~/hooks/use-error-toast';
 import { useGetCategoriesQuery } from '~/query/services/categories';
@@ -48,6 +49,11 @@ const NavigationMenu = ({ menuRef }: NavigationMenuProps) => {
         () => data && data?.categories?.findIndex((item) => item.category === category),
         [data, category],
     );
+
+    const handleExit = () => {
+        localStorage.clear();
+        navigate(ROUTES.login);
+    };
 
     useToast({ isLoaded: isError, status: 'error', toastType: SEARCH_ERROR });
 
@@ -221,6 +227,7 @@ const NavigationMenu = ({ menuRef }: NavigationMenuProps) => {
                     color='black'
                     gap='6px'
                     justifyContent='flex-start'
+                    onClick={handleExit}
                 >
                     <Image src={ExitIcon} />
                     <Text>Выйти</Text>

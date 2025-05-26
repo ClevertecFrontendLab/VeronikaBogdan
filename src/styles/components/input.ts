@@ -29,6 +29,34 @@ const variants = {
             _placeholder: { color: 'lime.800' },
         },
     }),
+
+    recipeGreen: definePartsStyle({
+        field: {
+            border: '1px solid',
+            borderColor: 'lime.150',
+            backgroundColor: 'white',
+            color: 'blackAlpha.900',
+            _placeholder: { color: 'blackAlpha.700' },
+        },
+    }),
+    recipe: definePartsStyle({
+        field: {
+            border: '1px solid',
+            borderColor: 'blackAlpha.200',
+            backgroundColor: 'white',
+            color: 'blackAlpha.900',
+            _placeholder: { color: 'blackAlpha.700' },
+        },
+    }),
+    recipeError: definePartsStyle({
+        field: {
+            border: '2px solid',
+            borderColor: 'red.500',
+            backgroundColor: 'white',
+            color: 'blackAlpha.900',
+            _placeholder: { color: 'blackAlpha.700' },
+        },
+    }),
 };
 
 const sizes = {

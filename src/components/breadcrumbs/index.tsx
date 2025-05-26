@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router';
 import { Link } from 'react-router';
 
+import { ROUTES } from '~/constants/routes';
 import { useGetCategoriesQuery } from '~/query/services/categories';
 import { useGetRecipeQuery } from '~/query/services/recipies';
 import { useAppSelector } from '~/store/hooks';
@@ -23,13 +24,16 @@ const BreadCrubms = ({ hideBelow, hideFrom }: BreadCrumbsProps) => {
 
     const subcategories = getSubcategories(data?.all, category);
 
+    const isJuiciestPathname = pathname === `${ROUTES.main}${ROUTES.theJuiciest}`;
+    const isNewRecipePathname = pathname === ROUTES.newRecipe;
+
     const handleHide = () => {
         if (isBurgerMenu) {
             dispatch(setBurgerMenuState());
         }
     };
 
-    return pathname === '/' ? (
+    return pathname === ROUTES.main ? (
         <Breadcrumb
             separator={<ChevronRightIcon />}
             data-test-id='breadcrumbs'
@@ -44,7 +48,7 @@ const BreadCrubms = ({ hideBelow, hideFrom }: BreadCrumbsProps) => {
                 <BreadcrumbLink>Главная</BreadcrumbLink>
             </BreadcrumbItem>
         </Breadcrumb>
-    ) : pathname === '/the-juiciest' ? (
+    ) : isJuiciestPathname || isNewRecipePathname ? (
         <Breadcrumb
             separator={<ChevronRightIcon />}
             data-test-id='breadcrumbs'
@@ -67,7 +71,9 @@ const BreadCrubms = ({ hideBelow, hideFrom }: BreadCrumbsProps) => {
                 </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbItem isCurrentPage>
-                <BreadcrumbLink>Самое сочное</BreadcrumbLink>
+                <BreadcrumbLink>
+                    {isJuiciestPathname ? 'Самое сочное' : 'Новый рецепт'}
+                </BreadcrumbLink>
             </BreadcrumbItem>
         </Breadcrumb>
     ) : (

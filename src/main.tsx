@@ -14,6 +14,7 @@ import CategoryPage from '~/app/category-page';
 import ErrorPage from '~/app/error-page';
 import JuiciestPage from '~/app/juiciest-page';
 import MainPage from '~/app/main-page';
+import NewRecipePage from '~/app/new-recipe-page';
 import RecipePage from '~/app/recipe-page';
 import Alert from '~/components/alert';
 import { ROUTES } from '~/constants/routes';
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
             {
                 path: ROUTES.recipe,
                 Component: RecipePage,
+            },
+            {
+                path: ROUTES.newRecipe,
+                Component: NewRecipePage,
             },
             { path: ROUTES.theJuiciest, Component: JuiciestPage },
             { path: ROUTES.notFound, Component: ErrorPage },

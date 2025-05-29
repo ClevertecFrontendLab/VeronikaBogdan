@@ -1,4 +1,5 @@
 import { JWT_TOKEN_NAME } from '~/constants';
+import { Tags } from '~/query/constants/tags';
 import { apiSlice } from '~/query/create-api.ts';
 import {
     Measure,
@@ -27,6 +28,7 @@ export const recipesApiSlice = apiSlice.injectEndpoints({
                     Authorization: `Bearer ${localStorage.getItem(JWT_TOKEN_NAME)}`,
                 },
             }),
+            providesTags: [Tags.RECIPE],
         }),
 
         saveRecipe: builder.mutation<NewRecipeResponse, Recipe>({
@@ -49,6 +51,36 @@ export const recipesApiSlice = apiSlice.injectEndpoints({
                 },
             }),
         }),
+        removeRecipe: builder.mutation<NewRecipeResponse, RecipeParam>({
+            query: (id) => ({
+                url: `/recipe/${id}`,
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem(JWT_TOKEN_NAME)}`,
+                },
+            }),
+        }),
+        rateRecipe: builder.mutation<NewRecipeResponse, RecipeParam>({
+            query: (id) => ({
+                url: `/recipe/${id}/like`,
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem(JWT_TOKEN_NAME)}`,
+                },
+            }),
+            invalidatesTags: [Tags.RECIPE],
+        }),
+        saveBookmarkRecipe: builder.mutation<NewRecipeResponse, RecipeParam>({
+            query: (id) => ({
+                url: `/recipe/${id}/bookmark`,
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem(JWT_TOKEN_NAME)}`,
+                },
+            }),
+            invalidatesTags: [Tags.RECIPE],
+        }),
+
         getMeasureUnits: builder.query<string[], void>({
             query: () => ({
                 url: 'measure-units',
@@ -64,7 +96,12 @@ export const recipesApiSlice = apiSlice.injectEndpoints({
 export const {
     useGetRecipesQuery,
     useGetRecipeQuery,
+
     useSaveRecipeMutation,
     useSaveRecipeDraftMutation,
+    useRemoveRecipeMutation,
+    useRateRecipeMutation,
+    useSaveBookmarkRecipeMutation,
+
     useGetMeasureUnitsQuery,
 } = recipesApiSlice;

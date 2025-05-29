@@ -109,7 +109,6 @@ const NewRecipePage = () => {
         };
 
         if (getValues('image')) {
-            console.log('saveRecipe');
             saveRecipe(changedRecipe)
                 .unwrap()
                 .then((newRecipe) => {
@@ -143,7 +142,6 @@ const NewRecipePage = () => {
                     }
                 });
         } else {
-            console.log('saveRecipeDraft');
             saveRecipeDraft(changedRecipe)
                 .unwrap()
                 .then(() => {

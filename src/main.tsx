@@ -47,7 +47,7 @@ const router = createBrowserRouter([
             },
             {
                 path: ROUTES.editRecipe,
-                Component: RecipePage,
+                Component: NewRecipePage,
             },
             {
                 path: ROUTES.newRecipe,

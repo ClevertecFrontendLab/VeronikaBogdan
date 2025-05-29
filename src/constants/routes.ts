@@ -2,6 +2,7 @@ export const ROUTES = {
     main: '/',
     category: ':category/:subcategory',
     recipe: ':category/:subcategory/:recipeId',
+    editRecipe: '/edit-recipe/:category/:subcategory/:recipeId',
     newRecipe: '/new-recipe',
     theJuiciest: 'the-juiciest',
     notFound: '/not-found',

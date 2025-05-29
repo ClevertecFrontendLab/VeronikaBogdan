@@ -31,9 +31,15 @@ const sizes = defineStyle({
     },
     auth: {
         fontSize: '18px',
-        lineHeight: '156%%',
+        lineHeight: '156%',
         px: 6,
         py: 2.5,
+    },
+    newStep: {
+        fontSize: 'sm',
+        lineHeight: '143%',
+        px: 3,
+        py: 1.5,
     },
 });
 
@@ -79,6 +85,12 @@ const variants = defineStyle({
         bg: 'lime.400',
         w: 'fit-content',
         alignSelf: 'center',
+    },
+    transparentButton: {
+        fontWeight: 600,
+        color: 'blackAlpha.800',
+        bg: 'transparent',
+        border: 0,
     },
 });
 

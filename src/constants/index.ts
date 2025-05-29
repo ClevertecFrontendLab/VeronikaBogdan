@@ -17,3 +17,7 @@ export const EMAIL_VERIFICATION_FAILED_MODAL = 'email-verification-failed-modal'
 export const SEND_EMAIL_MODAL = 'send-email-modal';
 export const VERIFICATION_CODE_MODAL = 'verification-code-modal';
 export const RESET_CREDENTIALS_MODAL = 'reset-credentials-modal';
+
+export const RECIPE_IMAGE_MODAL = 'recipe-image-modal';
+export const RECIPE_PREVIEW_IMAGE_MODAL = 'recipe-image-modal-preview-image';
+export const RECIPE_PREVENTIVE_MODAL = 'recipe-preventive-modal';

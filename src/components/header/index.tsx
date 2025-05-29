@@ -32,7 +32,7 @@ const Header = ({ ref, isError }: HeaderProps) => {
             pr={{ base: 7, md: 8, xl: 20 }}
             pl={4}
         >
-            <Flex align='end' columnGap={1.5}>
+            <Flex align='end' columnGap={1.5} data-test-id='header-logo'>
                 <Image src={LogoIcon} />
                 <Image src={LogoText} hideBelow='md' />
             </Flex>

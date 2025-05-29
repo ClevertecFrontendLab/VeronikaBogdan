@@ -1,5 +1,7 @@
+import { AuthResponse } from './auth';
+
 export type Step = {
-    stepNumber: string;
+    stepNumber: string | number;
     description: string;
     image: string | null | undefined;
 };
@@ -67,3 +69,5 @@ export type Measure = {
     _id: string;
     name: string;
 };
+
+export type NewRecipeResponse = AuthResponse;

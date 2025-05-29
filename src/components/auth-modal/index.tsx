@@ -9,6 +9,8 @@ import {
 
 import {
     EMAIL_VERIFICATION_FAILED_MODAL,
+    RECIPE_IMAGE_MODAL,
+    RECIPE_PREVENTIVE_MODAL,
     RESET_CREDENTIALS_MODAL,
     SEND_EMAIL_MODAL,
     SIGN_IN_ERROR_MODAL,
@@ -17,23 +19,37 @@ import {
 } from '~/constants';
 import { LoginForm } from '~/query/types/auth';
 import { authModalSelector, resetState } from '~/store/auth-modal-slice';
+import { fileSelector, setInputFileName, setRecipeFile } from '~/store/file-slice';
 import { useAppDispatch, useAppSelector } from '~/store/hooks';
+import { setDraftRecipe } from '~/store/recipe-slice';
 
+import ConfirmationExitModal from './confirmation-exit-modal';
 import EmailModal from './email-modal';
 import EmailVerificationFailedModal from './email-verification-failed-modal';
 import LastStepModal from './last-step-modal';
 import LoginErrorModal from './login-error-modal';
 import ResetCredentialsModal from './reset-credentials-modal';
+import UploadImageModal from './upload-image-modal';
 import VerificationCodeModal from './verification-code-modal';
 
-type AuthModalProps = { onSubmit?: (data?: LoginForm) => void };
+type AuthModalProps = {
+    onSubmit?: (data?: LoginForm) => void;
+    saveFile?: (file: string) => void;
+    removeFile?: (file: string) => void;
+};
 
-const AuthModal = ({ onSubmit }: AuthModalProps) => {
+const AuthModal = ({ onSubmit, saveFile, removeFile }: AuthModalProps) => {
     const dispatch = useAppDispatch();
 
     const { isModal, dataTestIdModal } = useAppSelector(authModalSelector);
+    const { file } = useAppSelector(fileSelector);
 
-    const handleClose = () => dispatch(resetState());
+    const handleClose = () => {
+        dispatch(setInputFileName(''));
+        dispatch(resetState());
+        dispatch(setRecipeFile(''));
+        dispatch(setDraftRecipe({}));
+    };
 
     return (
         <Modal onClose={handleClose} isOpen={isModal} size={{ base: 'xs', xl: 'sm' }} isCentered>
@@ -60,6 +76,10 @@ const AuthModal = ({ onSubmit }: AuthModalProps) => {
                         {SEND_EMAIL_MODAL === dataTestIdModal && <EmailModal />}
                         {VERIFICATION_CODE_MODAL === dataTestIdModal && <VerificationCodeModal />}
                         {RESET_CREDENTIALS_MODAL === dataTestIdModal && <ResetCredentialsModal />}
+                        {(RECIPE_IMAGE_MODAL === dataTestIdModal || file) && (
+                            <UploadImageModal onSave={saveFile} onRemove={removeFile} />
+                        )}
+                        {RECIPE_PREVENTIVE_MODAL === dataTestIdModal && <ConfirmationExitModal />}
                     </Stack>
                 </ModalBody>
             </ModalContent>

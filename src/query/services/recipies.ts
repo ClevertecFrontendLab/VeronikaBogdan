@@ -2,6 +2,7 @@ import { JWT_TOKEN_NAME } from '~/constants';
 import { apiSlice } from '~/query/create-api.ts';
 import {
     Measure,
+    NewRecipeResponse,
     Recipe,
     RecipeParam,
     RecipesParams,
@@ -27,6 +28,27 @@ export const recipesApiSlice = apiSlice.injectEndpoints({
                 },
             }),
         }),
+
+        saveRecipe: builder.mutation<NewRecipeResponse, Recipe>({
+            query: (body) => ({
+                url: '/recipe',
+                method: 'POST',
+                body,
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem(JWT_TOKEN_NAME)}`,
+                },
+            }),
+        }),
+        saveRecipeDraft: builder.mutation<NewRecipeResponse, Recipe>({
+            query: (body) => ({
+                url: '/recipe/draft',
+                method: 'POST',
+                body,
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem(JWT_TOKEN_NAME)}`,
+                },
+            }),
+        }),
         getMeasureUnits: builder.query<string[], void>({
             query: () => ({
                 url: 'measure-units',
@@ -39,4 +61,10 @@ export const recipesApiSlice = apiSlice.injectEndpoints({
     }),
 });
 
-export const { useGetRecipesQuery, useGetRecipeQuery, useGetMeasureUnitsQuery } = recipesApiSlice;
+export const {
+    useGetRecipesQuery,
+    useGetRecipeQuery,
+    useSaveRecipeMutation,
+    useSaveRecipeDraftMutation,
+    useGetMeasureUnitsQuery,
+} = recipesApiSlice;

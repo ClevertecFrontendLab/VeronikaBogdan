@@ -91,7 +91,7 @@ const NewRecipeIngredients = ({ required }: NewRecipeIngredientsProps) => {
                         <GridItem />
                     </>
                 )}
-                {getValues('ingredients').map((_, index, ingredients) => (
+                {getValues('ingredients')?.map((_, index, ingredients) => (
                     <>
                         <GridItem gridColumn={{ base: '1/4', md: '1' }}>
                             <Input
@@ -128,38 +128,42 @@ const NewRecipeIngredients = ({ required }: NewRecipeIngredientsProps) => {
                             />
                         </GridItem>
                         <GridItem>
-                            <Select
-                                placeholder='Единица измерения'
-                                data-test-id={`recipe-ingredients-measureUnit-${index}`}
-                                size='md'
-                                isInvalid={
-                                    errors.ingredients && errors?.ingredients[index]?.measureUnit
-                                }
-                                errorBorderColor='red.500'
-                                {...register(`ingredients.${index}.measureUnit`, {
-                                    required,
-                                })}
-                                sx={{
-                                    option: {
-                                        color: 'black',
-                                        '&:nth-of-type(2n + 1)': {
-                                            backgroundColor: 'blackAlpha.200',
-                                        },
+                            {measureUnits && (
+                                <Select
+                                    placeholder='Единица измерения'
+                                    data-test-id={`recipe-ingredients-measureUnit-${index}`}
+                                    size='md'
+                                    isInvalid={
+                                        errors.ingredients &&
+                                        errors?.ingredients[index]?.measureUnit
+                                    }
+                                    errorBorderColor='red.500'
+                                    defaultValue='г'
+                                    {...register(`ingredients.${index}.measureUnit`, {
+                                        required,
+                                    })}
+                                    sx={{
+                                        option: {
+                                            color: 'black',
+                                            '&:nth-of-type(2n + 1)': {
+                                                backgroundColor: 'blackAlpha.200',
+                                            },
 
-                                        '&:hover': {
-                                            backgroundColor: 'transparent',
-                                            color: 'green',
+                                            '&:hover': {
+                                                backgroundColor: 'transparent',
+                                                color: 'green',
+                                            },
                                         },
-                                    },
-                                }}
-                            >
-                                {measureUnits &&
-                                    measureUnits?.map((unit) => (
+                                    }}
+                                >
+                                    {measureUnits?.map((unit) => (
                                         <option key={unit} value={unit}>
                                             {unit}
                                         </option>
                                     ))}
-                            </Select>
+                                    {/* <option value='грамм'>г</option> */}
+                                </Select>
+                            )}
                         </GridItem>
                         <GridItem>
                             {index + 1 === ingredients.length ? (

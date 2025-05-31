@@ -10,6 +10,7 @@ import {
     MenuList,
     MenuOptionGroup,
     Tag,
+    useMediaQuery,
 } from '@chakra-ui/react';
 import { useEffect, useRef } from 'react';
 
@@ -30,6 +31,7 @@ type MultiSelectProps = {
     dataTestIdList?: string;
     isSearchBox?: boolean;
     isAllergen?: boolean;
+    noWrapOptions?: boolean;
 };
 
 const MultiSelect = ({
@@ -45,13 +47,28 @@ const MultiSelect = ({
     dataTestIdList,
     isSearchBox,
     isAllergen,
+    noWrapOptions,
 }: MultiSelectProps) => {
+    const [isLargerThan1440] = useMediaQuery('(min-width: 1440px)');
     const inputRef = useRef<HTMLInputElement>(null);
+
+    const defaultSelectCount = isLargerThan1440 ? 2 : 1;
 
     const getOption = (option: Option) =>
         typeof option === 'object'
             ? { label: option.label, value: option.value }
             : { label: option, value: option };
+
+    const getOptionLabel = (item) => options.find((option) => option.value === item)?.label;
+
+    const getTags = (item, index, items) => {
+        if (noWrapOptions) {
+            if (index === defaultSelectCount) return `+${items.length - defaultSelectCount}`;
+            if (index > defaultSelectCount) return '';
+        }
+
+        return getOptionLabel(item);
+    };
 
     const focusInput = () =>
         setTimeout(() => {
@@ -84,7 +101,7 @@ const MultiSelect = ({
                         {...style}
                     >
                         {selectedItems.length > 0
-                            ? selectedItems?.map((item, itemIndex) => (
+                            ? selectedItems?.map((item, itemIndex, items) => (
                                   <Tag
                                       key={itemIndex}
                                       fontSize='xs'
@@ -93,9 +110,13 @@ const MultiSelect = ({
                                       border='1px solid'
                                       borderColor='lime.400'
                                       backgroundColor='transparent'
+                                      display={
+                                          noWrapOptions && itemIndex > defaultSelectCount
+                                              ? 'none'
+                                              : 'inline-flex'
+                                      }
                                   >
-                                      {item}
-                                      {/* {options.find((option) => getOption(option).value)} */}
+                                      {getTags(item, itemIndex, items)}
                                   </Tag>
                               ))
                             : placeholder}
@@ -104,10 +125,11 @@ const MultiSelect = ({
                         data-test-id={dataTestIdList}
                         position='relative'
                         minWidth='full'
-                        height='600px'
+                        height='310px'
                         overflowY='auto'
                         {...menuStyles.list}
                     >
+                        .
                         <MenuOptionGroup
                             type='checkbox'
                             value={selectedItems}

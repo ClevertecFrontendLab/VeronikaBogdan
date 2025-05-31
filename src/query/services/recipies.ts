@@ -41,6 +41,17 @@ export const recipesApiSlice = apiSlice.injectEndpoints({
                 },
             }),
         }),
+        updateRecipe: builder.mutation<NewRecipeResponse, Recipe>({
+            query: ({ _id, ...body }) => ({
+                url: `/recipe/${_id}`,
+                method: 'PATCH',
+                body,
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem(JWT_TOKEN_NAME)}`,
+                },
+            }),
+            invalidatesTags: [Tags.RECIPE],
+        }),
         saveRecipeDraft: builder.mutation<NewRecipeResponse, Recipe>({
             query: (body) => ({
                 url: '/recipe/draft',
@@ -98,6 +109,7 @@ export const {
     useGetRecipeQuery,
 
     useSaveRecipeMutation,
+    useUpdateRecipeMutation,
     useSaveRecipeDraftMutation,
     useRemoveRecipeMutation,
     useRateRecipeMutation,

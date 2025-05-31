@@ -21,8 +21,6 @@ export type Ingredient = {
 };
 
 export type Recipe = {
-    _id?: string;
-    createdAt?: string;
     title: string;
     description: string;
     time: number | string;
@@ -36,6 +34,8 @@ export type Recipe = {
     steps: Step[];
     nutritionValue: NutritionValue;
     ingredients: Ingredient[];
+    _id?: string;
+    createdAt?: string;
 };
 
 export type Meta = {

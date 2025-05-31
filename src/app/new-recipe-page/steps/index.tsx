@@ -40,7 +40,7 @@ const NewRecipeSteps = ({ required }: NewRecipeStepsProps) => {
     const [uploadFile] = useSaveRecipeImageMutation();
 
     const changeStepNumbers = (steps) =>
-        steps.map((step, stepIndex) => ({ ...step, stepNumber: stepIndex + 1 }));
+        steps?.map((step, stepIndex) => ({ ...step, stepNumber: stepIndex + 1 }));
 
     const handleAddStep = () => {
         getValues('steps').push(STEP);
@@ -78,7 +78,7 @@ const NewRecipeSteps = ({ required }: NewRecipeStepsProps) => {
     return (
         <Stack spacing={{ base: 3, md: 4 }}>
             <Text textStyle='newRecipeName'>Добавьте шаги приготовления</Text>
-            {getValues('steps').map((step, index) => (
+            {getValues('steps')?.map((step, index) => (
                 <Card key={step.stepNumber} direction={{ base: 'column', md: 'row' }}>
                     {step?.image ? (
                         <Image

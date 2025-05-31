@@ -20,7 +20,7 @@ import {
 } from '@chakra-ui/react';
 import { useMemo, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 import { DEFAULT_VALUES } from '~/app/new-recipe-page/default-values';
 import NewRecipeIngredients from '~/app/new-recipe-page/ingredients';
@@ -46,8 +46,10 @@ import { useGetCategoriesQuery } from '~/query/services/categories';
 import { useSaveRecipeImageMutation } from '~/query/services/file';
 import {
     useGetMeasureUnitsQuery,
+    useGetRecipeQuery,
     useSaveRecipeDraftMutation,
     useSaveRecipeMutation,
+    useUpdateRecipeMutation,
 } from '~/query/services/recipies';
 import { Recipe } from '~/query/types/recipies';
 import { authModalSelector, setAuthModal, setDataTestIdModal } from '~/store/auth-modal-slice';
@@ -58,10 +60,27 @@ import { getCategoryById, getRootCategory } from '~/utils/current-paths';
 const NewRecipePage = () => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const { recipeId } = useParams();
+
+    const toast = useChakraToast();
+
+    const [isPublish, setPublishState] = useState(true);
+    const { inputFileName, file } = useAppSelector(fileSelector);
+    const { dataTestIdModal } = useAppSelector(authModalSelector);
+
+    const { data: recipeCard } = useGetRecipeQuery(recipeId, { skip: !recipeId });
+    const { data: categories } = useGetCategoriesQuery();
+    const { isError: isMeasureError } = useGetMeasureUnitsQuery();
+
+    const [uploadFile] = useSaveRecipeImageMutation();
+    const [saveRecipe] = useSaveRecipeMutation();
+    const [updateRecipe] = useUpdateRecipeMutation();
+    const [saveRecipeDraft] = useSaveRecipeDraftMutation();
 
     const methods = useForm<Recipe>({
         mode: 'onSubmit',
         defaultValues: DEFAULT_VALUES,
+        values: recipeId ? recipeCard : DEFAULT_VALUES,
     });
     const {
         register,
@@ -73,18 +92,8 @@ const NewRecipePage = () => {
         reset,
         formState: { errors },
     } = methods;
-    const toast = useChakraToast();
 
-    const [isPublish, setPublishState] = useState(true);
-    const { inputFileName, file } = useAppSelector(fileSelector);
-    const { dataTestIdModal } = useAppSelector(authModalSelector);
-
-    const { data: categories } = useGetCategoriesQuery();
-    const { isError: isMeasureError } = useGetMeasureUnitsQuery();
-
-    const [uploadFile] = useSaveRecipeImageMutation();
-    const [saveRecipe] = useSaveRecipeMutation();
-    const [saveRecipeDraft] = useSaveRecipeDraftMutation();
+    console.log(getValues());
 
     const formRef = useRef(null);
 
@@ -108,39 +117,44 @@ const NewRecipePage = () => {
             })),
         };
 
-        if (getValues('image')) {
-            saveRecipe(changedRecipe)
-                .unwrap()
-                .then((newRecipe) => {
-                    reset();
+        const getSuccessActions = (newRecipe) => {
+            reset();
 
-                    toast({
-                        status: 'success',
-                        ...TOASTS[PUBLISH_RECIPE_SUCCESS],
-                    });
+            toast({
+                status: 'success',
+                ...TOASTS[PUBLISH_RECIPE_SUCCESS],
+            });
 
-                    navigate(
-                        `/${getRootCategory(categories?.all, newRecipe.categoriesIds[0])?.category}/${getCategoryById(categories?.all, newRecipe?.categoriesIds[0])?.category}/${newRecipe._id}`,
-                    );
-                })
-                .catch((error) => {
-                    toast.closeAll();
+            navigate(
+                `/${getRootCategory(categories?.all, newRecipe.categoriesIds[0])?.category}/${getCategoryById(categories?.all, newRecipe?.categoriesIds[0])?.category}/${newRecipe._id}`,
+            );
+        };
 
-                    if (error.status === 409) {
-                        toast({
-                            status: 'error',
-                            ...TOASTS[TITLE_EXIST_ERROR],
-                        });
-                        return;
-                    }
+        const getErrorActions = (error) => {
+            toast.closeAll();
 
-                    if (Math.floor(error.status / 100) === 5) {
-                        toast({
-                            status: 'error',
-                            ...TOASTS[NEW_RECIPE_ERROR],
-                        });
-                    }
+            if (error.status === 409) {
+                toast({
+                    status: 'error',
+                    ...TOASTS[TITLE_EXIST_ERROR],
                 });
+                return;
+            }
+
+            if (Math.floor(error.status / 100) === 5) {
+                toast({
+                    status: 'error',
+                    ...TOASTS[NEW_RECIPE_ERROR],
+                });
+            }
+        };
+
+        if (getValues('image')) {
+            if (recipeId) {
+                updateRecipe(changedRecipe).unwrap().then(getSuccessActions).catch(getErrorActions);
+            } else {
+                saveRecipe(changedRecipe).unwrap().then(getSuccessActions).catch(getErrorActions);
+            }
         } else {
             saveRecipeDraft(changedRecipe)
                 .unwrap()
@@ -293,6 +307,7 @@ const NewRecipePage = () => {
                                                 })
                                             }
                                             dataTestIdButton='recipe-categories'
+                                            noWrapOptions
                                         />
                                     </GridItem>
                                 </Grid>

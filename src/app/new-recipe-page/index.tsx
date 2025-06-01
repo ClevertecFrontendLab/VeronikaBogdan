@@ -202,6 +202,11 @@ const NewRecipePage = () => {
         dispatch(setDataTestIdModal(RECIPE_IMAGE_MODAL));
     };
 
+    const toggleEditImageModal = () => {
+        toggleUploadImageModal();
+        dispatch(setRecipeFile(getValues('image')));
+    };
+
     const uploadImage = (data: FormData) => {
         uploadFile(data)
             .unwrap()
@@ -259,6 +264,7 @@ const NewRecipePage = () => {
                                 h={{ base: '224px', md: '225px', xl: '411px' }}
                                 w={{ base: '100%', md: '230px', xl: '353px', '3xl': '554px' }}
                                 objectFit='cover'
+                                onClick={toggleEditImageModal}
                             />
                         ) : (
                             <EmptyImage
@@ -349,6 +355,7 @@ const NewRecipePage = () => {
                                         <NumberInputField
                                             data-test-id='recipe-portions'
                                             placeholder='4'
+                                            value={getValues('portions')}
                                             {...register('portions', {
                                                 required: isPublish,
                                                 min: 1,

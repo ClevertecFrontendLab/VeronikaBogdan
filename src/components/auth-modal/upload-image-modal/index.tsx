@@ -6,7 +6,10 @@ import { resetState } from '~/store/auth-modal-slice';
 import { fileSelector, setInputFileName, setRecipeFile } from '~/store/file-slice';
 import { useAppDispatch, useAppSelector } from '~/store/hooks';
 
-type UploadImageModalProps = { onSave?: (file: string) => void; onRemove?: (file: string) => void };
+type UploadImageModalProps = {
+    onSave?: (file: string) => void;
+    onRemove?: (file: string | null) => void;
+};
 
 const UploadImageModal = ({ onSave, onRemove }: UploadImageModalProps) => {
     const dispatch = useAppDispatch();
@@ -28,7 +31,7 @@ const UploadImageModal = ({ onSave, onRemove }: UploadImageModalProps) => {
 
     const saveRemove = () => {
         if (onRemove) {
-            onRemove('');
+            onRemove(null);
             handleHide();
         }
     };

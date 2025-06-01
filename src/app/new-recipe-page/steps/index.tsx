@@ -64,6 +64,11 @@ const NewRecipeSteps = ({ required }: NewRecipeStepsProps) => {
         dispatch(setDataTestIdModal(RECIPE_IMAGE_MODAL));
     };
 
+    const toggleEditImageModal = (index: number) => {
+        toggleUploadImageModal(index);
+        dispatch(setRecipeFile(getValues(`steps.${index}.image`)));
+    };
+
     const uploadImage = (data: FormData, index: number) => {
         uploadFile(data)
             .unwrap()
@@ -85,9 +90,10 @@ const NewRecipeSteps = ({ required }: NewRecipeStepsProps) => {
                             data-test-id={`recipe-steps-image-block-${index}-preview-image`}
                             src={`${IMAGE_HOST}${step?.image}`}
                             borderLeftRadius='lg'
-                            w={{ base: '158px', md: '345px' }}
+                            w={{ base: '100%', md: '345px' }}
+                            h={{ base: '160px', md: '100%' }}
                             objectFit='cover'
-                            onClick={() => toggleUploadImageModal(index)}
+                            onClick={() => toggleEditImageModal(index)}
                         />
                     ) : (
                         <EmptyImage

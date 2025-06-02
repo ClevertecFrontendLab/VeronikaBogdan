@@ -1,6 +1,10 @@
 export const INPUT_MIN_LENGTH = 5;
 export const INPUT_MAX_LENGTH = 50;
 export const PASSWORD_MIN_LENGTH = 8;
+export const SUBCATEGORIES_MAX = 3;
+export const TIME_MAX = 10000;
+export const RECIPE_DESCRIPTION_MAX_LENGTH = 500;
+export const STEP_DESCRIPTION_MAX_LENGTH = 300;
 
 export const FIRSTNAME_REQUIRED = 'Введите имя';
 export const LASTNAME_REQUIRED = 'Введите фамилию';

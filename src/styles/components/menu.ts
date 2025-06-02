@@ -12,6 +12,7 @@ export const menuStyles = {
         fontWeight: 400,
         color: 'blackAlpha.700',
         backgroundColor: 'white',
+        zIndex: 1,
         _disabled: {
             color: 'blackAlpha.700',
             borderColor: 'blackAlpha.200',

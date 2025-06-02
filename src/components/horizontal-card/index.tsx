@@ -11,6 +11,7 @@ import {
     Image,
     Stack,
     Text,
+    useToast as useChakraToast,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
 
@@ -18,8 +19,10 @@ import { useNavigate } from 'react-router';
 import Bookmark from '~/assets/svg/bookmark-heart.svg';
 import Badge from '~/components/badge';
 import IconCountWrapper from '~/components/icon-count-wrapper';
-import { IMAGE_HOST } from '~/constants';
+import { IMAGE_HOST, JWT_TOKEN_NAME } from '~/constants';
+import { SERVER_ERROR, TOASTS } from '~/constants/toast-texts';
 import { useGetCategoriesQuery } from '~/query/services/categories';
+import { useSaveBookmarkRecipeMutation } from '~/query/services/recipies';
 import { Recipe } from '~/query/types/recipies';
 import { filtersSelector } from '~/store/filters-slice';
 import { useAppSelector } from '~/store/hooks';
@@ -29,10 +32,29 @@ type HorizontalCardProps = { card: Recipe; dataTestIdButton?: string };
 
 const HorizontalCard = ({ card, dataTestIdButton }: HorizontalCardProps) => {
     const navigate = useNavigate();
+    const toast = useChakraToast();
 
     const { searchText } = useAppSelector(filtersSelector);
 
     const { data } = useGetCategoriesQuery();
+    const [saveBookmarkRecipe] = useSaveBookmarkRecipeMutation();
+
+    const handleBookmarkRecipe = () => {
+        saveBookmarkRecipe(card._id)
+            .unwrap()
+            .catch((error) => {
+                toast.closeAll();
+
+                if (error.status === 500) {
+                    toast({
+                        status: 'error',
+                        ...TOASTS[SERVER_ERROR],
+                    });
+                }
+            });
+    };
+
+    console.log(localStorage.getItem(JWT_TOKEN_NAME));
 
     return (
         <Card direction='row' h='full'>
@@ -121,6 +143,7 @@ const HorizontalCard = ({ card, dataTestIdButton }: HorizontalCardProps) => {
                         size='listCard'
                         leftIcon={<Image src={Bookmark} boxSize={{ xl: 3 }} />}
                         px={{ base: 1, xl: 3 }}
+                        onClick={handleBookmarkRecipe}
                     >
                         <Text hideBelow='xl'>Сохранить</Text>
                     </Button>

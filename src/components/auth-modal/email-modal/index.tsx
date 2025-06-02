@@ -42,6 +42,8 @@ const EmailModal = () => {
     const isEmailError = Boolean(errors.email || (isError && error?.status === 403));
 
     const handleCode = (email: SendEmailForm) => {
+        toast.closeAll();
+
         saveForgotPassword(email)
             .unwrap()
             .then(() => {
@@ -51,7 +53,7 @@ const EmailModal = () => {
             })
             .catch((error) => {
                 reset();
-                toast.closeAll();
+
                 if (error.status === 403) {
                     toast({
                         status: 'error',

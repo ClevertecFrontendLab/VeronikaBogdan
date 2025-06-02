@@ -8,8 +8,10 @@ import gridTheme from '~/styles/components/grid';
 import headingTheme from '~/styles/components/heading';
 import inputTheme from '~/styles/components/input';
 import menuTheme from '~/styles/components/menu';
+import numberInputTheme from '~/styles/components/number-input';
 import switchTheme from '~/styles/components/switch';
 import tabsTheme from '~/styles/components/tabs';
+import textareaTheme from '~/styles/components/textarea';
 import layerStyles from '~/styles/layer-styles';
 import textStyles from '~/styles/text-styles';
 
@@ -96,7 +98,9 @@ const components = {
     Heading: headingTheme,
     Input: inputTheme,
     Menu: menuTheme,
+    NumberInput: numberInputTheme,
     Tabs: tabsTheme,
+    Textarea: textareaTheme,
     Switch: switchTheme,
 };
 

@@ -10,13 +10,16 @@ import {
     MenuList,
     MenuOptionGroup,
     Tag,
+    useMediaQuery,
 } from '@chakra-ui/react';
 import { useEffect, useRef } from 'react';
 
 import { menuStyles } from '~/styles/components/menu';
 
+type Option = { label: string; value: string } | string;
+
 type MultiSelectProps = {
-    options: string[];
+    options: Option[];
     placeholder: string;
     selectedItems: string[] | string;
     selectItems: (value: string[] | string) => void;
@@ -28,6 +31,7 @@ type MultiSelectProps = {
     dataTestIdList?: string;
     isSearchBox?: boolean;
     isAllergen?: boolean;
+    noWrapOptions?: boolean;
 };
 
 const MultiSelect = ({
@@ -43,8 +47,28 @@ const MultiSelect = ({
     dataTestIdList,
     isSearchBox,
     isAllergen,
+    noWrapOptions,
 }: MultiSelectProps) => {
+    const [isLargerThan1440] = useMediaQuery('(min-width: 1440px)');
     const inputRef = useRef<HTMLInputElement>(null);
+
+    const defaultSelectCount = isLargerThan1440 ? 2 : 1;
+
+    const getOption = (option: Option) =>
+        typeof option === 'object'
+            ? { label: option.label, value: option.value }
+            : { label: option, value: option };
+
+    const getOptionLabel = (item) => options.find((option) => option.value === item)?.label;
+
+    const getTags = (item, index, items) => {
+        if (noWrapOptions) {
+            if (index === defaultSelectCount) return `+${items.length - defaultSelectCount}`;
+            if (index > defaultSelectCount) return '';
+        }
+
+        return getOptionLabel(item);
+    };
 
     const focusInput = () =>
         setTimeout(() => {
@@ -58,7 +82,13 @@ const MultiSelect = ({
     const style = isSearchBox ? menuStyles.page : {};
 
     return (
-        <Menu closeOnSelect={false} onOpen={() => focusInput()} variant='searchBox' isLazy={true}>
+        <Menu
+            closeOnSelect={false}
+            onOpen={() => focusInput()}
+            variant='searchBox'
+            isLazy={true}
+            matchWidth={true}
+        >
             {({ isOpen }) => (
                 <>
                     <MenuButton
@@ -71,7 +101,7 @@ const MultiSelect = ({
                         {...style}
                     >
                         {selectedItems.length > 0
-                            ? selectedItems?.map((item, itemIndex) => (
+                            ? selectedItems?.map((item, itemIndex, items) => (
                                   <Tag
                                       key={itemIndex}
                                       fontSize='xs'
@@ -80,8 +110,13 @@ const MultiSelect = ({
                                       border='1px solid'
                                       borderColor='lime.400'
                                       backgroundColor='transparent'
+                                      display={
+                                          noWrapOptions && itemIndex > defaultSelectCount
+                                              ? 'none'
+                                              : 'inline-flex'
+                                      }
                                   >
-                                      {item}
+                                      {getTags(item, itemIndex, items)}
                                   </Tag>
                               ))
                             : placeholder}
@@ -89,9 +124,12 @@ const MultiSelect = ({
                     <MenuList
                         data-test-id={dataTestIdList}
                         position='relative'
+                        minWidth='full'
+                        height='310px'
+                        overflowY='auto'
                         {...menuStyles.list}
-                        minW={{ base: '315px', xl: '410px', '3xl': '383px' }}
                     >
+                        .
                         <MenuOptionGroup
                             type='checkbox'
                             value={selectedItems}
@@ -99,7 +137,8 @@ const MultiSelect = ({
                         >
                             {options.map((option, optionIndex) => (
                                 <MenuItemOption
-                                    key={option}
+                                    key={getOption(option).value}
+                                    // key={option}
                                     fontSize='sm'
                                     borderRadius={0}
                                     border={0}
@@ -118,10 +157,14 @@ const MultiSelect = ({
                                         '& > span:first-of-type': {
                                             borderRadius: '2px',
                                             border: '3px solid',
-                                            borderColor: selectedItems.includes(option)
+                                            borderColor: selectedItems.includes(
+                                                getOption(option).value,
+                                            )
                                                 ? 'lime.400'
                                                 : 'lime.150',
-                                            backgroundColor: selectedItems.includes(option)
+                                            backgroundColor: selectedItems.includes(
+                                                getOption(option).value,
+                                            )
                                                 ? 'lime.400'
                                                 : '',
                                             opacity: 1,
@@ -131,17 +174,19 @@ const MultiSelect = ({
                                             ml: 1,
                                         },
                                         '& svg': {
-                                            opacity: selectedItems.includes(option) ? 1 : 0,
+                                            opacity: selectedItems.includes(getOption(option).value)
+                                                ? 1
+                                                : 0,
                                         },
                                     }}
-                                    value={option}
+                                    value={getOption(option).value}
                                     data-test-id={
                                         isAllergen
                                             ? `allergen-${optionIndex}`
-                                            : `checkbox-${option.toLowerCase()}`
+                                            : `checkbox-${getOption(option).label.toLowerCase()}`
                                     }
                                 >
-                                    {option}
+                                    {getOption(option).label}
                                 </MenuItemOption>
                             ))}
                         </MenuOptionGroup>

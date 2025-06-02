@@ -57,6 +57,7 @@ const ResetCredentialsModal = () => {
 
     const onSubmit = (data: ResetPasswordForm) => {
         const changedData = { ...data, email };
+        toast.closeAll();
 
         saveLogin(changedData)
             .unwrap()
@@ -64,14 +65,13 @@ const ResetCredentialsModal = () => {
                 reset();
                 navigate(ROUTES.login);
                 dispatch(resetState());
+
                 toast({
                     status: 'success',
                     ...TOASTS[RESTORE_CREDENTIALS_SUCCESS],
                 });
             })
             .catch((error) => {
-                toast.closeAll();
-
                 if (Math.floor(error.status / 100) === 5) {
                     toast({ status: 'error', ...TOASTS[SERVER_ERROR] });
                 }

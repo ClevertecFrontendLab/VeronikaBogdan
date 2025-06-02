@@ -24,7 +24,8 @@ const Alert = ({ title, description, status, isClosable, onClose }: AlertProps) 
         bg={status === 'success' ? 'green.500' : 'red.500'}
         w={{ base: '328px', xl: '400px' }}
         data-test-id='error-notification'
-        mb='85px'
+        position='absolute'
+        bottom='95px'
     >
         <AlertIcon color='white' />
         <Box>

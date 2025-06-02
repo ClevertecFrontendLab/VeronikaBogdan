@@ -8,32 +8,116 @@ import {
     Grid,
     Heading,
     HStack,
+    IconButton,
     Image,
     Stack,
     Text,
+    useToast as useChakraToast,
 } from '@chakra-ui/react';
-import { useParams } from 'react-router';
+import { jwtDecode } from 'jwt-decode';
+import { useNavigate, useParams } from 'react-router';
 
 import NewRecipies from '~/app/main-page/new-recipies';
 import AuthorBox from '~/app/recipe-page/author-box';
 import Ingredients from '~/app/recipe-page/ingredients';
 import NutritionBox from '~/app/recipe-page/nutrition-box';
 import Steps from '~/app/recipe-page/steps';
+import Trash from '~/assets/svg/black-trash.svg';
 import Bookmark from '~/assets/svg/bookmark-heart.svg';
+import EditPen from '~/assets/svg/edit-pen.svg';
 import HeartEyes from '~/assets/svg/emoji-heart-eyes.svg';
 import Timer from '~/assets/svg/timer.svg';
 import Badge from '~/components/badge';
 import IconCountWrapper from '~/components/icon-count-wrapper';
-import { IMAGE_HOST } from '~/constants';
+import { IMAGE_HOST, JWT_TOKEN_NAME } from '~/constants';
+import { ROUTES } from '~/constants/routes';
+import {
+    RECIPE_REMOVE_ERROR,
+    RECIPE_REMOVE_SUCCESS,
+    SERVER_ERROR,
+    TOASTS,
+} from '~/constants/toast-texts';
 import { useGetCategoriesQuery } from '~/query/services/categories';
-import { useGetRecipeQuery } from '~/query/services/recipies';
+import {
+    useGetRecipeQuery,
+    useRateRecipeMutation,
+    useRemoveRecipeMutation,
+    useSaveBookmarkRecipeMutation,
+} from '~/query/services/recipies';
 import { getCategoryById, getRootCategory } from '~/utils/current-paths';
 
 const RecipePage = () => {
+    const userId = jwtDecode(localStorage.getItem(JWT_TOKEN_NAME))?.userId;
+
+    const navigate = useNavigate();
+    const toast = useChakraToast();
+
     const { recipeId } = useParams();
     const { data: card } = useGetRecipeQuery(recipeId);
 
     const { data } = useGetCategoriesQuery();
+
+    const [removeRecipe] = useRemoveRecipeMutation();
+    const [rateRecipe] = useRateRecipeMutation();
+    const [saveBookmarkRecipe] = useSaveBookmarkRecipeMutation();
+
+    const handleRemoveRecipe = () => {
+        removeRecipe(recipeId)
+            .unwrap()
+            .then(() => {
+                toast({
+                    status: 'success',
+                    ...TOASTS[RECIPE_REMOVE_SUCCESS],
+                });
+
+                navigate(ROUTES.main);
+            })
+            .catch((error) => {
+                toast.closeAll();
+
+                if (Math.floor(error.status / 100) === 5) {
+                    toast({
+                        status: 'error',
+                        ...TOASTS[RECIPE_REMOVE_ERROR],
+                    });
+                }
+            });
+    };
+    const handleEditRecipe = () => {
+        console.log('asdf');
+        navigate(
+            `/edit-recipe/${getRootCategory(data?.all, card?.categoriesIds[0])?.category}/${getCategoryById(data?.all, card?.categoriesIds[0])?.category}/${recipeId}`,
+        );
+    };
+    const handleRateRecipe = () => {
+        rateRecipe(recipeId)
+            .unwrap()
+            .catch((error) => {
+                toast.closeAll();
+
+                if (error.status === 500) {
+                    toast({
+                        status: 'error',
+                        ...TOASTS[SERVER_ERROR],
+                    });
+                }
+            });
+    };
+
+    const handleBookmarkRecipe = () => {
+        saveBookmarkRecipe(recipeId)
+            .unwrap()
+            .catch((error) => {
+                toast.closeAll();
+
+                if (error.status === 500) {
+                    toast({
+                        status: 'error',
+                        ...TOASTS[SERVER_ERROR],
+                    });
+                }
+            });
+    };
 
     return card ? (
         <Stack
@@ -106,32 +190,63 @@ const RecipePage = () => {
                             pt={{ base: 0 }}
                             pb={{ base: 0 }}
                         >
-                            <Button
-                                variant='listCardOutline'
-                                size='recipeButton'
-                                leftIcon={
-                                    <Image
-                                        src={HeartEyes}
-                                        marginInlineEnd={1}
-                                        boxSize={{ base: 3, xl: 4 }}
+                            {userId === card?.authorId ? (
+                                <>
+                                    <IconButton
+                                        aria-label='Remove step'
+                                        bg='white'
+                                        borderRadius='full'
+                                        icon={<Image src={Trash} />}
+                                        data-test-id='recipe-delete-button'
+                                        onClick={handleRemoveRecipe}
                                     />
-                                }
-                            >
-                                <Text>Оценить рецепт</Text>
-                            </Button>
-                            <Button
-                                variant='recipeButton'
-                                size='recipeButton'
-                                leftIcon={
-                                    <Image
-                                        src={Bookmark}
-                                        marginInlineEnd={1}
-                                        boxSize={{ base: 3, xl: 4 }}
-                                    />
-                                }
-                            >
-                                Сохранить в закладки
-                            </Button>
+                                    <Button
+                                        variant='listCardOutline'
+                                        size='recipeButton'
+                                        leftIcon={
+                                            <Image
+                                                src={EditPen}
+                                                marginInlineEnd={1}
+                                                boxSize={{ base: 3, xl: 4 }}
+                                            />
+                                        }
+                                        onClick={handleEditRecipe}
+                                    >
+                                        Редактировать рецепт
+                                    </Button>
+                                </>
+                            ) : (
+                                <>
+                                    <Button
+                                        variant='listCardOutline'
+                                        size='recipeButton'
+                                        leftIcon={
+                                            <Image
+                                                src={HeartEyes}
+                                                marginInlineEnd={1}
+                                                boxSize={{ base: 3, xl: 4 }}
+                                            />
+                                        }
+                                        onClick={handleRateRecipe}
+                                    >
+                                        <Text>Оценить рецепт</Text>
+                                    </Button>
+                                    <Button
+                                        variant='recipeButton'
+                                        size='recipeButton'
+                                        leftIcon={
+                                            <Image
+                                                src={Bookmark}
+                                                marginInlineEnd={1}
+                                                boxSize={{ base: 3, xl: 4 }}
+                                            />
+                                        }
+                                        onClick={handleBookmarkRecipe}
+                                    >
+                                        Сохранить в закладки
+                                    </Button>
+                                </>
+                            )}
                         </HStack>
                     </CardFooter>
                 </Stack>

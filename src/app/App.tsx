@@ -37,6 +37,7 @@ const App = () => {
     });
 
     const isErrorPage = pathname === ROUTES.notFound;
+    const isNewRecipePathname = pathname === ROUTES.newRecipe;
 
     if (!localStorage.getItem(JWT_TOKEN_NAME)) {
         return <Navigate to={`${ROUTES.authorization}/${ROUTES.login}`} />;
@@ -70,7 +71,7 @@ const App = () => {
                     <Outlet />
                 </GridItem>
                 <GridItem area='sidebar' hideBelow='xl' justifyItems={{ xl: 'end' }}>
-                    {!isErrorPage && <Sidebar />}
+                    {!(isErrorPage || isNewRecipePathname) && <Sidebar />}
                 </GridItem>
                 <GridItem area='footer' hideFrom='xl'>
                     {!isErrorPage && <Footer />}

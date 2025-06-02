@@ -10,9 +10,6 @@ import NavigationMenu from '~/components/navigation-menu';
 import Sidebar from '~/components/sidebar';
 import { JWT_TOKEN_NAME } from '~/constants';
 import { ROUTES } from '~/constants/routes';
-import { SEARCH_ERROR } from '~/constants/toast-texts';
-import useToast from '~/hooks/use-error-toast';
-import { useGetCategoriesQuery } from '~/query/services/categories';
 import { useAppDispatch, useAppSelector } from '~/store/hooks';
 import { menuSelector, setBurgerMenuState } from '~/store/menu-slice';
 
@@ -20,8 +17,6 @@ const App = () => {
     const dispatch = useAppDispatch();
     const [isLargerThan1440] = useMediaQuery('(min-width: 1440px)');
     const { isBurgerMenu } = useAppSelector(menuSelector);
-
-    const { isError: isCategoriesError } = useGetCategoriesQuery();
 
     const { pathname } = useLocation();
 
@@ -43,8 +38,6 @@ const App = () => {
 
     const isErrorPage = pathname === ROUTES.notFound;
     const isNewRecipePathname = pathname === ROUTES.newRecipe;
-
-    useToast({ isLoaded: isCategoriesError, status: 'error', toastType: SEARCH_ERROR });
 
     if (!localStorage.getItem(JWT_TOKEN_NAME)) {
         return <Navigate to={`${ROUTES.authorization}/${ROUTES.login}`} />;

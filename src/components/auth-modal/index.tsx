@@ -18,7 +18,7 @@ import {
     VERIFICATION_CODE_MODAL,
 } from '~/constants';
 import { LoginForm } from '~/query/types/auth';
-import { authModalSelector, resetState } from '~/store/auth-modal-slice';
+import { authModalSelector, resetState, setAuthModal } from '~/store/auth-modal-slice';
 import { fileSelector, setInputFileName, setRecipeFile } from '~/store/file-slice';
 import { useAppDispatch, useAppSelector } from '~/store/hooks';
 import { setDraftRecipe } from '~/store/recipe-slice';
@@ -36,9 +36,11 @@ type AuthModalProps = {
     onSubmit?: (data?: LoginForm) => void;
     saveFile?: (file: string) => void;
     removeFile?: (file: string) => void;
+    saveDraft?: (file: string) => void;
+    exit?: (file: string) => void;
 };
 
-const AuthModal = ({ onSubmit, saveFile, removeFile }: AuthModalProps) => {
+const AuthModal = ({ onSubmit, saveFile, removeFile, saveDraft, exit }: AuthModalProps) => {
     const dispatch = useAppDispatch();
 
     const { isModal, dataTestIdModal } = useAppSelector(authModalSelector);
@@ -49,6 +51,7 @@ const AuthModal = ({ onSubmit, saveFile, removeFile }: AuthModalProps) => {
         dispatch(resetState());
         dispatch(setRecipeFile(''));
         dispatch(setDraftRecipe({}));
+        dispatch(setAuthModal(false));
     };
 
     return (
@@ -79,7 +82,9 @@ const AuthModal = ({ onSubmit, saveFile, removeFile }: AuthModalProps) => {
                         {(RECIPE_IMAGE_MODAL === dataTestIdModal || file) && (
                             <UploadImageModal onSave={saveFile} onRemove={removeFile} />
                         )}
-                        {RECIPE_PREVENTIVE_MODAL === dataTestIdModal && <ConfirmationExitModal />}
+                        {RECIPE_PREVENTIVE_MODAL === dataTestIdModal && (
+                            <ConfirmationExitModal saveDraft={saveDraft} exit={exit} />
+                        )}
                     </Stack>
                 </ModalBody>
             </ModalContent>

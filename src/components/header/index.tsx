@@ -1,5 +1,6 @@
 import { Avatar, Flex, Grid, GridItem, Image, Spacer, useMediaQuery } from '@chakra-ui/react';
 import { Ref } from 'react';
+import { useNavigate } from 'react-router';
 
 import Photo from '~/assets/png/photo.png';
 import CloseMenuIcon from '~/assets/svg/close-button.svg';
@@ -8,6 +9,7 @@ import LogoText from '~/assets/svg/logo-text.svg';
 import MenuIcon from '~/assets/svg/menu-icon.svg';
 import BreadCrubms from '~/components/breadcrumbs';
 import ProfileNotifications from '~/components/profile-notifications';
+import { ROUTES } from '~/constants/routes';
 import { useAppDispatch, useAppSelector } from '~/store/hooks';
 import { menuSelector, setBurgerMenuState } from '~/store/menu-slice';
 
@@ -17,6 +19,9 @@ const Header = ({ ref, isError }: HeaderProps) => {
     const dispatch = useAppDispatch();
     const { isBurgerMenu } = useAppSelector(menuSelector);
     const [isLargerThan1440] = useMediaQuery('(min-width: 1440px)');
+    const navigate = useNavigate();
+
+    const handleNavigateToMainPage = () => navigate(ROUTES.main);
 
     return (
         <Flex
@@ -32,7 +37,12 @@ const Header = ({ ref, isError }: HeaderProps) => {
             pr={{ base: 7, md: 8, xl: 20 }}
             pl={4}
         >
-            <Flex align='end' columnGap={1.5} data-test-id='header-logo'>
+            <Flex
+                align='end'
+                columnGap={1.5}
+                data-test-id='header-logo'
+                onClick={handleNavigateToMainPage}
+            >
                 <Image src={LogoIcon} />
                 <Image src={LogoText} hideBelow='md' />
             </Flex>

@@ -35,6 +35,7 @@ const VerificationCodeModal = () => {
 
     const handleCode = (otpToken: string) => {
         const body = { otpToken, email };
+        toast.closeAll();
 
         saveVerificationCode(body)
             .unwrap()
@@ -42,7 +43,6 @@ const VerificationCodeModal = () => {
                 dispatch(setDataTestIdModal(RESET_CREDENTIALS_MODAL));
             })
             .catch((error) => {
-                toast.closeAll();
                 if (Math.floor(error.status / 100) === 5) {
                     toast({ status: 'error', ...TOASTS[SERVER_ERROR] });
                 }

@@ -50,7 +50,7 @@ const ContentContainer = ({
     isLoading,
 }: PageHeaderProps) => {
     const dispatch = useAppDispatch();
-    const { searchTextInput, allergensInput } = useAppSelector(filtersSelector);
+    const { searchTextInput, allergensInput, allergens } = useAppSelector(filtersSelector);
 
     const [isSearch, setSearch] = useBoolean();
 
@@ -65,6 +65,8 @@ const ContentContainer = ({
 
         dispatch(setAllergens());
     };
+
+    console.log(searchTextInput.length > 2, allergensInput.length > 0);
 
     return (
         <Stack
@@ -200,7 +202,9 @@ const ContentContainer = ({
                                             h={{ base: 8, xl: 12 }}
                                             pointerEvents={
                                                 searchTextInput.length > 2 ||
-                                                allergensInput.length > 0
+                                                allergensInput.length > 0 ||
+                                                allergens.length > 0 ||
+                                                successSearch
                                                     ? 'auto'
                                                     : 'none'
                                             }

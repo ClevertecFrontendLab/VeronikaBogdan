@@ -1,21 +1,21 @@
 export const INGREDIENT = {
-    title: '',
-    count: '',
-    measureUnit: '',
+    title: null,
+    count: null,
+    measureUnit: null,
 };
 
 export const STEP = {
     stepNumber: 1,
-    description: '',
+    description: null,
     image: null,
 };
 
 export const DEFAULT_VALUES = {
-    image: '',
-    portions: '',
-    time: '',
-    title: '',
-    description: '',
+    image: null,
+    portions: null,
+    time: null,
+    title: null,
+    description: null,
     ingredients: [INGREDIENT],
     steps: [STEP],
 };

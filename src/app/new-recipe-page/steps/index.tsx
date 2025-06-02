@@ -76,7 +76,7 @@ const NewRecipeSteps = ({ required }: NewRecipeStepsProps) => {
                 dispatch(setRecipeFile(event.url));
             })
             .finally(() => {
-                setValue(`steps.${index}.image`, '', { shouldValidate: true });
+                setValue(`steps.${index}.image`, null, { shouldValidate: true });
             });
     };
 

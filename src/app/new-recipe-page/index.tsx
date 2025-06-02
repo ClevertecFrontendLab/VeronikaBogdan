@@ -1,4 +1,5 @@
 import {
+    Box,
     Button,
     Card,
     CardBody,
@@ -18,9 +19,9 @@ import {
     useOutsideClick,
     useToast as useChakraToast,
 } from '@chakra-ui/react';
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router';
+import { useBlocker, useNavigate, useParams } from 'react-router';
 
 import { DEFAULT_VALUES } from '~/app/new-recipe-page/default-values';
 import NewRecipeIngredients from '~/app/new-recipe-page/ingredients';
@@ -29,7 +30,7 @@ import EditPen from '~/assets/svg/edit-pen.svg';
 import AuthModal from '~/components/auth-modal';
 import EmptyImage from '~/components/empty-image';
 import MultiSelect from '~/components/multi-select';
-import { IMAGE_HOST, RECIPE_IMAGE_MODAL } from '~/constants';
+import { IMAGE_HOST, RECIPE_IMAGE_MODAL, RECIPE_PREVENTIVE_MODAL } from '~/constants';
 import { ROUTES } from '~/constants/routes';
 import {
     DRAFT_ERROR,
@@ -55,6 +56,13 @@ import { Recipe } from '~/query/types/recipies';
 import { authModalSelector, setAuthModal, setDataTestIdModal } from '~/store/auth-modal-slice';
 import { fileSelector, setInputFileName, setRecipeFile } from '~/store/file-slice';
 import { useAppDispatch, useAppSelector } from '~/store/hooks';
+import {
+    recipeSelector,
+    setChangedFormState,
+    setDraftRecipe,
+    setNextLocation,
+    setTitleError,
+} from '~/store/recipe-slice';
 import { getCategoryById, getRootCategory } from '~/utils/current-paths';
 
 const NewRecipePage = () => {
@@ -64,9 +72,11 @@ const NewRecipePage = () => {
 
     const toast = useChakraToast();
 
+    const [buttonType, setButtonType] = useState('');
     const [isPublish, setPublishState] = useState(true);
     const { inputFileName, file } = useAppSelector(fileSelector);
     const { dataTestIdModal } = useAppSelector(authModalSelector);
+    const { titleError, nextLocation } = useAppSelector(recipeSelector);
 
     const { data: recipeCard } = useGetRecipeQuery(recipeId, { skip: !recipeId });
     const { data: categories } = useGetCategoriesQuery();
@@ -77,10 +87,12 @@ const NewRecipePage = () => {
     const [updateRecipe] = useUpdateRecipeMutation();
     const [saveRecipeDraft] = useSaveRecipeDraftMutation();
 
+    const values = recipeId ? recipeCard : DEFAULT_VALUES;
+
     const methods = useForm<Recipe>({
         mode: 'onSubmit',
         defaultValues: DEFAULT_VALUES,
-        values: recipeId ? recipeCard : DEFAULT_VALUES,
+        values,
     });
     const {
         register,
@@ -93,8 +105,6 @@ const NewRecipePage = () => {
         formState: { errors },
     } = methods;
 
-    console.log(getValues());
-
     const formRef = useRef(null);
 
     const subcategories = useMemo(
@@ -104,6 +114,26 @@ const NewRecipePage = () => {
                 value: subcategory._id,
             })) || [],
         [categories],
+    );
+
+    const isChangedForm = useMemo(
+        () =>
+            JSON.stringify(values) !== JSON.stringify(getValues()) &&
+            dataTestIdModal !== RECIPE_IMAGE_MODAL &&
+            !file &&
+            !buttonType,
+        [dataTestIdModal, file, getValues, values, buttonType],
+    );
+
+    const blocker = useBlocker(isChangedForm);
+    console.log(
+        'blocker',
+        blocker,
+        isChangedForm,
+        'sdf',
+        JSON.stringify(values) !== JSON.stringify(getValues()) &&
+            dataTestIdModal !== RECIPE_IMAGE_MODAL &&
+            !file,
     );
 
     const onSubmit = (recipe: Recipe) => {
@@ -116,6 +146,7 @@ const NewRecipePage = () => {
                 count: +ingredient.count,
             })),
         };
+        dispatch(setTitleError(false));
 
         const getSuccessActions = (newRecipe) => {
             reset();
@@ -213,9 +244,8 @@ const NewRecipePage = () => {
             .then((event) => {
                 dispatch(setRecipeFile(event.url));
             })
-
             .finally(() => {
-                setValue('image', '', { shouldValidate: true });
+                setValue('image', null, { shouldValidate: true });
             });
     };
 
@@ -224,21 +254,63 @@ const NewRecipePage = () => {
     useOutsideClick({
         ref: formRef,
         handler: () => {
+            setButtonType('');
             if (
-                JSON.stringify(DEFAULT_VALUES) !== JSON.stringify(getValues()) &&
+                JSON.stringify(values) !== JSON.stringify(getValues()) &&
                 dataTestIdModal !== RECIPE_IMAGE_MODAL &&
                 !file
             ) {
-                console.log(
-                    'modal exit',
-                    JSON.stringify(DEFAULT_VALUES) === JSON.stringify(getValues()),
+                // navigate();
+                dispatch(
+                    setChangedFormState(
+                        JSON.stringify(values) !== JSON.stringify(getValues()) ||
+                            dataTestIdModal !== RECIPE_IMAGE_MODAL ||
+                            !file,
+                    ),
                 );
-                // dispatch(setAuthModal(true));
-                // dispatch(setDataTestIdModal(RECIPE_PREVENTIVE_MODAL));
-                // dispatch(setDraftRecipe(getValues()));
+
+                console.log('modal exit', JSON.stringify(values) === JSON.stringify(getValues()));
+                dispatch(setAuthModal(true));
+                dispatch(setDataTestIdModal(RECIPE_PREVENTIVE_MODAL));
+                dispatch(setDraftRecipe(getValues()));
+
+                if (blocker.reset) {
+                    blocker.reset();
+                }
+                return;
             }
         },
     });
+
+    const handleSaveDraft = () => {
+        console.log('saveDraft');
+
+        reset();
+
+        if (blocker.state !== 'blocked') {
+            navigate(nextLocation);
+        }
+    };
+
+    const handleExit = () => {
+        reset();
+
+        console.log('exit');
+        // blocker.reset?.();
+        if (blocker.state === 'blocked') {
+            navigate(nextLocation);
+        }
+    };
+
+    useEffect(() => {
+        if (blocker.state === 'blocked') {
+            dispatch(setNextLocation(blocker.location.pathname));
+        }
+
+        // if (blocker.state === 'unblocked' && nextLocation) {
+        //     navigate(nextLocation);
+        // }
+    }, [blocker, dispatch]);
 
     // console.log('isDraft', isPublish, errors, getValues());
 
@@ -257,15 +329,17 @@ const NewRecipePage = () => {
                         layerStyle='contentContainer'
                     >
                         {getValues('image') ? (
-                            <Image
-                                data-test-id='recipe-image-block-preview-image'
-                                src={`${IMAGE_HOST}${getValues('image')}`}
-                                borderRadius='lg'
-                                h={{ base: '224px', md: '225px', xl: '411px' }}
-                                w={{ base: '100%', md: '230px', xl: '353px', '3xl': '554px' }}
-                                objectFit='cover'
-                                onClick={toggleEditImageModal}
-                            />
+                            <Box data-test-id='recipe-image-block'>
+                                <Image
+                                    data-test-id='recipe-image-block-preview-image'
+                                    src={`${IMAGE_HOST}${getValues('image')}`}
+                                    borderRadius='lg'
+                                    h={{ base: '224px', md: '225px', xl: '411px' }}
+                                    w={{ base: '100%', md: '230px', xl: '353px', '3xl': '554px' }}
+                                    objectFit='cover'
+                                    onClick={toggleEditImageModal}
+                                />
+                            </Box>
                         ) : (
                             <EmptyImage
                                 dataTestIdBlock='recipe-image-block'
@@ -321,11 +395,19 @@ const NewRecipePage = () => {
                                     data-test-id='recipe-title'
                                     type='text'
                                     size='lg'
-                                    variant={errors.title ? 'recipeError' : 'recipeGreen'}
+                                    variant={
+                                        errors.title || titleError ? 'recipeError' : 'recipeGreen'
+                                    }
                                     placeholder='Название рецепта'
                                     {...register('title', {
                                         required: true,
                                         maxLength: INPUT_MAX_LENGTH,
+                                        onChange: ({ target }) => {
+                                            setValue('title', target.value, {
+                                                shouldValidate: true,
+                                            });
+                                            dispatch(setTitleError(false));
+                                        },
                                     })}
                                 />
                                 <Textarea
@@ -407,6 +489,8 @@ const NewRecipePage = () => {
                                 type='submit'
                                 onClick={() => {
                                     setPublishState(false);
+                                    clearErrors('image');
+                                    setButtonType('submit');
                                 }}
                             >
                                 Сохранить черновик
@@ -422,6 +506,7 @@ const NewRecipePage = () => {
                                     }
 
                                     setPublishState(true);
+                                    setButtonType('submit');
                                 }}
                             >
                                 Опубликовать рецепт
@@ -429,7 +514,12 @@ const NewRecipePage = () => {
                         </Flex>
                     </Stack>
                 </Stack>
-                <AuthModal saveFile={saveFile} removeFile={saveFile} />
+                <AuthModal
+                    saveFile={saveFile}
+                    removeFile={saveFile}
+                    saveDraft={handleSaveDraft}
+                    exit={handleExit}
+                />
             </form>
         </FormProvider>
     );

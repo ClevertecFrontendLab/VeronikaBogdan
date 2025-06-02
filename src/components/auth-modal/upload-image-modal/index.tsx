@@ -2,7 +2,7 @@ import { AspectRatio, Button, Heading, Image } from '@chakra-ui/react';
 
 import EmptyImage from '~/components/empty-image';
 import { IMAGE_HOST } from '~/constants';
-import { resetState } from '~/store/auth-modal-slice';
+import { resetState, setDataTestIdModal } from '~/store/auth-modal-slice';
 import { fileSelector, setInputFileName, setRecipeFile } from '~/store/file-slice';
 import { useAppDispatch, useAppSelector } from '~/store/hooks';
 
@@ -20,6 +20,7 @@ const UploadImageModal = ({ onSave, onRemove }: UploadImageModalProps) => {
         dispatch(resetState());
         dispatch(setRecipeFile(''));
         dispatch(setInputFileName(''));
+        dispatch(setDataTestIdModal(''));
     };
 
     const saveFile = () => {

@@ -1,23 +1,91 @@
-import { Button, Heading, Image, Stack, Text } from '@chakra-ui/react';
+import { Button, Heading, Image, Stack, Text, useToast as useChakraToast } from '@chakra-ui/react';
 
+// import { Navigate, useNavigate } from 'react-router';
 import Picture from '~/assets/png/login-error.png';
 import EditPen from '~/assets/svg/white-pen.svg';
-import { setAuthModal, setDataTestIdModal } from '~/store/auth-modal-slice';
+// import { ROUTES } from '~/constants/routes';
+import { DRAFT_ERROR, DRAFT_SUCCESS, TITLE_EXIST_ERROR, TOASTS } from '~/constants/toast-texts';
+import { useSaveRecipeDraftMutation } from '~/query/services/recipies';
+import { resetState, setAuthModal, setDataTestIdModal } from '~/store/auth-modal-slice';
+import { setRecipeFile } from '~/store/file-slice';
 import { useAppDispatch, useAppSelector } from '~/store/hooks';
-import { recipeSelector, setDraftRecipe } from '~/store/recipe-slice';
+import { recipeSelector, setDraftRecipe, setTitleError } from '~/store/recipe-slice';
 
-const ConfirmationExitModal = () => {
+type ConfirmationExitProps = {
+    saveDraft?: (file: string) => void;
+    exit?: (file: string) => void;
+};
+
+const ConfirmationExitModal = ({ saveDraft, exit }: ConfirmationExitProps) => {
     const dispatch = useAppDispatch();
-    const { draftRecipe } = useAppSelector(recipeSelector);
+    // const navigate = useNavigate();
+    const { draftRecipe, nextLocation } = useAppSelector(recipeSelector);
+
+    const toast = useChakraToast();
+
+    // const isChangedForm = useMemo(() => changedFormState, [changedFormState]);
+
+    const [saveRecipeDraft] = useSaveRecipeDraftMutation();
+
+    const handleHide = () => {
+        dispatch(resetState());
+        dispatch(setRecipeFile(''));
+        // dispatch(setInputFileName(''));
+        dispatch(setDataTestIdModal(''));
+    };
 
     const handleSave = () => {
-        console.log('asdf', draftRecipe);
+        // saveDraft();
+        // console.log('asdf', draftRecipe);
+        if (draftRecipe.title) {
+            saveRecipeDraft(draftRecipe)
+                .unwrap()
+                .then(() => {
+                    handleHide();
+                    saveDraft();
+
+                    toast({
+                        status: 'success',
+                        ...TOASTS[DRAFT_SUCCESS],
+                    });
+
+                    // return <Navigate to={ROUTES.main} />;
+                })
+                .catch((error) => {
+                    toast.closeAll();
+                    if (error.status === 409) {
+                        toast({
+                            status: 'error',
+                            ...TOASTS[TITLE_EXIST_ERROR],
+                        });
+                        return;
+                    }
+                    if (Math.floor(error.status / 100) === 5) {
+                        toast({
+                            status: 'error',
+                            ...TOASTS[DRAFT_ERROR],
+                        });
+                    }
+                });
+        } else {
+            dispatch(setTitleError(true));
+            handleHide();
+        }
     };
     const handleExit = () => {
         dispatch(setDraftRecipe({}));
         dispatch(setAuthModal(false));
         dispatch(setDataTestIdModal(''));
+
+        exit();
+
+        // const location = blocker.location;
+        // blocker.reset();
+
+        // navigate(location?.pathname);
     };
+
+    console.log('nextLocation', nextLocation);
 
     return (
         <>
@@ -32,6 +100,7 @@ const ConfirmationExitModal = () => {
             </Stack>
             <Stack gap={3}>
                 <Button
+                    type='submit'
                     variant='listCardSolid'
                     size='auth'
                     leftIcon={<Image mr={{ base: 2, xl: 0 }} src={EditPen} />}
